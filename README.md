@@ -1,5 +1,12 @@
 # project-manage-system-frontend
 
+## Project Init
+```
+npm install -g @vue/cli
+# OR
+yarn global add @vue/cli
+```
+
 ## Project setup
 ```
 npm install
