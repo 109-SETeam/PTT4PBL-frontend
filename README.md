@@ -59,3 +59,5 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+[PMS Reference](https://hackmd.io/@41KHVuJJS4qf99aDIZ_dbg/H1_J_uzKw/edit)
