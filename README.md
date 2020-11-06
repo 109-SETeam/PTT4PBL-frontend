@@ -1,7 +1,5 @@
 # project-manage-system-frontend
 
-[TOC]
-
 ## Vue File Structure
 ```
 src
