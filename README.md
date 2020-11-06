@@ -1,5 +1,27 @@
 # project-manage-system-frontend
 
+[TOC]
+
+## Vue File Structure
+```
+src
+├── main.js  entry
+├── App.vue
+├── api  functions used to fetch data from server
+│   └── user.js
+├── assets
+│   └── logo.png
+├── components  component can't be divide further like atom.
+│   └── navbar.vue
+├── config
+│   └── config.js
+├── layouts  layout is arrangement of components like molecular.
+│   └── LoginLayout.vue
+└── router  font-end router
+    └── index.js
+
+```
+
 ## Project Init
 ```
 npm install -g @vue/cli
