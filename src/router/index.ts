@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Login from "../views/Login.vue"
+import GetOAuthFromGithub from '../components/GetOAuthFromGithub.vue'
 
 Vue.use(VueRouter);
 
@@ -9,6 +10,10 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/oauth-callback/github",
+    component: GetOAuthFromGithub
   }
 ];
 
