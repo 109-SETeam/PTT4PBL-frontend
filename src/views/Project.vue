@@ -66,7 +66,6 @@
           <v-row>
             <v-col>
               <v-data-table
-                @click:row="Test"
                 :headers="headers"
                 :items="projects"
                 :search="search"
@@ -75,10 +74,16 @@
                 hide-default-footer
                 hide-default-header
               >
+                <template v-slot:[`item.name`]="{ item }">
+                  <div @click="Test(item.id)" class="py-2">
+                    {{ item.name }}
+                  </div>
+                </template>
               </v-data-table>
             </v-col>
           </v-row>
         </v-col>
+        <!-- 右邊表格 end -->
       </v-row>
     </v-container>
   </v-app>
@@ -100,8 +105,8 @@ export default Vue.extend({
       headers: [
         {
           text: "ProjectName",
-          align: "start",
-          filterable: true,
+          // align: "start",
+          // filterable: true,
           value: "name",
         },
       ],
