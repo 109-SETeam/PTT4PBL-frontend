@@ -61,7 +61,7 @@
               <v-data-table
                 @click:row="Test"
                 :headers="headers"
-                :items="desserts"
+                :items="projects"
                 :search="search"
                 fixed-header
                 height="400px"
@@ -98,7 +98,7 @@ export default Vue.extend({
           value: "name",
         },
       ],
-      desserts: [
+      projects: [
         {
           name: "Frozen Yogurt",
           calories: 159,
