@@ -42,7 +42,6 @@
           <v-row>
             <v-col lg="3" class="d-flex align-center text-h3">Project</v-col>
             <v-col lg="7" class="d-flex flex-row">
-              <v-icon class="d-flex pt-2">mdi-magnify</v-icon>
               <v-text-field
                 id="table-search-card"
                 class="align-self-end"
