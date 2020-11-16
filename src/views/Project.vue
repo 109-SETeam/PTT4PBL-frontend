@@ -2,6 +2,7 @@
   <v-app>
     <v-container fluid>
       <v-row class="d-flex justify-center pt-16">
+        <!-- 左邊個人資訊 -->
         <v-col lg="2">
           <v-card max-width="374" height="700">
             <template slot="progress">
@@ -35,6 +36,8 @@
             >
           </v-card>
         </v-col>
+        <!-- 左邊個人資訊 end -->
+        <!-- 右邊表格 -->
         <v-col lg="6">
           <v-row>
             <v-col lg="3" class="d-flex align-center text-h3">Project</v-col>
