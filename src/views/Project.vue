@@ -6,6 +6,7 @@
         <v-col lg="2">
           <v-card max-width="374" height="700">
             <v-img
+              class="mb-2"
               height="250"
               src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
             ></v-img>
@@ -15,9 +16,7 @@
                 <v-text-field
                   v-model="test.name"
                   :rules="[max25chars]"
-                  label="Edit"
-                  single-line
-                  counter
+                  label="Edit Name"
                 ></v-text-field>
               </template>
             </v-edit-dialog>
