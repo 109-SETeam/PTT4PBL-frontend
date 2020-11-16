@@ -42,10 +42,15 @@
               <v-icon class="d-flex pt-2">mdi-magnify</v-icon>
               <v-text-field
                 id="table-search-card"
+                class="align-self-end"
                 v-model="search"
-                label="Search"
-                single-line
+                prepend-inner-icon="mdi-magnify"
+                label="Find a project..."
                 hide-details
+                clearable
+                outlined
+                dense
+                solo
               ></v-text-field>
             </v-col>
             <v-col lg="2" class="d-flex justify-end align-end">
@@ -157,14 +162,18 @@ tbody {
   }
 }
 
-.theme--light {
+.v-data-table {
   background-color: rgb(237, 237, 237) !important;
 }
 
-#table-search-card {
-  margin: 0px !important;
+tbody {
   background-color: rgb(237, 237, 237) !important;
 }
+
+// #table-search-card {
+//   margin: 0px !important;
+//   background-color: rgb(237, 237, 237) !important;
+// }
 
 .v-text-field {
   margin: 0px !important;
