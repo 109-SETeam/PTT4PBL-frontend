@@ -16,21 +16,25 @@ const getters = {
 const actions = {
     async login(context: any, githubCode: string) {
         authenticateGithubToken(githubCode).then((res) => {
-            context.commit('setToken', res.data);
+            const token = res.data;
+            context.commit('setToken', token);
+            axios.defaults.headers.common['Authorization'] = token;
             router.push('/');
         }).catch((err) => {
             console.log(err);
             alert("系統發生錯誤！")
         });
+    },
+    logout(context: any) {
+        context.commit('setToken', null);
+        axios.defaults.headers.common['Authorization'] = null;
+        //router.push('/');
     }
 };
 const mutations = {
     setToken(state: Auth, token: string) {
         state.token = token
-    },
-    logOut(state: Auth) {
-        state.token = null
-    },
+    }
 };
 export default {
     state,
