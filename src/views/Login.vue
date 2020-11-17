@@ -1,6 +1,11 @@
 <template>
-  <v-container align-center="true">
-    <VBtn class="container login-btn" @click="handleLogin">Github登入 </VBtn>
+  <v-container fluid class="paper">
+    <v-row>
+      <v-col lg="12">
+        <h1 class="title">歡迎使用PMS</h1>
+        <VBtn class="login-btn pa-2" @click="handleLogin">Github登入 </VBtn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -10,26 +15,29 @@ import { githubOAuthUrl } from "../config/config";
 import { getUser } from "../apis/user";
 import { checkAuth } from "../apis/authorize";
 import router from "@/router";
-import store from '@/store';
+import store from "@/store";
+import App from "@/App.vue";
 
 export default Vue.extend({
   mounted: () => {
-      console.log(store.getters.isAuthenticated)
+    console.log(store.getters.isAuthenticated);
   },
   methods: {
     handleLogin: (e: any) => {
       window.location.assign(githubOAuthUrl);
-    }
+    },
   },
 });
 </script>
 
 <style lang="scss">
-.container {
+.paper {
   background-color: rgb(92, 92, 92);
-  height: 100vh;
 }
 .login-btn {
   background-color: rgb(46, 46, 46);
+}
+.title {
+  color: rgb(255, 255, 255);
 }
 </style>

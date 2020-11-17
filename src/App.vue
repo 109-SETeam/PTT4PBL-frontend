@@ -1,18 +1,22 @@
 <template>
-  <div id="app">
-      <NavBar/>
-      <router-view />
-  </div>
+  <v-app>
+    <div id="app">
+      <NavBar />
+      <div>
+        <router-view />
+      </div>
+    </div>
+  </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import NavBar from './components/NavBar.vue'
+import NavBar from "./components/NavBar.vue";
 
 export default Vue.extend({
-  components:{
-    NavBar
-  }
+  components: {
+    NavBar,
+  },
 });
 </script>
 
