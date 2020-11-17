@@ -87,6 +87,7 @@ export default Vue.extend({
   data() {
     return {
       test: {
+        // test git push
         name: "willie",
       },
       max25chars: function (v: any) {
