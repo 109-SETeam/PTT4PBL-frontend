@@ -1,15 +1,23 @@
 <template>
   <div id="app">
-    <router-view />
+      <v-app-bar
+        absolute
+        color="teal lighten-3"
+        dark
+      >
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-toolbar-title style="font-size: 2.0rem !important">PMS</v-toolbar-title>
+      </v-app-bar>
+    <div>
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 
-export default Vue.extend({
-});
-
+export default Vue.extend({});
 </script>
 
 <style lang="scss">
