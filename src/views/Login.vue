@@ -1,8 +1,6 @@
 <template>
-  <v-container>
-
+  <v-container align-center="true">
     <VBtn class="container login-btn" @click="handleLogin">Github登入 </VBtn>
-    <VBtn class="container login-btn" @click="test">Github </VBtn>
   </v-container>
 </template>
 
@@ -21,12 +19,7 @@ export default Vue.extend({
   methods: {
     handleLogin: (e: any) => {
       window.location.assign(githubOAuthUrl);
-    },
-    test: (e: any) => {
-      getUser().then((res) => {
-        console.log(res);
-      });
-    },
+    }
   },
 });
 </script>
