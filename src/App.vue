@@ -1,13 +1,6 @@
 <template>
   <div id="app">
-      <v-app-bar
-        absolute
-        color="teal lighten-3"
-        dark
-      >
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title style="font-size: 2.0rem !important">PMS</v-toolbar-title>
-      </v-app-bar>
+    <NavBar />
     <div>
       <router-view />
     </div>
@@ -16,8 +9,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+import NavBar from "./components/NavBar.vue";
 
-export default Vue.extend({});
+export default Vue.extend({
+  components: {
+    NavBar,
+  },
+});
 </script>
 
 <style lang="scss">
