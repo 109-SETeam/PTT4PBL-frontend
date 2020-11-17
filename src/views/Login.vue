@@ -1,9 +1,9 @@
 <template>
-  <v-container fluid class="paper">
-    <v-row>
-      <v-col lg="12">
-        <h1 class="title">歡迎使用PMS</h1>
-        <VBtn class="login-btn pa-2" @click="handleLogin">Github登入 </VBtn>
+  <v-container fill-height fluid class="paper">
+    <v-row fill-height>
+      <v-col lg="12" fill-height>
+        <!-- <h1 class="title">歡迎使用PMS</h1> -->
+        <!-- <v-btn class="login-btn pa-2" @click="handleLogin">Github登入 </v-btn> -->
       </v-col>
     </v-row>
   </v-container>
@@ -12,8 +12,6 @@
 <script lang="ts">
 import Vue from "vue";
 import { githubOAuthUrl } from "../config/config";
-import { getUser } from "../apis/user";
-import { checkAuth } from "../apis/authorize";
 import router from "@/router";
 import store from "@/store";
 import App from "@/App.vue";
