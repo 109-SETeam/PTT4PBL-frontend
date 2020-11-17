@@ -1,18 +1,31 @@
 <template>
-  <VBtn class="container login-btn" @click="handleLogin">Github登入 </VBtn>
+  <v-container>
+
+    <VBtn class="container login-btn" @click="handleLogin">Github登入 </VBtn>
+    <VBtn class="container login-btn" @click="test">Github </VBtn>
+  </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { githubOAuthUrl } from "../config/config";
 import { getUser } from "../apis/user";
+import { checkAuth } from "../apis/authorize";
 import router from "@/router";
+import store from '@/store';
 
 export default Vue.extend({
+  mounted: () => {
+      console.log(store.getters.isAuthenticated)
+  },
   methods: {
     handleLogin: (e: any) => {
       window.location.assign(githubOAuthUrl);
-      router.currentRoute.query;
+    },
+    test: (e: any) => {
+      getUser().then((res) => {
+        console.log(res);
+      });
     },
   },
 });
