@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-container fluid>
-      <v-row class="d-flex justify-center pt-16">
+    <v-container fluid class="mt-16">
+      <v-row class="d-flex justify-center">
         <!-- 左邊個人資訊 -->
         <v-col lg="2">
           <v-card max-width="374" height="700">
@@ -10,21 +10,29 @@
               height="250"
               src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
             ></v-img>
-            <v-edit-dialog>
-              <div class="text-h3">{{ test.name }}</div>
-              <template v-slot:input>
-                <v-text-field
-                  v-model="test.name"
-                  :rules="[max25chars]"
-                  label="Edit Name"
-                ></v-text-field>
-              </template>
-            </v-edit-dialog>
-            <v-btn class="mb-2" style="position:absolute;bottom:0;" color="success" @click="Test"
-              ><v-icon style="background-color: #4CAF50 !important"
-                >mdi-logout</v-icon
-              >Logout</v-btn
-            >
+            <v-card-text>
+              <v-col md="12"
+                ><r-row>
+                  <v-edit-dialog>
+                    <div class="text-h3">{{ test.name }}</div>
+                    <template v-slot:input>
+                      <v-text-field
+                        v-model="test.name"
+                        :rules="[max25chars]"
+                        label="Edit Name"
+                      ></v-text-field>
+                    </template>
+                  </v-edit-dialog>
+                </r-row>
+                <v-row class="d-flex justify-center">
+                  <v-btn color="success" @click="Test"
+                    ><v-icon style="background-color: #4CAF50 !important"
+                      >mdi-logout</v-icon
+                    >Logout</v-btn
+                  >
+                </v-row>
+              </v-col>
+            </v-card-text>
           </v-card>
         </v-col>
         <!-- 左邊個人資訊 end -->
@@ -68,7 +76,7 @@
               >
                 <template v-slot:[`item.name`]="{ item }">
                   <div @click="Test(item.id)" class="py-2">
-                    {{ item.name }}
+                    <a>{{ item.name }}</a>
                   </div>
                 </template>
               </v-data-table>
