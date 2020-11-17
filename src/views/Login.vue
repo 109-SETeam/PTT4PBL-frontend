@@ -1,11 +1,9 @@
 <template>
-  <v-container fill-height fluid class="paper">
-    <v-row fill-height>
-      <v-col lg="12" fill-height>
-        <!-- <h1 class="title">歡迎使用PMS</h1> -->
-        <!-- <v-btn class="login-btn pa-2" @click="handleLogin">Github登入 </v-btn> -->
-      </v-col>
-    </v-row>
+  <v-container fill-height fluid class="paper align-center justify-center" >
+    <div >
+      <h1 class="title">歡迎使用PMS</h1>
+      <v-btn class="login-btn pa-2" @click="handleLogin">Github登入 </v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -30,10 +28,11 @@ export default Vue.extend({
 
 <style lang="scss">
 .paper {
-  background-color: rgb(92, 92, 92);
+  background-color: rgb(92, 92, 92) !important;
 }
 .login-btn {
   background-color: rgb(46, 46, 46);
+  margin-top: 2em;
 }
 .title {
   color: rgb(255, 255, 255);

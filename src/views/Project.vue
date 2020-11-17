@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="container-background-color">
     <v-row class="d-flex justify-center">
       <!-- 左邊個人資訊 -->
       <v-col lg="2">
@@ -185,7 +185,7 @@ tbody {
   margin: 0px !important;
 }
 
-.container {
+.container-background-color {
   background-color: rgb(247, 247, 247) !important;
 }
 </style>

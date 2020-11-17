@@ -1,11 +1,7 @@
 <template>
   <v-app>
-    <div id="app" fill-height>
       <NavBar />
-      <div>
-        <router-view />
-      </div>
-    </div>
+      <router-view />
   </v-app>
 </template>
 
