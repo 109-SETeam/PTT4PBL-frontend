@@ -13,10 +13,10 @@
             <v-col md="12"
               ><v-row class="d-flex justify-center">
                 <v-edit-dialog>
-                  <div class="text-h3">{{ test.name }}</div>
+                  <div class="text-h3">{{ User.name }}</div>
                   <template v-slot:input>
                     <v-text-field
-                      v-model="test.name"
+                      v-model="User.name"
                       :rules="[max25chars]"
                       label="Edit Name"
                     ></v-text-field>
@@ -86,8 +86,7 @@ import Vue from "vue";
 export default Vue.extend({
   data() {
     return {
-      test: {
-        // test git push
+      User: {
         name: "willie",
       },
       max25chars: function (v: any) {
