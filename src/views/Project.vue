@@ -62,13 +62,12 @@
               :items="projects"
               :search="search"
               fixed-header
-              height="400px"
               hide-default-footer
               hide-default-header
             >
               <template v-slot:[`item.name`]="{ item }">
                 <div @click="Test(item.id)" class="py-2">
-                  <a>{{ item.name }}</a>
+                  <p class="font-weight-black">{{ item.name }}</p>
                 </div>
               </template>
             </v-data-table>
