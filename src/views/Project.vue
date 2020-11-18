@@ -23,13 +23,6 @@
                   </template>
                 </v-edit-dialog>
               </v-row>
-              <v-row class="d-flex justify-center">
-                <v-btn color="success" @click="Test"
-                  ><v-icon style="background-color: #4CAF50 !important"
-                    >mdi-logout</v-icon
-                  >Logout</v-btn
-                >
-              </v-row>
             </v-col>
           </v-card-text>
         </v-card>
