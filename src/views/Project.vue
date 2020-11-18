@@ -11,7 +11,7 @@
           ></v-img>
           <v-card-text>
             <v-col md="12"
-              ><r-row>
+              ><v-row class="d-flex justify-center">
                 <v-edit-dialog>
                   <div class="text-h3">{{ test.name }}</div>
                   <template v-slot:input>
@@ -22,7 +22,7 @@
                     ></v-text-field>
                   </template>
                 </v-edit-dialog>
-              </r-row>
+              </v-row>
               <v-row class="d-flex justify-center">
                 <v-btn color="success" @click="Test"
                   ><v-icon style="background-color: #4CAF50 !important"
