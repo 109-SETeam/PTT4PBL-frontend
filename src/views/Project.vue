@@ -97,54 +97,12 @@ export default Vue.extend({
       headers: [
         {
           text: "ProjectName",
-          // align: "start",
-          // filterable: true,
           value: "name",
         },
       ],
-      projects: [
-        {
-          id: 0,
-          name: "Frozen Yogurt",
-        },
-        {
-          id: 1,
-          name: "Ice cream sandwich",
-        },
-        {
-          id: 2,
-          name: "Eclair",
-        },
-        {
-          id: 3,
-          name: "Cupcake",
-        },
-        {
-          id: 4,
-          name: "Gingerbread",
-        },
-        {
-          id: 5,
-          name: "Jelly bean",
-        },
-        {
-          id: 6,
-          name: "Lollipop",
-        },
-        {
-          id: 7,
-          name: "Honeycomb",
-        },
-        {
-          id: 8,
-          name: "Donut",
-        },
-        {
-          id: 9,
-          name: "KitKat",
-        },
-      ],
+      projects: [],
     };
+  },
   },
   methods: {
     Test(value: string) {
