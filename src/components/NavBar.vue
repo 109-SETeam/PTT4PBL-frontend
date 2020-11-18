@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="" dense dark>
+  <v-app-bar dense dark>
     <v-toolbar-title>PMS</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn @click="logout">
