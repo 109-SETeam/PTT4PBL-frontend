@@ -82,6 +82,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { getProject } from "@/apis/projects.ts";
 
 export default Vue.extend({
   data() {
@@ -102,10 +103,15 @@ export default Vue.extend({
       projects: [],
     };
   },
+  mounted() {
+    this.getProject();
   },
   methods: {
     Test(value: string) {
       console.log(value);
+    },
+    async getProject() {
+      this.projects = (await getProject("zxjte9411"))["data"];
     },
   },
 });
