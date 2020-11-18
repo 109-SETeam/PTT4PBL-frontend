@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="container-background-color">
+  <v-container fluid fill-height class="container-background-color">
     <v-row class="d-flex justify-center">
       <!-- 左邊個人資訊 -->
       <v-col lg="2">
