@@ -47,7 +47,7 @@
             ></v-text-field>
           </v-col>
           <v-col lg="2" class="d-flex justify-end align-end">
-            <v-btn color="success" @click="Test"
+            <v-btn color="success"
               ><v-icon style="background-color: #4CAF50 !important"
                 >mdi-plus</v-icon
               >New</v-btn
@@ -66,8 +66,8 @@
               hide-default-header
             >
               <template v-slot:[`item.name`]="{ item }">
-                <div @click="Test(item.id)" class="py-2">
-                  <p class="font-weight-black">{{ item.name }}</p>
+                <div @click="goToRepositoryDetail(item.id)" class="py-2">
+                  {{ item.name }}
                 </div>
               </template>
             </v-data-table>
@@ -106,8 +106,8 @@ export default Vue.extend({
     this.getProject();
   },
   methods: {
-    Test(value: string) {
-      console.log(value);
+    goToRepositoryDetail(id: string) {
+      this.$router.push(`/project/${id}`)
     },
     async getProject() {
       this.projects = (await getProject("zxjte9411"))["data"];
