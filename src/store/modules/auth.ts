@@ -22,13 +22,14 @@ const actions = {
             router.push('/');
         }).catch((err) => {
             console.log(err);
-            alert("系統發生錯誤！")
+            alert("系統發生錯誤！");
+            router.push('/');
         });
     },
     logout(context: any) {
         context.commit('setToken', null);
         axios.defaults.headers.common['Authorization'] = null;
-        //router.push('/');
+        router.push('/');
     }
 };
 const mutations = {
