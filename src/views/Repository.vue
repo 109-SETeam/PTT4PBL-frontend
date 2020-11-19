@@ -1,28 +1,82 @@
 <template>
   <v-container fluid fill-height class="container-background-color">
-    <v-row> 
+    <v-snackbar v-model="snackBar" :timeout="snackBarTimeout" :color="snackBarColor">
+      {{ msg }}
+    </v-snackbar>
+
+    <v-row justify="center">
+      <v-dialog v-model="dialog" max-width="60%">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="success" dark v-bind="attrs" v-on="on"
+            ><v-icon style="background-color: #4caf50 !important"
+              >mdi-plus</v-icon
+            >
+            New
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Add Repository</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="RepositoryURL"
+                    v-model="url"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Cancel
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="add"> Add </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <v-row>
       <v-col lg="6"></v-col>
       <v-col lg="6"></v-col>
     </v-row>
   </v-container>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue";
+import router from "@/router";
+import { addRepo } from "@/apis/repository.ts";
+export default Vue.extend({
   data() {
     return {
-      repositories: null
+      repositories: null,
+      dialog: false,
+      id: this.$route.params.id,
+      url: "",
+      msg: "",
+      snackBar: false,
+      snackBarTimeout: 1000,
+      snackBarColor:""
     };
   },
-  mounted() {
-    this.Test();
-  },
   methods: {
-    Test() {
-      console.log(this.$route.params.id);
+    async add() {
+      const result: any = await addRepo(Number(this.id), this.url);
+      this.url = "";
+      this.msg = result["data"].message;
+      this.dialog = false;
+      this.snackBar = true;
+      this.snackBarColor = result["data"].success?"green":"red";
+      console.log(this.snackBarColor);
     },
   },
-};
+});
 </script>
 
 <style>
