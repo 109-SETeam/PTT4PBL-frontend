@@ -13,10 +13,10 @@
             <v-col md="12"
               ><v-row class="d-flex justify-center">
                 <v-edit-dialog>
-                  <div class="text-h3">{{ User.name }}</div>
+                  <div class="text-h3">{{ user.name }}</div>
                   <template v-slot:input>
                     <v-text-field
-                      v-model="User.name"
+                      v-model="user.name"
                       :rules="[max25chars]"
                       label="Edit Name"
                     ></v-text-field>
@@ -86,20 +86,20 @@ import { getProject } from "@/apis/projects.ts";
 export default Vue.extend({
   data() {
     return {
-      User: {
-        name: "willie",
+      user: {
+        name: "willie"
       },
-      max25chars: function (v: any) {
+      max25chars: function(v: any) {
         return v.length <= 25 || "Input too long!";
       },
       search: "",
       headers: [
         {
           text: "ProjectName",
-          value: "name",
-        },
+          value: "name"
+        }
       ],
-      projects: [],
+      projects: []
     };
   },
   mounted() {
@@ -107,12 +107,12 @@ export default Vue.extend({
   },
   methods: {
     goToRepositoryDetail(id: string) {
-      this.$router.push(`/project/${id}`)
+      this.$router.push(`/project/${id}`);
     },
     async getProject() {
       this.projects = (await getProject("zxjte9411"))["data"];
-    },
-  },
+    }
+  }
 });
 </script>
 
