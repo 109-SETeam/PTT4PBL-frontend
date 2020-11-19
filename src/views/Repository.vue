@@ -46,11 +46,41 @@
             ></v-text-field>
           </v-col>
           <v-col lg="2" class="d-flex justify-end align-end">
-            <v-btn color="success" @click="Test"
-              ><v-icon style="background-color: #4caf50 !important"
-                >mdi-plus</v-icon
-              >New</v-btn
-            >
+            <v-dialog v-model="dialog" max-width="60%">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="success" dark v-bind="attrs" v-on="on"
+                  ><v-icon style="background-color: #4caf50 !important"
+                    >mdi-plus</v-icon
+                  >
+                  New
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Add Repository</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="RepositoryURL"
+                          v-model="url"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="dialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="blue darken-1" text @click="add"> Add </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -58,14 +88,14 @@
           <v-col>
             <v-data-table
               :headers="headers"
-              :items="projects"
+              :items="repositories"
               :search="search"
               fixed-header
               hide-default-footer
               hide-default-header
             >
               <template v-slot:[`item.name`]="{ item }">
-                <div @click="goToRepositoryDetail(item.id)" class="py-2">
+                <div @click="Test(item)" class="py-2">
                   {{ item.name }}
                 </div>
               </template>
@@ -80,43 +110,6 @@
       >
         {{ msg }}
       </v-snackbar>
-      <v-row justify="center">
-        <v-dialog v-model="dialog" max-width="60%">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="success" dark v-bind="attrs" v-on="on"
-              ><v-icon style="background-color: #4caf50 !important"
-                >mdi-plus</v-icon
-              >
-              New
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">Add Repository</span>
-            </v-card-title>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      label="RepositoryURL"
-                      v-model="url"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="dialog = false">
-                Cancel
-              </v-btn>
-              <v-btn color="blue darken-1" text @click="add"> Add </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-row>
     </v-row>
   </v-container>
 </template>
@@ -124,18 +117,24 @@
 <script lang="ts">
 import Vue from "vue";
 import router from "@/router";
-import { addRepo } from "@/apis/repository.ts";
+import { addRepo, getRepository } from "@/apis/repository.ts";
 export default Vue.extend({
   data() {
     return {
       search: "",
+      headers: [
+        {
+          text: "RepositoryName",
+          value: "name",
+        },
+      ],
       max25chars: function (v: any) {
         return v.length <= 25 || "Input too long!";
       },
       user: {
         name: "TEST",
       },
-      repositories: null,
+      repositories: [],
       dialog: false,
       id: this.$route.params.id,
       url: "",
@@ -146,11 +145,11 @@ export default Vue.extend({
     };
   },
   mounted() {
-    // this.Test();
+    this.getResitories();
   },
   methods: {
-    Test() {
-      console.log(this.$route.params.id);
+    Test(item: any) {
+      console.log(item);
     },
     async add() {
       const result: any = await addRepo(Number(this.id), this.url);
@@ -161,8 +160,10 @@ export default Vue.extend({
       this.snackBarColor = result["data"].success ? "green" : "red";
       console.log(this.snackBarColor);
     },
+    async getResitories() {
+      this.repositories = (await getRepository(this.id))["data"];
+    },
   },
 });
 </script>
-
 <style></style>
