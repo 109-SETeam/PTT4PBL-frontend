@@ -8,3 +8,16 @@ export const getProject: any = async function (encryptUserId: string): Promise<a
         return err
     })
 }
+
+export const addProject = (ProjectName:string|null, UserId:string|null) => {
+    return axios.post(`${host}/project`, {
+        ProjectName: ProjectName,
+        UserId: UserId
+    },{
+        headers : {
+            'Content-Type' : 'application/json; charset=UTF-8'
+        }
+    }).catch(err => {
+        return err;
+    });
+}

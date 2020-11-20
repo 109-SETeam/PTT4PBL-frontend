@@ -49,7 +49,7 @@
           <v-col lg="2" class="d-flex justify-end align-end">
             <v-dialog v-model="dialog" max-width="300px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="success" v-bind="attrs" v-on="on"
+                <v-btn color="success" v-bind="attrs" v-on="on" @click="clearInputProjectName"
                   ><v-icon style="background-color: #4caf50 !important"
                     >mdi-plus</v-icon
                   >New</v-btn
@@ -65,12 +65,17 @@
                       <v-col cols="12" lg="12" sm="6" md="4">
                         <v-text-field
                           label="project name"
+                          v-model="inputAddedProjectName"
                           required
                         ></v-text-field>
                       </v-col>
                     </v-row>
                     <v-row>
-                      <v-btn color="success" v-bind="attrs" v-on="on" @click="TEST"
+                      <v-btn
+                        color="success"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="TEST"
                         ><v-icon style="background-color: #4caf50 !important"
                           >mdi-plus</v-icon
                         >ADD</v-btn
@@ -124,11 +129,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getProject } from "@/apis/projects.ts";
+import { addProject, getProject } from "@/apis/projects.ts";
 
 export default Vue.extend({
   data() {
     return {
+      inputAddedProjectName: "",
       dialog: false,
       user: {
         name: "willie",
@@ -151,17 +157,21 @@ export default Vue.extend({
   },
   methods: {
     Test() {
-      this.projects.push({ id: 123, name: "123" });
+      this.projects.push({ id: 123, name: "123" })
+    },
+    clearInputProjectName(){
+      this.inputAddedProjectName = "";
     },
     goToRepositoryDetail(id: string) {
       this.$router.push(`/project/${id}`);
     },
     async getProject() {
-      this.projects = (await getProject("zxjte9411"))["data"];
+      this.projects = (await getProject("test123"))["data"];
     },
-    TEST(){
-      console.log("success");
-    }
+    async TEST() {
+      await addProject(this.inputAddedProjectName, "test123");
+      alert("asjdijasid");
+    },
   },
 });
 </script>
