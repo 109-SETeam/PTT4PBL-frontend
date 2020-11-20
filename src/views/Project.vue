@@ -47,8 +47,8 @@
             ></v-text-field>
           </v-col>
           <v-col lg="2" class="d-flex justify-end align-end">
-            <v-btn color="success"
-              ><v-icon style="background-color: #4CAF50 !important"
+            <v-btn color="success" @click="Test"
+              ><v-icon style="background-color: #4caf50 !important"
                 >mdi-plus</v-icon
               >New</v-btn
             >
@@ -56,7 +56,19 @@
         </v-row>
         <v-divider></v-divider>
         <v-row>
-          <v-col>
+          <v-col lg="12">
+            <!-- <v-row v-for="i in Math.ceil((projects.length)/3)" :key="i" class="d-flex justify-space-between">
+              <v-col v-for="j in 3" :key="j">
+
+                <v-card class="mx-auto" max-width="400" v-if="getProjectInfoByIndex((i-1)*3+(j-1))">
+                  <v-card-text>
+                    <p class="display-1 text--primary">{{ getProjectInfoByIndex((i-1)*3+(j-1)).name }}</p>
+                  </v-card-text>
+                </v-card>
+
+              </v-col>
+            </v-row> -->
+
             <v-data-table
               :headers="headers"
               :items="projects"
@@ -64,11 +76,14 @@
               fixed-header
               hide-default-footer
               hide-default-header
+              style="background-color: rgba(237, 237, 237, 0)"
             >
               <template v-slot:[`item.name`]="{ item }">
-                <div @click="goToRepositoryDetail(item.id)" class="py-2">
-                  {{ item.name }}
-                </div>
+                <v-card class="my-2" @click="goToRepositoryDetail(item.id)">
+                  <v-card-text>
+                    <p class="display-1 text--primary">{{ item.name }}</p>
+                  </v-card-text>
+                </v-card>
               </template>
             </v-data-table>
           </v-col>
@@ -87,48 +102,54 @@ export default Vue.extend({
   data() {
     return {
       user: {
-        name: "willie"
+        name: "willie",
       },
-      max25chars: function(v: any) {
+      max25chars: function (v: any) {
         return v.length <= 25 || "Input too long!";
       },
       search: "",
       headers: [
         {
           text: "ProjectName",
-          value: "name"
-        }
+          value: "name",
+        },
       ],
-      projects: []
+      projects: [] as any,
     };
   },
   mounted() {
     this.getProject();
   },
   methods: {
+    Test() {
+      this.projects.push({ id: 123, name: "123" });
+    },
     goToRepositoryDetail(id: string) {
       this.$router.push(`/project/${id}`);
     },
     async getProject() {
       this.projects = (await getProject("zxjte9411"))["data"];
-    }
-  }
+    },
+  },
 });
 </script>
 
 <style lang="scss">
 tbody {
   tr:hover {
-    cursor: pointer !important;
+    // cursor: pointer !important;
+    background-color: rgba(0, 0, 0, 0) !important;
   }
 }
 
 .v-data-table {
-  background-color: rgb(237, 237, 237) !important;
+  // background-color: rgba(237, 237, 237, 0) !important;
+  padding: 0 !important;
 }
 
 tbody {
-  background-color: rgb(237, 237, 237) !important;
+  background-color: rgba(237, 237, 237, 0) !important;
+  padding: 0 !important;
 }
 
 // #table-search-card {
