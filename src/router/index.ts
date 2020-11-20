@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Login from "@/views/Login.vue"
 import Project from "@/views/Project.vue"
+import Repository from "@/views/Repository.vue"
 import GithubAuthorize from "@/components/GithubAuthorize.vue"
 import store from '@/store';
 
@@ -27,8 +28,13 @@ const routes: Array<RouteConfig> = [
     component: Project,
     beforeEnter: (to, from, next) => {
       if (!store.getters.isAuthenticated) next({ name: 'Login' })
-      else next()
-    }
+        else next()
+      }
+  },
+  {
+    path: "/project/:id",
+    name: "Repository",
+    component: Repository
   }
 ];
 
