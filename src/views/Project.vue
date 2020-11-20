@@ -13,10 +13,10 @@
             <v-col md="12"
               ><v-row class="d-flex justify-center">
                 <v-edit-dialog>
-                  <div class="text-h3">{{ User.name }}</div>
+                  <div class="text-h3">{{ user.name }}</div>
                   <template v-slot:input>
                     <v-text-field
-                      v-model="User.name"
+                      v-model="user.name"
                       :rules="[max25chars]"
                       label="Edit Name"
                     ></v-text-field>
@@ -89,7 +89,19 @@
         </v-row>
         <v-divider></v-divider>
         <v-row>
-          <v-col>
+          <v-col lg="12">
+            <!-- <v-row v-for="i in Math.ceil((projects.length)/3)" :key="i" class="d-flex justify-space-between">
+              <v-col v-for="j in 3" :key="j">
+
+                <v-card class="mx-auto" max-width="400" v-if="getProjectInfoByIndex((i-1)*3+(j-1))">
+                  <v-card-text>
+                    <p class="display-1 text--primary">{{ getProjectInfoByIndex((i-1)*3+(j-1)).name }}</p>
+                  </v-card-text>
+                </v-card>
+
+              </v-col>
+            </v-row> -->
+
             <v-data-table
               :headers="headers"
               :items="projects"
@@ -97,11 +109,14 @@
               fixed-header
               hide-default-footer
               hide-default-header
+              style="background-color: rgba(237, 237, 237, 0)"
             >
               <template v-slot:[`item.name`]="{ item }">
-                <div @click="goToRepositoryDetail(item.id)" class="py-2">
-                  {{ item.name }}
-                </div>
+                <v-card class="my-2" @click="goToRepositoryDetail(item.id)">
+                  <v-card-text>
+                    <p class="display-1 text--primary">{{ item.name }}</p>
+                  </v-card-text>
+                </v-card>
               </template>
             </v-data-table>
           </v-col>
@@ -121,7 +136,7 @@ export default Vue.extend({
     return {
       inputAddedProjectName: "",
       dialog: false,
-      User: {
+      user: {
         name: "willie",
       },
       max25chars: function (v: any) {
@@ -134,13 +149,16 @@ export default Vue.extend({
           value: "name",
         },
       ],
-      projects: [],
+      projects: [] as any,
     };
   },
   mounted() {
     this.getProject();
   },
   methods: {
+    // Test() {
+    //   this.projects.push({ id: 123, name: "123" })
+    // },
     clearInputProjectName(){
       this.inputAddedProjectName = "";
     },
@@ -161,16 +179,19 @@ export default Vue.extend({
 <style lang="scss">
 tbody {
   tr:hover {
-    cursor: pointer !important;
+    // cursor: pointer !important;
+    background-color: rgba(0, 0, 0, 0) !important;
   }
 }
 
 .v-data-table {
-  background-color: rgb(237, 237, 237) !important;
+  // background-color: rgba(237, 237, 237, 0) !important;
+  padding: 0 !important;
 }
 
 tbody {
-  background-color: rgb(237, 237, 237) !important;
+  background-color: rgba(237, 237, 237, 0) !important;
+  padding: 0 !important;
 }
 
 // #table-search-card {
