@@ -4,6 +4,7 @@ import Login from "@/views/Login.vue"
 import Project from "@/views/Project.vue"
 import Repository from "@/views/Repository.vue"
 import GithubAuthorize from "@/components/GithubAuthorize.vue"
+import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -11,7 +12,11 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Login",
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.isAuthenticated) next({ name: 'Project' })
+      else next()
+    }
   },
   {
     path: "/oauth-callback/github",
@@ -20,7 +25,11 @@ const routes: Array<RouteConfig> = [
   {
     path: "/project",
     name: "Project",
-    component: Project
+    component: Project,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters.isAuthenticated) next({ name: 'Login' })
+        else next()
+      }
   },
   {
     path: "/project/:id",
