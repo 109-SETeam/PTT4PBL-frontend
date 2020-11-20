@@ -47,11 +47,39 @@
             ></v-text-field>
           </v-col>
           <v-col lg="2" class="d-flex justify-end align-end">
-            <v-btn color="success" @click="Test"
-              ><v-icon style="background-color: #4caf50 !important"
-                >mdi-plus</v-icon
-              >New</v-btn
-            >
+            <v-dialog v-model="dialog" max-width="300px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="success" v-bind="attrs" v-on="on"
+                  ><v-icon style="background-color: #4caf50 !important"
+                    >mdi-plus</v-icon
+                  >New</v-btn
+                >
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Add Project</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" lg="12" sm="6" md="4">
+                        <v-text-field
+                          label="project name"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-btn color="success" v-bind="attrs" v-on="on" @click="TEST"
+                        ><v-icon style="background-color: #4caf50 !important"
+                          >mdi-plus</v-icon
+                        >ADD</v-btn
+                      >
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -101,6 +129,7 @@ import { getProject } from "@/apis/projects.ts";
 export default Vue.extend({
   data() {
     return {
+      dialog: false,
       user: {
         name: "willie",
       },
@@ -130,6 +159,9 @@ export default Vue.extend({
     async getProject() {
       this.projects = (await getProject("zxjte9411"))["data"];
     },
+    TEST(){
+      console.log("success");
+    }
   },
 });
 </script>
