@@ -166,11 +166,20 @@ export default Vue.extend({
       this.$router.push(`/project/${id}`);
     },
     async getProject() {
+      console.log(await getProject("test123"));
       this.projects = (await getProject("test123"))["data"];
     },
     async addProject() {
       //TODO：這邊要做新增專案成功及失敗的處理，成功：關閉dialog並顯示新增成功，失敗：保留dialog，顯示新增失敗
-      // await addProject(this.inputAddedProjectName, "test123");
+      const result = await addProject(this.inputAddedProjectName, "1");
+
+      if (result){
+        console.log("success");
+      }
+      else{
+        console.log("fail");
+      }
+      
       this.dialog = false;
     },
   },
