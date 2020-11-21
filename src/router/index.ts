@@ -26,10 +26,10 @@ const routes: Array<RouteConfig> = [
     path: "/project",
     name: "Project",
     component: Project,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters.isAuthenticated) next({ name: 'Login' })
-        else next()
-      }
+    // beforeEnter: (to, from, next) => {
+    //   if (!store.getters.isAuthenticated) next({ name: 'Login' })
+    //     else next()
+    //   }
   },
   {
     path: "/project/:id",
