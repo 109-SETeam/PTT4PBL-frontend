@@ -17,7 +17,9 @@ export const addProject = (ProjectName:string|null, UserId:string|null) => {
         headers : {
             'Content-Type' : 'application/json; charset=UTF-8'
         }
+    }).then(response => {
+        return response;
     }).catch(err => {
-        return err;
+        return false;
     });
 }

@@ -47,9 +47,13 @@
             ></v-text-field>
           </v-col>
           <v-col lg="2" class="d-flex justify-end align-end">
-            <v-dialog v-model="dialog" max-width="300px">
+            <v-dialog v-model="dialog" max-width="60%">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="success" v-bind="attrs" v-on="on" @click="clearInputProjectName"
+                <v-btn
+                  color="success"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="clearInputProjectName"
                   ><v-icon style="background-color: #4caf50 !important"
                     >mdi-plus</v-icon
                   >New</v-btn
@@ -62,27 +66,23 @@
                 <v-card-text>
                   <v-container>
                     <v-row>
-                      <v-col cols="12" lg="12" sm="6" md="4">
+                      <v-col cols="12">
                         <v-text-field
-                          label="project name"
+                          label="Project Name"
                           v-model="inputAddedProjectName"
                           required
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-row>
-                      <v-btn
-                        color="success"
-                        v-bind="attrs"
-                        v-on="on"
-                        @click="TEST"
-                        ><v-icon style="background-color: #4caf50 !important"
-                          >mdi-plus</v-icon
-                        >ADD</v-btn
-                      >
-                    </v-row>
                   </v-container>
                 </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="dialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="blue darken-1" text @click="addProject"> Add </v-btn>
+                </v-card-actions>
               </v-card>
             </v-dialog>
           </v-col>
@@ -159,18 +159,28 @@ export default Vue.extend({
     // Test() {
     //   this.projects.push({ id: 123, name: "123" })
     // },
-    clearInputProjectName(){
+    clearInputProjectName() {
       this.inputAddedProjectName = "";
     },
     goToRepositoryDetail(id: string) {
       this.$router.push(`/project/${id}`);
     },
     async getProject() {
+      console.log(await getProject("test123"));
       this.projects = (await getProject("test123"))["data"];
     },
-    async TEST() {
-      await addProject(this.inputAddedProjectName, "test123");
-      alert("asjdijasid");
+    async addProject() {
+      //TODO：這邊要做新增專案成功及失敗的處理，成功：關閉dialog並顯示新增成功，失敗：保留dialog，顯示新增失敗
+      const result = await addProject(this.inputAddedProjectName, "1");
+
+      if (result){
+        console.log("success");
+      }
+      else{
+        console.log("fail");
+      }
+      
+      this.dialog = false;
     },
   },
 });
