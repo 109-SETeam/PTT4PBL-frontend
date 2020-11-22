@@ -3,29 +3,7 @@
     <v-row class="d-flex justify-center">
       <!-- 左邊個人資訊 -->
       <v-col lg="2">
-        <v-card max-width="374" height="700">
-          <v-img
-            class="mb-2"
-            height="250"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-          ></v-img>
-          <v-card-text>
-            <v-col md="12"
-              ><v-row class="d-flex justify-center">
-                <v-edit-dialog>
-                  <div class="text-h3">{{ user.name }}</div>
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="user.name"
-                      :rules="[max25chars]"
-                      label="Edit Name"
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </v-row>
-            </v-col>
-          </v-card-text>
-        </v-card>
+        <UserInfo />
       </v-col>
       <!-- 左邊個人資訊 end -->
       <!-- 右邊表格 -->
@@ -81,7 +59,9 @@
                   <v-btn color="blue darken-1" text @click="dialog = false">
                     Cancel
                   </v-btn>
-                  <v-btn color="blue darken-1" text @click="addProject"> Add </v-btn>
+                  <v-btn color="blue darken-1" text @click="addProject">
+                    Add
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -101,7 +81,6 @@
 
               </v-col>
             </v-row> -->
-
             <v-data-table
               :headers="headers"
               :items="projects"
@@ -130,18 +109,17 @@
 <script lang="ts">
 import Vue from "vue";
 import { addProject, getProject } from "@/apis/projects.ts";
+import UserInfo from "@/components/UserInfo.vue";
 
 export default Vue.extend({
+  components: {
+    UserInfo,
+  },
   data() {
     return {
       inputAddedProjectName: "",
       dialog: false,
-      user: {
-        name: "willie",
-      },
-      max25chars: function (v: any) {
-        return v.length <= 25 || "Input too long!";
-      },
+
       search: "",
       headers: [
         {
@@ -156,9 +134,6 @@ export default Vue.extend({
     this.getProject();
   },
   methods: {
-    // Test() {
-    //   this.projects.push({ id: 123, name: "123" })
-    // },
     clearInputProjectName() {
       this.inputAddedProjectName = "";
     },
@@ -173,13 +148,12 @@ export default Vue.extend({
       //TODO：這邊要做新增專案成功及失敗的處理，成功：關閉dialog並顯示新增成功，失敗：保留dialog，顯示新增失敗
       const result = await addProject(this.inputAddedProjectName, "1");
 
-      if (result){
+      if (result) {
         console.log("success");
-      }
-      else{
+      } else {
         console.log("fail");
       }
-      
+
       this.dialog = false;
     },
   },
