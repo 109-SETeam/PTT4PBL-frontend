@@ -14,7 +14,7 @@
             <v-text-field
               id="table-search-card"
               class="align-self-end"
-              v-model="search"
+              v-model="searchedName"
               prepend-inner-icon="mdi-magnify"
               label="Find a project..."
               hide-details
@@ -70,34 +70,11 @@
         <v-divider></v-divider>
         <v-row>
           <v-col lg="12">
-            <!-- <v-row v-for="i in Math.ceil((projects.length)/3)" :key="i" class="d-flex justify-space-between">
-              <v-col v-for="j in 3" :key="j">
-
-                <v-card class="mx-auto" max-width="400" v-if="getProjectInfoByIndex((i-1)*3+(j-1))">
-                  <v-card-text>
-                    <p class="display-1 text--primary">{{ getProjectInfoByIndex((i-1)*3+(j-1)).name }}</p>
-                  </v-card-text>
-                </v-card>
-
-              </v-col>
-            </v-row> -->
-            <v-data-table
-              :headers="headers"
-              :items="projects"
-              :search="search"
-              fixed-header
-              hide-default-footer
-              hide-default-header
-              style="background-color: rgba(237, 237, 237, 0)"
-            >
-              <template v-slot:[`item.name`]="{ item }">
-                <v-card class="my-2" @click="goToRepositoryDetail(item.id)">
-                  <v-card-text>
-                    <p class="display-1 text--primary">{{ item.name }}</p>
-                  </v-card-text>
-                </v-card>
-              </template>
-            </v-data-table>
+            <DataTable
+              :searchedName="searchedName"
+              :tableData="projects"
+              @goToRepositoryDetail="console.log('2')"
+            />
           </v-col>
         </v-row>
       </v-col>
@@ -110,23 +87,18 @@
 import Vue from "vue";
 import { addProject, getProject } from "@/apis/projects.ts";
 import UserInfo from "@/components/UserInfo.vue";
+import DataTable from "@/components/DataTable.vue";
 
 export default Vue.extend({
   components: {
     UserInfo,
+    DataTable,
   },
   data() {
     return {
       inputAddedProjectName: "",
       dialog: false,
-
-      search: "",
-      headers: [
-        {
-          text: "ProjectName",
-          value: "name",
-        },
-      ],
+      searchedName: "",
       projects: [] as any,
     };
   },
@@ -137,16 +109,13 @@ export default Vue.extend({
     clearInputProjectName() {
       this.inputAddedProjectName = "";
     },
-    goToRepositoryDetail(id: string) {
-      this.$router.push(`/project/${id}`);
-    },
     async getProject() {
       console.log(await getProject("test123"));
       this.projects = (await getProject("test123"))["data"];
     },
     async addProject() {
       //TODO：這邊要做新增專案成功及失敗的處理，成功：關閉dialog並顯示新增成功，失敗：保留dialog，顯示新增失敗
-      const result = await addProject(this.inputAddedProjectName, "1");
+      const result = await addProject(this.inputAddedProjectName, "test123");
 
       if (result) {
         console.log("success");
@@ -155,6 +124,7 @@ export default Vue.extend({
       }
 
       this.dialog = false;
+      this.projects = (await getProject("test123"))["data"];
     },
   },
 });
@@ -163,13 +133,11 @@ export default Vue.extend({
 <style lang="scss">
 tbody {
   tr:hover {
-    // cursor: pointer !important;
     background-color: rgba(0, 0, 0, 0) !important;
   }
 }
 
 .v-data-table {
-  // background-color: rgba(237, 237, 237, 0) !important;
   padding: 0 !important;
 }
 
@@ -177,11 +145,6 @@ tbody {
   background-color: rgba(237, 237, 237, 0) !important;
   padding: 0 !important;
 }
-
-// #table-search-card {
-//   margin: 0px !important;
-//   background-color: rgb(237, 237, 237) !important;
-// }
 
 .v-text-field {
   margin: 0px !important;
