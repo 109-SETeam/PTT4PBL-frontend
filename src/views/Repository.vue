@@ -3,84 +3,24 @@
     <v-row class="d-flex justify-center">
       <!-- 左邊個人資訊 -->
       <v-col lg="2">
-        <v-card max-width="374" height="700">
-          <v-img
-            class="mb-2"
-            height="250"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-          ></v-img>
-          <v-card-text>
-            <v-col md="12"
-              ><v-row class="d-flex justify-center">
-                <v-edit-dialog>
-                  <div class="text-h3">{{ user.name }}</div>
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="user.name"
-                      :rules="[max25chars]"
-                      label="Edit Name"
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </v-row>
-            </v-col>
-          </v-card-text>
-        </v-card>
+        <UserInfo />
       </v-col>
       <!-- 左邊個人資訊 end -->
       <v-col lg="6">
         <v-row class="justify-space-between">
           <v-col lg="4" class="text-h3">Repository</v-col>
           <v-col lg="6" class="d-flex flex-row">
-            <v-text-field
-              id="table-search-card"
-              class="align-self-end"
-              v-model="search"
-              prepend-inner-icon="mdi-magnify"
-              label="Find a project..."
-              hide-details
-              clearable
-              outlined
-              dense
-              solo
-            ></v-text-field>
+            <TableSearch
+              vTextLabel="Find a Repo..."
+              @ChangeInput="ChangeInput($event)"
+            />
           </v-col>
           <v-col lg="2" class="d-flex justify-end align-end">
-            <v-dialog v-model="dialog" max-width="60%">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="success" dark v-bind="attrs" v-on="on"
-                  ><v-icon style="background-color: #4caf50 !important"
-                    >mdi-plus</v-icon
-                  >
-                  New
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">Add Repository</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12">
-                        <v-text-field
-                          label="RepositoryURL"
-                          v-model="url"
-                          required
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="dialog = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn color="blue darken-1" text @click="add"> Add </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <NewItem
+              vCardTitle="Add Repository"
+              vTextLabel="Repository URL"
+              @add="add($event)"
+            />
           </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -118,7 +58,18 @@
 import Vue from "vue";
 import router from "@/router";
 import { addRepo, getRepository } from "@/apis/repository.ts";
+import UserInfo from "@/components/UserInfo.vue";
+import DataTable from "@/components/DataTable.vue";
+import NewItem from "@/components/NewItem.vue";
+import TableSearch from "@/components/TableSearch.vue";
+
 export default Vue.extend({
+  components: {
+    UserInfo,
+    // DataTable,
+    NewItem,
+    TableSearch,
+  },
   data() {
     return {
       search: "",
@@ -151,17 +102,18 @@ export default Vue.extend({
     Test(item: any) {
       console.log(item);
     },
-    async add() {
-      const result: any = await addRepo(Number(this.id), this.url);
-      this.url = "";
+    async add(url: any) {
+      const result: any = await addRepo(Number(this.id), url);
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;
       this.snackBarColor = result["data"].success ? "green" : "red";
-      console.log(this.snackBarColor);
     },
     async getResitories() {
       this.repositories = (await getRepository(this.id))["data"];
+    },
+    ChangeInput(searchedRepo: any) {
+      this.search = searchedRepo;
     },
   },
 });
