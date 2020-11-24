@@ -12,10 +12,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { VeLine } from "v-charts";
 import { getCommitInfo } from "../apis/githubInfo";
 import { checkAuth } from "@/apis/authorize";
-Vue.component(VeLine.name, VeLine);
 
 const dateFormat = (date: number) => {
   const formatDate = new Date(date * 1000);
