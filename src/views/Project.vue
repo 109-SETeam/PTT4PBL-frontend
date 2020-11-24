@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { addProject, getProject } from "@/apis/projects.ts";
+import { addProject, getProjects } from "@/apis/projects.ts";
 import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
