@@ -3,7 +3,10 @@
     <v-row class="d-flex justify-center">
       <!-- 左邊個人資訊 -->
       <v-col lg="2">
-        <UserInfo />
+        <UserInfo 
+        :name=user.name
+        :avatarUrl=user.avatarUrl
+        />
       </v-col>
       <!-- 左邊個人資訊 end -->
       <v-col lg="6">
@@ -58,6 +61,7 @@
 import Vue from "vue";
 import router from "@/router";
 import { addRepo, getRepository } from "@/apis/repository.ts";
+import { getUserInfo } from "@/apis/user";
 import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
@@ -82,32 +86,33 @@ export default Vue.extend({
       max25chars: function (v: any) {
         return v.length <= 25 || "Input too long!";
       },
-      user: {
-        name: "TEST",
-      },
+      user: {type: Object},
       repositories: [],
       dialog: false,
       id: this.$route.params.id,
       url: "",
       msg: "",
       snackBar: false,
-      snackBarTimeout: 1000,
-      snackBarColor: "",
+      snackBarTimeout: 1500,
+      snackBarColor: ""
     };
   },
-  mounted() {
-    this.getResitories();
+  async created(){
+    this.user = (await getUserInfo())["data"];
+    this.repositories = (await getRepository(this.id))["data"]
   },
   methods: {
     Test(item: any) {
       console.log(item);
     },
     async add(url: any) {
-      const result: any = await addRepo(Number(this.id), url);
+      const result = (await addRepo(Number(this.id), url));
+      console.log(result["data"])
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;
       this.snackBarColor = result["data"].success ? "green" : "red";
+      await this.getResitories()
     },
     async getResitories() {
       this.repositories = (await getRepository(this.id))["data"];

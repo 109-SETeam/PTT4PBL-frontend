@@ -3,7 +3,10 @@
     <v-row class="d-flex justify-center">
       <!-- 左邊個人資訊 -->
       <v-col lg="2">
-        <UserInfo />
+        <UserInfo
+        :avatarUrl=user.avatarUrl
+        :name=user.name
+        />
       </v-col>
       <!-- 左邊個人資訊 end -->
       <!-- 右邊表格 -->
@@ -50,6 +53,7 @@ import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
 import TableSearch from "@/components/TableSearch.vue";
+import { getUserInfo } from "@/apis/user"
 
 export default Vue.extend({
   components: {
@@ -67,25 +71,23 @@ export default Vue.extend({
       snackBar: false,
       snackBarTimeout: 1500,
       snackBarColor: "",
+      user: {type: Object, id: '', name: '', avatarUrl: ''}
     };
   },
-  mounted() {
-    this.getProject();
+  async created(){
+    this.projects = (await getProjects())["data"]
+    this.user = (await getUserInfo())["data"];
   },
   methods: {
-    async getProject() {
-      console.log(await getProject("test123"));
-      this.projects = (await getProject("test123"))["data"];
-    },
     async addproject(inputData: any) {
       //TODO：這邊要做新增專案成功及失敗的處理，成功：關閉dialog並顯示新增成功，失敗：保留dialog，顯示新增失敗
-      const result = await addProject(inputData, "test123");
+      const result = await addProject(inputData, this.user.id);
 
       if (result) {
         this.msg = "新增成功";
         this.snackBar = true;
         this.snackBarColor = "green";
-        this.projects = (await getProject("test123"))["data"];
+        this.projects = (await getProjects(this.user.id))["data"];
       } else {
         this.msg = "新增失敗";
         this.snackBar = true;
