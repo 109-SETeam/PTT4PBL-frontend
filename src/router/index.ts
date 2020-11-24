@@ -4,6 +4,7 @@ import Login from "@/views/Login.vue"
 import Project from "@/views/Project.vue"
 import Repository from "@/views/Repository.vue"
 import GithubAuthorize from "@/components/GithubAuthorize.vue"
+import RepoInfo from '@/views/RepoInfo.vue'
 import store from '@/store';
 
 Vue.use(VueRouter);
@@ -35,6 +36,11 @@ const routes: Array<RouteConfig> = [
     path: "/project/:id",
     name: "Repository",
     component: Repository
+  },
+  {
+    path: "/repoinfo",
+    name: "RepoInfo",
+    component: RepoInfo
   }
 ];
 
