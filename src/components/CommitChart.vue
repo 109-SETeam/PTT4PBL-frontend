@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <ve-histogram
       :data="chartData"
       :events="chartEvents"
@@ -7,7 +7,7 @@
     ></ve-histogram>
     <p>selected-week：{{ selectedWeek }}</p>
     <ve-line :data="detailData"></ve-line>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -35,7 +35,10 @@ const initialData = () => {
 };
 
 export default Vue.extend({
-  props: ['owner', 'repo'],
+  props: {
+      owner:String,
+      repo:String
+  },
   data: function () {
     return initialData();
   },
@@ -53,7 +56,7 @@ export default Vue.extend({
   },
   methods: {
     getCommitChartInfo() {
-      getCommitInfo("109-SETeam", "project-manage-system-frontend")
+      getCommitInfo(this.owner, this.repo)
         .then((res) => {
           const data = res.data;
           data.forEach((item: { total: number; week: any; days: any }) => {
