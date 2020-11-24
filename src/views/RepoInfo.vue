@@ -12,7 +12,9 @@
         ><CommitChart v-bind:owner="owner" v-bind:repo="repo"
       /></v-tab-item>
       <v-tab-item></v-tab-item>
-      <v-tab-item></v-tab-item>
+      <v-tab-item>
+        <CodebaseChart />
+      </v-tab-item>
     </v-tabs-items>
   </v-container>
 </template>
@@ -20,11 +22,12 @@
 <script lang="ts">
 import Vue from "vue";
 import CommitChart from "@/components/CommitChart.vue";
+import CodebaseChart from "@/components/CodebaseChart.vue";
 
-Vue.component("CommitChart");
 export default Vue.extend({
   components: {
     CommitChart,
+    CodebaseChart,
   },
   data() {
     return {
