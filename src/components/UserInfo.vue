@@ -1,0 +1,42 @@
+<template>
+  <v-card max-width="374" height="700">
+    <v-img
+      class="mb-2"
+      height="250"
+      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+    ></v-img>
+    <v-card-text>
+      <v-col md="12"
+        ><v-row class="d-flex justify-center">
+          <v-edit-dialog>
+            <div class="text-h3">{{ user.name }}</div>
+            <template v-slot:input>
+              <v-text-field
+                v-model="user.name"
+                :rules="[max25chars]"
+                label="Edit Name"
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </v-row>
+      </v-col>
+    </v-card-text>
+  </v-card>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+
+export default Vue.extend({
+  data() {
+    return {
+      user: {
+        name: "willie",
+      },
+      max25chars: function (v: any) {
+        return v.length <= 25 || "Input too long!";
+      },
+    };
+  },
+});
+</script>
