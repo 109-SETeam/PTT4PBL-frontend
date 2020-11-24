@@ -1,11 +1,16 @@
 import axios from "axios"
-import { host } from "../config/config"
+import { host } from "@/config/config"
+import store from '@/store';
 
 export const getProjects: any = () => {
-    return axios.get(`${host}/project/${encryptUserId}`).then(function (response) {
+    return axios.get(`${host}/project/`, {
+        headers: {
+            Authorization: `Bearer ${store.getters.token}`
+        }
+    }).then(function (response) {
         return response
     }).catch(err => {
-        return err
+        return false
     })
 }
 
