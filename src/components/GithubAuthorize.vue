@@ -1,5 +1,11 @@
 <template>
-  <div></div>
+  <v-container fill-height fluid class="align-center justify-center" >
+    <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+  </v-container>
 </template>
 
 <script lang="ts">
