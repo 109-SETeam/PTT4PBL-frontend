@@ -26,7 +26,7 @@ const actions = {
             context.commit('setToken', token);
             context.commit('setOauthToken', oauthToken);
             axios.defaults.headers.common['Authorization'] = token;
-            router.push('/');
+            router.push('/project');
         }).catch((err) => {
             alert("系統發生錯誤！");
             router.push('/');
