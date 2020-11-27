@@ -1,30 +1,25 @@
 <template>
   <div>
     <ve-histogram
-      :data="chartData"
+      :data="weekTotalData"
       :events="chartEvents"
       :settings="chartSetting"
     ></ve-histogram>
     <p>selected-week：{{ selectedWeek }}</p>
-    <ve-line :data="detailData"></ve-line>
+    <ve-line :data="commitData"></ve-line>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { getCommitInfo } from "../apis/githubInfo";
+import { getCommitInfo } from "../apis//repoInfo";
 import { checkAuth } from "@/apis/authorize";
-
-const dateFormat = (date: number) => {
-  const formatDate = new Date(date * 1000);
-  return formatDate.getMonth() + 1 + "/" + formatDate.getDate();
-};
 
 const initialData = () => {
   return {
-    chartData: {},
-    detailData: {},
-    commitData: [],
+    weekTotalData: {},
+    dayOfWeekData: [],
+    commitData: {},
     selectedWeek: "",
     chartSetting: {
       selectedMode: "single",
@@ -34,14 +29,13 @@ const initialData = () => {
 
 export default Vue.extend({
   props: {
-      owner:String,
-      repo:String
+    repoId: Number,
   },
   data: function () {
     return initialData();
   },
   mounted() {
-    this.getCommitChartInfo();
+    this.getCommitInfoData();
   },
   computed: {
     chartEvents() {
@@ -53,84 +47,46 @@ export default Vue.extend({
     },
   },
   methods: {
-    getCommitChartInfo() {
-      getCommitInfo(this.owner, this.repo)
+    getCommitInfoData() {
+      getCommitInfo(this.repoId)
         .then((res) => {
           const data = res.data;
-          data.forEach((item: { total: number; week: any; days: any }) => {
-            item.week = dateFormat(item.week);
-          });
-          this.selectedWeek = data[data.length - 1].week;
-          this.commitData = data;
-          this.setChartData();
-          this.setDetailChartData();
+          this.weekTotalData = {
+            columns: ["week", "total"],
+            rows: data.weekTotalData,
+          };
+          this.dayOfWeekData = data.dayOfWeekData
+          this.selectedWeek =
+            data.weekTotalData[data.weekTotalData.length - 1].week;
+          this.setCommitData();
         })
         .catch((err) => {
           alert("系統錯誤");
         });
     },
-    setChartData() {
-      this.chartData = {
-        columns: ["week", "total"],
-        rows: this.commitData,
-      };
-    },
-    setDetailChartData() {
-      this.detailData = {
+    setCommitData() {
+      this.commitData = {
         columns: ["day", "commit"],
-        rows: this.getDetailData(),
+        rows: this.getCommitRowsData(),
       };
     },
     clickChartEvent(e: any) {
       this.selectedWeek = e.name;
-      this.setDetailChartData();
+      this.setCommitData();
     },
-    getDetailData() {
-      const rows: { day: string; commit: number }[] = [];
-      this.commitData.forEach(
-        (item: { total: number; week: string; days: any }) => {
-          if (item.week === this.selectedWeek) {
-            let dayCount = 0;
-            item.days.forEach((day: number) => {
-              rows.push({
-                day: this.convertDayToString(dayCount),
-                commit: day,
-              });
-              dayCount++;
-            });
-            return;
+    getCommitRowsData() {
+      let rows: { day: string; commit: number }[] = [];
+      this.dayOfWeekData.forEach(
+        (data: {
+          week: string;
+          detailDatas: { day: string; commit: number }[];
+        }) => {
+          if (data.week === this.selectedWeek) {
+            rows = data.detailDatas;
           }
         }
       );
       return rows;
-    },
-    convertDayToString(day: number) {
-      switch (day) {
-        case 0: {
-          return "Sunday";
-        }
-        case 1: {
-          return "Monday";
-        }
-        case 2: {
-          return "Tuesday";
-        }
-        case 3: {
-          return "Wednesday";
-        }
-        case 4: {
-          return "Thursday";
-        }
-        case 5: {
-          return "Friday";
-        }
-        case 6: {
-          return "Saturday";
-        }
-        default: {
-          return "";
-        }
-      }
     },
   },
 });

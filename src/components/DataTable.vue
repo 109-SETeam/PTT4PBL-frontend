@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {getProject} from "@/apis/projects.ts";
+import {getProjects} from "@/apis/projects.ts";
 export default Vue.extend({
   props: ['searchedName', 'tableData'],
   data() {

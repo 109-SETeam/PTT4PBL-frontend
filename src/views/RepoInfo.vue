@@ -8,9 +8,7 @@
 
     <v-tabs-items v-model="tab" class="tab-item">
       <v-tab-item></v-tab-item>
-      <v-tab-item
-        ><CommitChart v-bind:owner="owner" v-bind:repo="repo"
-      /></v-tab-item>
+      <v-tab-item><CommitChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
       <v-tab-item>
         <CodebaseChart />
@@ -33,15 +31,14 @@ export default Vue.extend({
     return {
       tab: null,
       items: ["Issus", "Commit", "Contribute", "Code base"],
-      owner:"109-SETeam",
-      repo:"project-manage-system-frontend"
+      repoId: 1,
     };
   },
 });
 </script>
 
 <style lang="scss">
-    .tab-item {
-        width: 100%;
-    }
+.tab-item {
+  width: 100%;
+}
 </style>

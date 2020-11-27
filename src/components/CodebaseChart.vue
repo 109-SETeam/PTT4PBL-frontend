@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getCodebase } from "@/apis/githubInfo.ts";
+// import { getCodebase } from "@/apis/githubInfo.ts";
 export default Vue.extend({
 
   data() {
@@ -66,18 +66,18 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.getCodebaseData()
+    // this.getCodebaseData()
   },
   methods: {
-    getCodebaseData(){
-      getCodebase("109-SETeam", "project-manage-system-frontend")
-        .then((res) => {
-          const responseData = res.data;
-        })
-        .catch((err) => {
-          alert("系統錯誤");
-        });
-    },
+    // getCodebaseData(){
+    //   getCodebase("109-SETeam", "project-manage-system-frontend")
+    //     .then((res) => {
+    //       const responseData = res.data;
+    //     })
+    //     .catch((err) => {
+    //       alert("系統錯誤");
+    //     });
+    // },
   }
 });
 </script>
