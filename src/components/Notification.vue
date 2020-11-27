@@ -51,6 +51,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import * as signalR from '@aspnet/signalr';
 
 export default Vue.extend({
   data() {
