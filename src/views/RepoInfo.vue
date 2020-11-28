@@ -7,7 +7,7 @@
     </v-tabs>
 
     <v-tabs-items v-model="tab" class="tab-item">
-      <v-tab-item></v-tab-item>
+      <v-tab-item><IssuesTable v-bind:repoId="repoId"/></v-tab-item>
       <v-tab-item><CommitChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
       <v-tab-item></v-tab-item>
@@ -17,11 +17,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import CommitChart from "@/components/CommitChart.vue";
-
+import CommitChart from "@/components/CommitChart.vue"
+import IssuesTable from "@/components/IssuesTable.vue"
 export default Vue.extend({
   components: {
     CommitChart,
+    IssuesTable,
   },
   data() {
     return {
