@@ -12,7 +12,7 @@
             <template v-for="item in activities">
               <v-list-item :key="item.name" link class="pa-0">
                 <v-list-item-content class="pa-0">
-                  <v-btn class="pa-0" color="white" @click="Test(item)">{{
+                  <v-btn class="pa-0" color="white" @click="changeInfoData(item)">{{
                     item.name
                   }}</v-btn>
                 </v-list-item-content>
@@ -120,15 +120,15 @@ export default Vue.extend({
     };
   },
   methods: {
-    Test(something: any) {
+    changeInfoData(activities: any) {
       this.loading = true;
       this.chartData = [];
-      this.selected = something.name;
-      this.yaxis.max = something.lineHight;
+      this.selected = activities.name;
+      this.yaxis.max = activities.lineHight;
       this.data.forEach((item, index) => {
         this.chartData.push({
           rows: item.weeks,
-          columns: ["ws", something.mode],
+          columns: ["ws", activities.mode],
         });
       });
       this.loading = false;
