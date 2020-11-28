@@ -107,7 +107,6 @@ export default Vue.extend({
     },
     async add(url: any) {
       const result = (await addRepo(Number(this.id), url));
-      console.log(result["data"])
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;

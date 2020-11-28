@@ -7,7 +7,7 @@
     </v-tabs>
 
     <v-tabs-items v-model="tab" class="tab-item">
-      <v-tab-item></v-tab-item>
+      <v-tab-item><IssuesTable v-bind:repoId="repoId"/></v-tab-item>
       <v-tab-item><CommitChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item><ContributeChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
@@ -19,11 +19,13 @@
 import Vue from "vue";
 import CommitChart from "@/components/CommitChart.vue";
 import ContributeChart from "@/components/ContributeChart.vue";
+import IssuesTable from "@/components/IssuesTable.vue";
 
 export default Vue.extend({
   components: {
     CommitChart,
-    ContributeChart
+    ContributeChart,
+    IssuesTable,
   },
   data() {
     return {
