@@ -31,7 +31,7 @@ export default Vue.extend({
     return {
       tab: null,
       items: ["Issus", "Commit", "Contribute", "Code base"],
-      repoId: 2,
+      repoId: this.$route.params.repoId,
     };
   },
 });

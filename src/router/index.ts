@@ -38,7 +38,7 @@ const routes: Array<RouteConfig> = [
     component: Repository
   },
   {
-    path: "/repoinfo",
+    path: "/repoinfo/:repoId",
     name: "RepoInfo",
     component: RepoInfo
   }
