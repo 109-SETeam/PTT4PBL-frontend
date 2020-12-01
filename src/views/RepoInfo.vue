@@ -9,9 +9,8 @@
     <v-tabs-items v-model="tab" class="tab-item">
       <v-tab-item><IssuesTable v-bind:repoId="repoId"/></v-tab-item>
       <v-tab-item><CommitChart v-bind:repoId="repoId" /></v-tab-item>
-      <v-tab-item></v-tab-item>
-      <v-tab-item><CodebaseChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item><ContributeChart v-bind:repoId="repoId" /></v-tab-item>
+      <v-tab-item><CodebaseChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
     </v-tabs-items>
   </v-container>
@@ -35,9 +34,12 @@ export default Vue.extend({
     return {
       tab: null,
       items: ["Issus", "Commit", "Contribute", "Code base"],
-      repoId: this.$route.params.repoId,
+      repoId: Number(this.$route.params.repoId),
     };
   },
+  created() {
+    console.log(Number(this.$route.params.repoId))
+  }
 });
 </script>
 
