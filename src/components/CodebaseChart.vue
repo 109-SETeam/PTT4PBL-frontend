@@ -8,6 +8,9 @@
 import Vue from "vue";
 import { getCodebase } from "@/apis/repoInfo.ts";
 export default Vue.extend({
+  props: {
+    repoId: Number,
+  },
   data() {
     return {
       chartSettings: {

@@ -7,12 +7,12 @@
     </v-tabs>
 
     <v-tabs-items v-model="tab" class="tab-item">
-      <v-tab-item></v-tab-item>
+      <v-tab-item><IssuesTable v-bind:repoId="repoId"/></v-tab-item>
       <v-tab-item><CommitChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
-      <v-tab-item>
-        <CodebaseChart />
-      </v-tab-item>
+      <v-tab-item><CodebaseChart v-bind:repoId="repoId" /></v-tab-item>
+      <v-tab-item><ContributeChart v-bind:repoId="repoId" /></v-tab-item>
+      <v-tab-item></v-tab-item>
     </v-tabs-items>
   </v-container>
 </template>
@@ -21,17 +21,21 @@
 import Vue from "vue";
 import CommitChart from "@/components/CommitChart.vue";
 import CodebaseChart from "@/components/CodebaseChart.vue";
+import ContributeChart from "@/components/ContributeChart.vue";
+import IssuesTable from "@/components/IssuesTable.vue";
 
 export default Vue.extend({
   components: {
     CommitChart,
     CodebaseChart,
+    ContributeChart,
+    IssuesTable,
   },
   data() {
     return {
       tab: null,
       items: ["Issus", "Commit", "Contribute", "Code base"],
-      repoId: 1,
+      repoId: this.$route.params.repoId,
     };
   },
 });
