@@ -10,6 +10,7 @@ export const getCommitInfo = (repoId: number | null) => {
 export const getCodebase = (repoId:number|null) =>{
     return axios.get(`${host}/repoInfo/codebase/${repoId}`);
 }
+
 export const getContributeInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/contribute/${repoId}`, {
         headers: {
@@ -17,6 +18,7 @@ export const getContributeInfo = (repoId: number | null) => {
         }
     });
 }
+
 export const getIssueInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/issue/${repoId}`, {
         headers: {
