@@ -7,13 +7,16 @@ export const getCommitInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/commit/${repoId}`);
 }
 
+export const getCodebase = (repoId:number|null) =>{
+    return axios.get(`${host}/repoInfo/codebase/${repoId}`);
+}
 export const getContributeInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/contribute/${repoId}`, {
         headers: {
             Authorization: `Bearer ${store.getters.token}`
         }
     });
-
+}
 export const getIssueInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/issue/${repoId}`, {
         headers: {
