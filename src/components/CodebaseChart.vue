@@ -27,7 +27,7 @@ export default Vue.extend({
   },
   methods: {
     getCodebaseData(){
-      getCodebase(1).then((res) => {
+      getCodebase(this.repoId).then((res) => {
         const resData = res.data;
         this.chartData.rows = resData;
         console.log(resData);
