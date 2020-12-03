@@ -13,3 +13,11 @@ export const getUserInfo = ():Promise<any> => {
         }
     })
 }
+
+export const isCurrentUserProjectOwner: any = (projectId: string) => {
+    return axios.get(`${host}/invitation/checkowner/${projectId}`, {
+        headers: {
+          Authorization: `Bearer ${store.getters.token}`
+        }
+      })
+}

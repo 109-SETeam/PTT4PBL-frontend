@@ -3,16 +3,15 @@
     <v-row class="d-flex justify-center">
       <!-- 左邊個人資訊 -->
       <v-col lg="2">
-        <UserInfo 
-        :name=user.name
-        :avatarUrl=user.avatarUrl
-        />
+        <UserInfo :name="user.name" :avatarUrl="user.avatarUrl" />
       </v-col>
       <!-- 左邊個人資訊 end -->
       <v-col lg="6">
-        <v-row class="justify-space-between">
+        <v-row>
           <v-col lg="4" class="text-h3">Repository</v-col>
-          <v-col lg="6" class="d-flex flex-row">
+        </v-row>
+        <v-row class="justify-space-between">
+          <v-col :lg="searchbarLength" class="d-flex flex-row">
             <TableSearch
               vTextLabel="Find a Repo..."
               @ChangeInput="ChangeInput($event)"
@@ -23,6 +22,15 @@
               vCardTitle="Add Repository"
               vTextLabel="Repository URL"
               @add="add($event)"
+            />
+          </v-col>
+          <v-col v-if="isOwner" lg="3" class="d-flex justify-end align-end">
+            <InviteUser
+              vCardTitle="邀請使用者"
+              vTextLabel="使用者帳號"
+              @clickInvitation="clickInvatation($event)"
+              :userInfo="userAccounts"
+              @invite="send($event)"
             />
           </v-col>
         </v-row>
@@ -61,11 +69,13 @@
 import Vue from "vue";
 import router from "@/router";
 import { addRepo, getRepository } from "@/apis/repository.ts";
-import { getUserInfo } from "@/apis/user";
+import { getUserInfo, isCurrentUserProjectOwner } from "@/apis/user";
 import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
+import InviteUser from "@/components/InviteUser.vue";
 import TableSearch from "@/components/TableSearch.vue";
+import { invite, sendInvitation } from "@/apis/notification";
 
 export default Vue.extend({
   components: {
@@ -73,6 +83,7 @@ export default Vue.extend({
     // DataTable,
     NewItem,
     TableSearch,
+    InviteUser,
   },
   data() {
     return {
@@ -86,7 +97,7 @@ export default Vue.extend({
       max25chars: function (v: any) {
         return v.length <= 25 || "Input too long!";
       },
-      user: {type: Object},
+      user: { type: Object },
       repositories: [],
       dialog: false,
       id: this.$route.params.id,
@@ -94,12 +105,17 @@ export default Vue.extend({
       msg: "",
       snackBar: false,
       snackBarTimeout: 1500,
-      snackBarColor: ""
+      snackBarColor: "",
+      isOwner: false,
+      userAccounts: [],
+      searchbarLength: 7,
     };
   },
-  async created(){
+  async created() {
     this.user = (await getUserInfo())["data"];
-    this.repositories = (await getRepository(this.id))["data"]
+    this.repositories = (await getRepository(this.id))["data"];
+    this.isOwner = (await isCurrentUserProjectOwner(this.id))["data"].success;
+    if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
     Test(item: any) {
@@ -111,13 +127,27 @@ export default Vue.extend({
       this.dialog = false;
       this.snackBar = true;
       this.snackBarColor = result["data"].success ? "green" : "red";
-      await this.getResitories()
+      await this.getResitories();
     },
     async getResitories() {
       this.repositories = (await getRepository(this.id))["data"];
     },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;
+    },
+
+    async send(applicantId: any) {
+      const result = await sendInvitation(applicantId, Number(this.id));
+      this.dialog = false;
+      this.msg = result["data"].message;
+      this.snackBar = true;
+      this.snackBarColor = result["data"].success ? "green" : "red";
+    },
+
+    async clickInvatation(projectId: number) {
+      invite(Number(this.id)).then((res) => {
+        this.userAccounts = res.data;
+      });
     },
   },
 });
