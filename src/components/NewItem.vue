@@ -42,6 +42,7 @@ export default Vue.extend({
     return {
       inputData: "",
       dialog: false,
+      userAccounts: [] as any,
     };
   },
   methods: {
