@@ -75,7 +75,6 @@ export default Vue.extend({
     getNotificationData() {
       getNotification().then((res) => {
         this.items = res.data;
-        console.log(this.items)
         if (typeof this.items !== "undefined" && this.items.length > 0) {
           this.hasMessage = true;
         } else {
