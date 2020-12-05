@@ -4,11 +4,19 @@ import { host } from "@/config/config"
 import store from '@/store';
 
 export const getCommitInfo = (repoId: number | null) => {
-    return axios.get(`${host}/repoInfo/commit/${repoId}`);
+    return axios.get(`${host}/repoInfo/commit/${repoId}`, {
+        headers: {
+            Authorization: `Bearer ${store.getters.token}`
+        }
+    });
 }
 
 export const getCodebase = (repoId:number|null) =>{
-    return axios.get(`${host}/repoInfo/codebase/${repoId}`);
+    return axios.get(`${host}/repoInfo/codebase/${repoId}`, {
+        headers: {
+            Authorization: `Bearer ${store.getters.token}`
+        }
+    });
 }
 
 export const getContributeInfo = (repoId: number | null) => {
