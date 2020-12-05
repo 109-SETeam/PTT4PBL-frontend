@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="success" v-bind="attrs" v-on="on" @click="clearInputData"
         ><v-icon style="background-color: #4caf50 !important">mdi-plus</v-icon
-        >邀請使用者</v-btn
+        >INVITE</v-btn
       >
     </template>
     <v-card>
@@ -20,7 +20,7 @@
                 color="white"
                 item-text="name"
                 item-value="id"
-                label="使用者名稱"
+                label="User Name"
               >
                 <!-- <template v-slot:selection="data">
                   <v-avatar left>
@@ -51,8 +51,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="dialog = false"> 取消 </v-btn>
-        <v-btn color="blue darken-1" text @click="add"> 邀請 </v-btn>
+        <v-btn color="blue darken-1" text @click="dialog = false"> CANCEL </v-btn>
+        <v-btn color="blue darken-1" text @click="add"> INVITE </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
