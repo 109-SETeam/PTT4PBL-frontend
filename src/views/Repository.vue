@@ -26,8 +26,8 @@
           </v-col>
           <v-col v-if="isOwner" lg="3" class="d-flex justify-end align-end">
             <InviteUser
-              vCardTitle="邀請使用者"
-              vTextLabel="使用者帳號"
+              vCardTitle="Invite User"
+              vTextLabel="User Name"
               @clickInvitation="clickInvatation($event)"
               :userInfo="userAccounts"
               @invite="send($event)"

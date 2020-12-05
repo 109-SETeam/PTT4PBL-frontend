@@ -14,7 +14,10 @@
     </template>
     <!-- template end -->
     <!-- list start -->
-    <v-list two-line max-width="400" max-height="500" class="overflow-y-auto">
+    <v-list two-line width="500" max-height="500" class="overflow-y-auto">
+      <v-text class="" width="500" v-if="!hasMessage">
+        <div>No invitation message!</div>
+      </v-text>
       <template v-for="(item, index) in items">
         <v-list-item :key="item.invitedProject.id">
           <v-list-item-content>
@@ -58,29 +61,23 @@ export default Vue.extend({
   data() {
     return {
       hasMessage: false,
-      subtitleText: "想邀請你加入：",
+      subtitleText: "invite you to join：",
       items: [] as any,
-      timeOutRefresh: 0,
     };
   },
 
   created() {
     this.getNotificationData();
-
     setInterval(this.intermval, 5000);
-  },
-
-  beforeDestroy() {
-    clearInterval(this.timeOutRefresh);
   },
 
   methods: {
     Test(something: any) {
       console.log(something);
     },
-    
+
     intermval() {
-        this.getNotificationData();
+      this.getNotificationData();
     },
 
     getNotificationData() {
