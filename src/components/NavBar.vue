@@ -2,7 +2,7 @@
   <v-app-bar dense dark>
     <v-toolbar-title>PMS</v-toolbar-title>
     <v-spacer></v-spacer>
-    <Notification/>
+    <Notification v-if="isAuth"/>
     <v-btn @click="logout" v-if="isAuth">
       <v-icon>mdi-logout</v-icon>
       Logout

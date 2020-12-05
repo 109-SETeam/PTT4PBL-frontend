@@ -3,7 +3,6 @@ import { host } from "@/config/config"
 import store from '@/store';
 
 export const getProjects: any = () => {
-    console.log(store.getters.token)
     return axios.get(`${host}/project/`, {
         headers: {
             Authorization: `Bearer ${store.getters.token}`

@@ -60,40 +60,50 @@ export default Vue.extend({
       hasMessage: false,
       subtitleText: "想邀請你加入：",
       items: [] as any,
+      timeOutRefresh: 0,
     };
   },
 
   created() {
     this.getNotificationData();
+
+    setInterval(this.intermval, 5000);
+  },
+
+  beforeDestroy() {
+    clearInterval(this.timeOutRefresh);
   },
 
   methods: {
     Test(something: any) {
       console.log(something);
     },
+    
+    intermval() {
+        this.getNotificationData();
+    },
 
     getNotificationData() {
       getNotification().then((res) => {
         this.items = res.data;
-        console.log(this.items)
         if (typeof this.items !== "undefined" && this.items.length > 0) {
           this.hasMessage = true;
         } else {
           this.hasMessage = false;
         }
-      })
+      });
     },
 
     accept(item: any) {
       ReplyToInvitation(item.id, true).then(() => {
         this.getNotificationData();
-      })
+      });
     },
 
     reject(item: any) {
       ReplyToInvitation(item.id, false).then(() => {
         this.getNotificationData();
-      })
+      });
     },
   },
 });
