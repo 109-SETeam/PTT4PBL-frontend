@@ -30,7 +30,6 @@ export default Vue.extend({
       getCodebase(this.repoId).then((res) => {
         const resData = res.data;
         this.chartData.rows = resData;
-        console.log(resData);
       });
     },
   },

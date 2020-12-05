@@ -36,9 +36,6 @@ export default Vue.extend({
       items: ["Issus", "Commit", "Contribute", "Code base"],
       repoId: Number(this.$route.params.repoId),
     };
-  },
-  created() {
-    console.log(Number(this.$route.params.repoId))
   }
 });
 </script>

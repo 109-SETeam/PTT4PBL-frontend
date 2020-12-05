@@ -15,9 +15,6 @@ import store from "@/store";
 import App from "@/App.vue";
 
 export default Vue.extend({
-  mounted: () => {
-    console.log(store.getters.isAuthenticated);
-  },
   methods: {
     handleLogin: (e: any) => {
       window.location.assign(githubOAuthUrl);
