@@ -46,7 +46,7 @@
               hide-default-header
             >
               <template v-slot:[`item.name`]="{ item }">
-                <div @click="Test(item)" class="py-2">
+                <div class="py-2">
                   {{ item.name }}
                 </div>
               </template>
@@ -118,9 +118,6 @@ export default Vue.extend({
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
-    Test(item: any) {
-      console.log(item);
-    },
     async add(url: any) {
       const result = (await addRepo(Number(this.id), url));
       this.msg = result["data"].message;

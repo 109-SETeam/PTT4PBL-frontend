@@ -11,5 +11,9 @@ export const getRepository: any = (projectId: string) => {
 }
 
 export const addRepo: any = (projectId: number, url: string) => {
-  return axios.post(`${host}/repo`, { projectId, url });
+  return axios.post(`${host}/repo`, { projectId, url }, {
+    headers: {
+      Authorization: `Bearer ${store.getters.token}`
+    }
+  });
 }

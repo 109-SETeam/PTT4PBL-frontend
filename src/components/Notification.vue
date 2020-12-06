@@ -72,10 +72,6 @@ export default Vue.extend({
   },
 
   methods: {
-    Test(something: any) {
-      console.log(something);
-    },
-
     intermval() {
       this.getNotificationData();
     },
