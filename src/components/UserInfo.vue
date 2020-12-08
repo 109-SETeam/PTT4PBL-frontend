@@ -1,7 +1,10 @@
 <template>
   <v-card max-width="374" height="700">
-    <v-img class="mb-2" height="250" contain :src="avatarUrl"></v-img>
+    
     <v-card-text>
+      <v-avatar size="192">
+      <img class="mb-2" height="250" contain :src="avatarUrl">
+    </v-avatar>
       <v-col md="12"
         ><v-row class="d-flex justify-center">
           <v-edit-dialog>
@@ -26,7 +29,7 @@ import Vue from "vue";
 export default Vue.extend({
   props: {
     name: { type: String },
-    avatarUrl: { type: String }
+    avatarUrl: { type: String },
   },
   data() {
     return {

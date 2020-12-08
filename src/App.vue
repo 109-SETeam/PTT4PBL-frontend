@@ -37,4 +37,8 @@ export default Vue.extend({
     }
   }
 }
+
+.routercolor{
+  color:  rgb(255,255,255)!important
+}
 </style>
