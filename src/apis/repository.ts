@@ -17,3 +17,11 @@ export const addRepo: any = (projectId: number, url: string) => {
     }
   });
 }
+
+export const deleteRepo: any = (projectId: number, repoId: number) => {
+  return axios.delete(`${host}/repo/?projectId=${projectId}&repoId=${repoId}`, {
+    headers: {
+      Authorization: `Bearer ${store.getters.token}`
+    }
+  });
+}
