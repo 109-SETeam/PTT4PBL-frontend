@@ -15,17 +15,10 @@ export const getProjects: any = () => {
 }
 
 export const deleteProject = (projectId: number, userId: string) => {
-    return axios.post(`${host}/project/delete/`, {
-        ProjectId: projectId,
-        UserId: userId
-    }, {
+    return axios.delete(`${host}/project/${projectId}/${userId}`, {
         headers: {
             Authorization: `Bearer ${store.getters.token}`
         }
-    }).then(function (response) {
-        return response
-    }).catch(err => {
-        return false
     })
 }
 

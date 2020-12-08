@@ -20,7 +20,11 @@
           <v-card>
             <v-row>
               <v-col style="text-align: right" class="mr-3">
-                <v-icon @click="removeProject(item, user)" :disabled="!isDeleteProjectEnable(user.id, item.ownerId)">mdi-close-thick</v-icon></v-col
+                <v-icon
+                  @click="removeProject(item.id, user.id)"
+                  :disabled="!isDeleteProjectEnable(user.id, item.ownerId)"
+                  >mdi-close-thick</v-icon
+                ></v-col
               >
             </v-row>
             <v-row>
@@ -30,7 +34,9 @@
                     {{ item.name }}
                   </div>
 
-                  <div style="text-align: left" class="mt-8 ml-2">Owner: {{ item.ownerName }}</div>
+                  <div style="text-align: left" class="mt-8 ml-2">
+                    Owner: {{ item.ownerName }}
+                  </div>
                 </div></v-col
               >
             </v-row>
@@ -67,13 +73,12 @@ export default Vue.extend({
     },
 
     isDeleteProjectEnable(userId: string, owner: string) {
-        return owner === userId
+      return owner === userId;
     },
 
-    removeProject(item: any, user: any) {
-      deleteProject(item.id, user.id).then(() => {
-        this.dialog = false
-      })
+    removeProject(projectId: string, userId: string) {
+      this.$emit("deleteProject", projectId, userId);
+      this.dialog = false;
     },
   },
 });
