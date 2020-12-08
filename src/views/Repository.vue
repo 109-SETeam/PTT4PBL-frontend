@@ -8,23 +8,10 @@
       <!-- 左邊個人資訊 end -->
       <v-col lg="6">
         <v-row>
-          <v-col lg="4" class="text-h3">Repository</v-col>
+          <v-col lg="4" class="text-h3 text-left py-0">{{ projectName }}</v-col>
         </v-row>
-        <v-row class="justify-space-between">
-          <v-col :lg="searchbarLength" class="d-flex flex-row">
-            <TableSearch
-              vTextLabel="Find a Repo..."
-              @ChangeInput="ChangeInput($event)"
-            />
-          </v-col>
-          <v-col lg="2" class="d-flex justify-end align-end">
-            <NewItem
-              vCardTitle="Add Repository"
-              vTextLabel="Repository URL"
-              @add="add($event)"
-            />
-          </v-col>
-          <v-col v-if="isOwner" lg="3" class="d-flex justify-end align-end">
+        <v-row>
+          <v-col class="d-flex align-begin pt-1 ">
             <InviteUser
               vCardTitle="Invite User"
               vTextLabel="User Name"
@@ -36,7 +23,7 @@
         </v-row>
         <v-divider></v-divider>
         <v-row>
-          <v-col>
+          <v-col >
             <v-data-table
               :headers="headers"
               :items="repositories"
@@ -45,9 +32,35 @@
               hide-default-footer
               hide-default-header
             >
+              <template v-slot:top>
+                <v-row class="d-flex justify-space-around">
+                  <v-col class="pl-5">
+                    <TableSearch
+                      vTextLabel="Find a Repo..."
+                      @ChangeInput="ChangeInput($event)"
+                    />
+                  </v-col>
+                  <v-col class="d-flex justify-end align-end pr-5">
+                    <NewItem
+                      vCardTitle="Add Repository"
+                      vTextLabel="Repository URL"
+                      @add="add($event)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+              </template>
               <template v-slot:[`item.name`]="{ item }">
                 <div class="py-2">
                   {{ item.name }}
+                </div>
+              </template>
+              <template v-slot:[`item.action`]="{ item }" >
+                <div class="d-flex justify-end align-end">
+                <v-icon
+                @click="deleteRepo(item.id)">
+                  mdi-delete
+                </v-icon>
                 </div>
               </template>
             </v-data-table>
@@ -93,6 +106,10 @@ export default Vue.extend({
           text: "RepositoryName",
           value: "name",
         },
+        {
+          text: "action",
+          value: "action",
+        },
       ],
       max25chars: function (v: any) {
         return v.length <= 25 || "Input too long!";
@@ -109,6 +126,7 @@ export default Vue.extend({
       isOwner: false,
       userAccounts: [],
       searchbarLength: 7,
+      projectName: this.$route.query.projectName,
     };
   },
   async created() {
@@ -119,7 +137,7 @@ export default Vue.extend({
   },
   methods: {
     async add(url: any) {
-      const result = (await addRepo(Number(this.id), url));
+      const result = await addRepo(Number(this.id), url);
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;
@@ -131,6 +149,10 @@ export default Vue.extend({
     },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;
+    },
+
+    async deleteRepo(id:any){
+      console.log(id);
     },
 
     async send(applicantId: any) {

@@ -1,6 +1,6 @@
 <template>
   <v-app-bar dense dark>
-    <v-toolbar-title>PMS</v-toolbar-title>
+    <v-toolbar-title><router-link to="/project" class="routercolor">PMS</router-link></v-toolbar-title>
     <v-spacer></v-spacer>
     <Notification v-if="isAuth"/>
     <v-btn @click="logout" v-if="isAuth">
