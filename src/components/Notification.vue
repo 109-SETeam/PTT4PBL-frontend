@@ -15,9 +15,9 @@
     <!-- template end -->
     <!-- list start -->
     <v-list two-line width="500" max-height="500" class="overflow-y-auto">
-      <v-text class="" width="500" v-if="!hasMessage">
+      <v-sheet class="" width="500" v-if="!hasMessage">
         <div>No invitation message!</div>
-      </v-text>
+      </v-sheet>
       <template v-for="(item, index) in items">
         <v-list-item :key="item.invitedProject.id">
           <v-list-item-content>

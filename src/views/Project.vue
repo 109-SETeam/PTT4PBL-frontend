@@ -30,7 +30,7 @@
         <v-divider></v-divider>
         <v-row>
           <v-col lg="12">
-            <DataTable :searchedName="searchedName" :tableData="projects" />
+            <DataTable :searchedName="searchedName" :tableData="projects" :user="user" />
           </v-col>
         </v-row>
       </v-col>
