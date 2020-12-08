@@ -4,7 +4,6 @@
     :items="tableData"
     :search="searchedName"
     fixed-header
-    hide-default-footer
     hide-default-header
     style="background-color: rgba(237, 237, 237, 0)"
   >

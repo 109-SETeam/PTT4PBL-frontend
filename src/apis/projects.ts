@@ -24,7 +24,5 @@ export const addProject = (ProjectName: string | null, UserId: string | null) =>
         }
     }).then(response => {
         return response;
-    }).catch(err => {
-        return false;
     });
 }
