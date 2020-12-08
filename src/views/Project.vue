@@ -69,7 +69,7 @@ export default Vue.extend({
       projects: [] as any,
       msg: "",
       snackBar: false,
-      snackBarTimeout: 1500,
+      snackBarTimeout: 3000,
       snackBarColor: "",
       user: {type: Object, id: '', name: '', avatarUrl: ''}
     };
@@ -83,18 +83,12 @@ export default Vue.extend({
       //TODO：這邊要做新增專案成功及失敗的處理，成功：關閉dialog並顯示新增成功，失敗：保留dialog，顯示新增失敗
       const result = await addProject(inputData, this.user.id);
 
-      if (result) {
-        this.msg = "新增成功";
-        this.snackBar = true;
-        this.snackBarColor = "green";
-        this.projects = (await getProjects(this.user.id))["data"];
-      } else {
-        this.msg = "新增失敗";
-        this.snackBar = true;
-        this.snackBarColor = "red";
-      }
-
+      this.msg = result["data"].message;
       this.dialog = false;
+      this.snackBar = true;
+      this.snackBarColor = result["data"].success ? "green" : "red";
+
+      this.projects = (await getProjects(this.user.id))["data"];
     },
     ChangeInput(searchedName: any) {
       this.searchedName = searchedName;
