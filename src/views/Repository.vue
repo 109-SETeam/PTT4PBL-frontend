@@ -81,7 +81,7 @@
 <script lang="ts">
 import Vue from "vue";
 import router from "@/router";
-import { addRepo, getRepository } from "@/apis/repository.ts";
+import { addRepo, getRepository,deleteRepo } from "@/apis/repository.ts";
 import { getUserInfo, isCurrentUserProjectOwner } from "@/apis/user";
 import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
@@ -117,7 +117,7 @@ export default Vue.extend({
       user: { type: Object },
       repositories: [],
       dialog: false,
-      id: this.$route.params.id,
+      projectId: this.$route.params.id,
       url: "",
       msg: "",
       snackBar: false,
@@ -131,13 +131,13 @@ export default Vue.extend({
   },
   async created() {
     this.user = (await getUserInfo())["data"];
-    this.repositories = (await getRepository(this.id))["data"];
-    this.isOwner = (await isCurrentUserProjectOwner(this.id))["data"].success;
+    this.repositories = (await getRepository(this.projectId))["data"];
+    this.isOwner = (await isCurrentUserProjectOwner(this.projectId))["data"].success;
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
     async add(url: any) {
-      const result = await addRepo(Number(this.id), url);
+      const result = await addRepo(Number(this.projectId), url);
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;
@@ -145,18 +145,23 @@ export default Vue.extend({
       await this.getResitories();
     },
     async getResitories() {
-      this.repositories = (await getRepository(this.id))["data"];
+      this.repositories = (await getRepository(this.projectId))["data"];
     },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;
     },
 
-    async deleteRepo(id:any){
-      console.log(id);
+    async deleteRepo(repoId:any){
+      const result = await deleteRepo(this.projectId,repoId);
+      this.msg = result["data"].message;
+      this.dialog = false;
+      this.snackBar = true;
+      this.snackBarColor = result["data"].success ? "green" : "red";
+      await this.getResitories();
     },
 
     async send(applicantId: any) {
-      const result = await sendInvitation(applicantId, Number(this.id));
+      const result = await sendInvitation(applicantId, Number(this.projectId));
       this.dialog = false;
       this.msg = result["data"].message;
       this.snackBar = true;
@@ -164,7 +169,7 @@ export default Vue.extend({
     },
 
     async clickInvatation(projectId: number) {
-      invite(Number(this.id)).then((res) => {
+      invite(Number(this.projectId)).then((res) => {
         this.userAccounts = res.data;
       });
     },
