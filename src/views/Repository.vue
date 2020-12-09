@@ -8,7 +8,19 @@
       <!-- 左邊個人資訊 end -->
       <v-col lg="6">
         <v-row>
-          <v-col lg="4" class="text-h3">Repository</v-col>
+          <v-col lg="4" style="text-align: left">
+            <v-edit-dialog 
+            @save="save"
+            :return-value.sync="projectName"
+            >
+              <div class="text-h3">{{ projectName }}</div>
+              <template v-slot:input>
+                <v-text-field
+                  v-model="projectName"
+                  label="Edit Name"
+                ></v-text-field>
+              </template> </v-edit-dialog
+          ></v-col>
         </v-row>
         <v-row class="justify-space-between">
           <v-col :lg="searchbarLength" class="d-flex flex-row">
@@ -68,6 +80,7 @@
 <script lang="ts">
 import Vue from "vue";
 import router from "@/router";
+import { editProject, getProject } from "@/apis/projects";
 import { addRepo, getRepository } from "@/apis/repository.ts";
 import { getUserInfo, isCurrentUserProjectOwner } from "@/apis/user";
 import UserInfo from "@/components/UserInfo.vue";
@@ -94,17 +107,15 @@ export default Vue.extend({
           value: "name",
         },
       ],
-      max25chars: function (v: any) {
-        return v.length <= 25 || "Input too long!";
-      },
-      user: { type: Object },
+      user: { type: Object, id: "" },
       repositories: [],
       dialog: false,
-      id: this.$route.params.id,
+      projectId: this.$route.params.id,
+      projectName: this.$route.query.projectName,
       url: "",
       msg: "",
       snackBar: false,
-      snackBarTimeout: 1500,
+      snackBarTimeout: 3000,
       snackBarColor: "",
       isOwner: false,
       userAccounts: [],
@@ -113,13 +124,31 @@ export default Vue.extend({
   },
   async created() {
     this.user = (await getUserInfo())["data"];
-    this.repositories = (await getRepository(this.id))["data"];
-    this.isOwner = (await isCurrentUserProjectOwner(this.id))["data"].success;
+    this.repositories = (await getRepository(this.projectId))["data"];
+    this.isOwner = (await isCurrentUserProjectOwner(this.projectId))[
+      "data"
+    ].success;
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
+    async save() {
+      console.log("asd");
+      let result = await editProject(
+        Number(this.projectId),
+        this.projectName,
+        this.user.id
+      );
+      this.msg = result["data"].message;
+      this.snackBar = true;
+      this.snackBarColor = result["data"].success ? "green" : "red";
+
+      result = await getProject(Number(this.projectId), this.user.id);
+      console.log(result);
+      this.projectName = result["data"].name;
+
+    },
     async add(url: any) {
-      const result = (await addRepo(Number(this.id), url));
+      const result = await addRepo(Number(this.projectId), url);
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;
@@ -127,14 +156,14 @@ export default Vue.extend({
       await this.getResitories();
     },
     async getResitories() {
-      this.repositories = (await getRepository(this.id))["data"];
+      this.repositories = (await getRepository(this.projectId))["data"];
     },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;
     },
 
     async send(applicantId: any) {
-      const result = await sendInvitation(applicantId, Number(this.id));
+      const result = await sendInvitation(applicantId, Number(this.projectId));
       this.dialog = false;
       this.msg = result["data"].message;
       this.snackBar = true;
@@ -142,7 +171,7 @@ export default Vue.extend({
     },
 
     async clickInvatation(projectId: number) {
-      invite(Number(this.id)).then((res) => {
+      invite(Number(this.projectId)).then((res) => {
         this.userAccounts = res.data;
       });
     },

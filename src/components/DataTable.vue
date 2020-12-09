@@ -24,9 +24,9 @@
             </v-row>
             <v-row>
               <v-col>
-                <p class="subheading font-weight-bold text-h4" @click="goToRepositoryDetail(item.id, item.name)">
+                <a class="subheading font-weight-bold text-h4" @click="goToRepositoryDetail(item.id, item.name)">
                   {{ item.name }}
-                </p></v-col
+                </a></v-col
               >
             </v-row>
           </v-card>

@@ -1,10 +1,10 @@
 <template>
-  <v-card max-width="374" height="700">
+  <v-card max-width="374" height="700" class="pt-5">
     <v-img class="mb-2" height="250" contain :src="avatarUrl"></v-img>
     <v-card-text>
       <v-col md="12"
         ><v-row class="d-flex justify-center">
-          <v-edit-dialog>
+          <v-edit-dialog :return-value.sync="name">
             <div class="text-h5">{{ name }}</div>
             <template v-slot:input>
               <v-text-field
