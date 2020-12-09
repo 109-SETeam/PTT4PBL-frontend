@@ -2,6 +2,7 @@
   <v-data-iterator
     :items="tableData"
     :search="searchedName"
+    :user="user"
     fixed-header
     hide-default-header
     style="background-color: rgba(237, 237, 237, 0)"
@@ -19,14 +20,24 @@
           <v-card>
             <v-row>
               <v-col style="text-align: right" class="mr-3">
-                <v-icon @click="TEST(item)">mdi-close-thick</v-icon></v-col
+                <v-icon
+                  @click="removeProject(item.id, user.id)"
+                  :disabled="!isDeleteProjectEnable(user.id, item.ownerId)"
+                  >mdi-close-thick</v-icon
+                ></v-col
               >
             </v-row>
             <v-row>
               <v-col>
-                <p class="subheading font-weight-bold text-h4" @click="goToRepositoryDetail(item.id, item.name)">
-                  {{ item.name }}
-                </p></v-col
+                <div @click="goToRepositoryDetail(item.id, item.name)">
+                  <div class="subheading font-weight-bold text-h4">
+                    {{ item.name }}
+                  </div>
+
+                  <div style="text-align: left" class="mt-8 ml-2">
+                    Owner: {{ item.ownerName }}
+                  </div>
+                </div></v-col
               >
             </v-row>
           </v-card>
@@ -38,11 +49,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getProjects } from "@/apis/projects.ts";
+import { getProjects, deleteProject } from "@/apis/projects.ts";
 export default Vue.extend({
-  props: ["searchedName", "tableData"],
+  props: ["searchedName", "tableData", "user"],
   data() {
     return {
+      dialog: false,
       headers: [
         {
           text: "ProjectName",
@@ -57,11 +69,16 @@ export default Vue.extend({
   },
   methods: {
     goToRepositoryDetail(id: string, projectName: string) {
-      console.log(projectName);
       this.$router.push(`/repository/${id}?projectName=${projectName}`);
     },
-    TEST(item: any) {
-      console.log(item.id);
+
+    isDeleteProjectEnable(userId: string, owner: string) {
+      return owner === userId;
+    },
+
+    removeProject(projectId: string, userId: string) {
+      this.$emit("deleteProject", projectId, userId);
+      this.dialog = false;
     },
   },
 });
