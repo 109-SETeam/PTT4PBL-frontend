@@ -25,6 +25,13 @@ export const getProject = (ProjectId: number | null, UserId: string | null) => {
     }).then(response => {
         return response;
     });
+
+export const deleteProject = (projectId: number, userId: string) => {
+    return axios.delete(`${host}/project/${projectId}/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${store.getters.token}`
+        }
+    })
 }
 
 export const addProject = (ProjectName: string | null, UserId: string | null) => {

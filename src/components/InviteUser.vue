@@ -22,11 +22,6 @@
                 item-value="id"
                 label="User Name"
               >
-                <!-- <template v-slot:selection="data">
-                  <v-avatar left>
-                    <v-img :src="data.AvatarUrl"></v-img>
-                  </v-avatar>
-                </template> -->
                 <template v-slot:item="data">
                   <template v-if="typeof data.item !== 'object'">
                     <v-list-item-content

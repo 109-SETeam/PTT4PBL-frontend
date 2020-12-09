@@ -30,7 +30,7 @@
         <v-divider></v-divider>
         <v-row>
           <v-col lg="12">
-            <DataTable :searchedName="searchedName" :tableData="projects" />
+            <DataTable :searchedName="searchedName" :tableData="projects" :user="user" @deleteProject="removeProject" />
           </v-col>
         </v-row>
       </v-col>
@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { addProject, getProjects } from "@/apis/projects.ts";
+import { addProject, getProjects, deleteProject } from "@/apis/projects.ts";
 import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
@@ -67,7 +67,7 @@ export default Vue.extend({
       dialog: false,
       searchedName: "",
       projects: [] as any,
-      msg: "",
+      msg: "" as any,
       snackBar: false,
       snackBarTimeout: 3000,
       snackBarColor: "",
@@ -91,6 +91,17 @@ export default Vue.extend({
     },
     ChangeInput(searchedName: any) {
       this.searchedName = searchedName;
+    },
+
+    async removeProject(projectId: any, userId: any) {
+      const result = (await deleteProject(projectId, userId))
+
+      this.msg = result["data"].message;
+      this.dialog = false;
+      this.snackBar = true;
+      this.snackBarColor = result["data"].success ? "green" : "red";
+
+      this.projects = (await getProjects(this.user.id))["data"];
     },
   },
 });
