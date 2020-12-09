@@ -3,6 +3,7 @@
     <v-tabs>
       <v-tab>Open</v-tab>
       <v-tab>Close</v-tab>
+      <!-- open -->
       <v-tab-item>
         <v-data-table
           :loading="loading"
@@ -11,20 +12,29 @@
           :headers="headers"
           :items="items.openIssues"
           class="elevation-1"
-        ></v-data-table>
+        >
+        <template v-slot:[`item.title`]="{ item }">
+                <a :href="item.html_url" target="aboutblank">{{item.title}}</a>
+          </template>
+        </v-data-table>
       </v-tab-item>
+      <!-- closed -->
       <v-tab-item>
         <v-card-text
           >平均Issue處理時間：{{ items.averageDealwithIssueTime }}</v-card-text
         >
         <v-data-table
-          :loading= "loading"
+          :loading="loading"
           loading-text="Loading... Please wait"
           dense
           :headers="headers"
           :items="items.closeIssues"
           class="elevation-1"
-        ></v-data-table>
+        >
+          <template v-slot:[`item.title`]="{ item }">
+                <a :href="item.html_url" target="aboutblank">{{item.title}}</a>
+          </template>
+        </v-data-table>
       </v-tab-item>
     </v-tabs>
   </div>
@@ -42,8 +52,8 @@ export default Vue.extend({
     return {
       loading: true,
       headers: [
-        { text: "No.", align: "start", value: "number" },
-        { text: "Title", value: "title" },
+        { text: "No.", align: "start", value: "number",width:"4%" },
+        { text: "Title", value: "title",width:"65%"},
         { text: "CreatedTime", value: "created_at" },
         { text: "ClosedTime", value: "closed_at" },
       ],
