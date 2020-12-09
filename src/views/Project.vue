@@ -80,7 +80,6 @@ export default Vue.extend({
   },
   methods: {
     async addproject(inputData: any) {
-      //TODO：這邊要做新增專案成功及失敗的處理，成功：關閉dialog並顯示新增成功，失敗：保留dialog，顯示新增失敗
       const result = await addProject(inputData, this.user.id);
 
       this.msg = result["data"].message;
