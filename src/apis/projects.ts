@@ -36,10 +36,9 @@ export const deleteProject = (projectId: number, userId: string) => {
     })
 }
 
-export const addProject = (ProjectName: string | null, UserId: string | null) => {
-    return axios.post(`${host}/project`, {
+export const addProject = (ProjectName: string | null) => {
+    return axios.post(`${host}/project/add`, {
         ProjectName: ProjectName,
-        UserId: UserId
     }, {
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',

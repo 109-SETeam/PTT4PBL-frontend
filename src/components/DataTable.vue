@@ -30,9 +30,9 @@
             <v-row>
               <v-col>
                 <div @click="goToRepositoryDetail(item.id, item.name)">
-                  <div class="subheading font-weight-bold text-h4">
+                  <a class="subheading font-weight-bold text-h4">
                     {{ item.name }}
-                  </div>
+                  </a>
                   <div style="text-align: left" class="mt-8 ml-2">
                     Owner: {{ item.ownerName }}
                   </div>
@@ -68,7 +68,7 @@ export default Vue.extend({
   },
   methods: {
     goToRepositoryDetail(id: string, projectName: string) {
-      this.$router.push(`/repository/${id}?projectName=${projectName}`);
+      this.$router.push(`/project/${id}`);
     },
 
     isDeleteProjectEnable(userId: string, owner: string) {
