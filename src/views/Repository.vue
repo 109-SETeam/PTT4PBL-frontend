@@ -171,7 +171,7 @@ export default Vue.extend({
       this.repositories = (await getRepository(this.projectId))["data"];
     },
     async getProjectName() {
-      this.projectName = (await getProject(Number(this.projectId), this.user.id))["data"].name;
+      this.projectName = (await getProject(Number(this.projectId)))["data"].name;
     },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;

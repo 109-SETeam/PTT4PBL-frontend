@@ -14,11 +14,8 @@ export const getProjects: any = () => {
     })
 }
 
-export const getProject = (ProjectId: number | null, UserId: string | null) => {
-    return axios.post(`${host}/project/get`, {
-        ProjectId: ProjectId,
-        UserId: UserId
-    }, {
+export const getProject = (projectId: number | null) => {
+    return axios.get(`${host}/project/${projectId}`, {
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             Authorization: `Bearer ${store.getters.token}`
@@ -36,9 +33,9 @@ export const deleteProject = (projectId: number, userId: string) => {
     })
 }
 
-export const addProject = (ProjectName: string | null) => {
+export const addProject = (projectName: string | null) => {
     return axios.post(`${host}/project/add`, {
-        ProjectName: ProjectName,
+        ProjectName: projectName,
     }, {
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -50,11 +47,11 @@ export const addProject = (ProjectName: string | null) => {
 }
 
 
-export const editProject = (ProjectId: number, ProjectName: string | (string | null)[], UserId: string) => {
+export const editProject = (projectId: number, projectName: string | (string | null)[], userId: string) => {
     return axios.post(`${host}/project/edit`, {
-        ProjectId: ProjectId,
-        ProjectName: ProjectName,
-        UserId: UserId
+        ProjectId: projectId,
+        ProjectName: projectName,
+        UserId: userId
     },{
         headers:{
             'Content-Type': 'application/json; charset=UTF-8',
