@@ -6,6 +6,7 @@
         <UserInfo
         :avatarUrl=user.avatarUrl
         :name=user.name
+        @save="saveUserName($event)"
         />
       </v-col>
       <!-- 左邊個人資訊 end -->
@@ -79,6 +80,9 @@ export default Vue.extend({
     this.user = (await getUserInfo())["data"];
   },
   methods: {
+    async saveUserName(newUserName: string) {
+      console.log(newUserName);
+    },
     async addproject(inputData: any) {
       const result = await addProject(inputData);
 
