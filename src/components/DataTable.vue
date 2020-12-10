@@ -33,7 +33,6 @@
                   <div class="subheading font-weight-bold text-h4">
                     {{ item.name }}
                   </div>
-
                   <div style="text-align: left" class="mt-8 ml-2">
                     Owner: {{ item.ownerName }}
                   </div>

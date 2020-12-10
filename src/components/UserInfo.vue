@@ -1,6 +1,5 @@
 <template>
   <v-card max-width="374" height="700" class="pt-5">
-    <v-img class="mb-2" height="250" contain :src="avatarUrl"></v-img>
     <v-card-text>
       <v-avatar size="192">
       <img class="mb-2" height="250" contain :src="avatarUrl">
