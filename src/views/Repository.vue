@@ -151,8 +151,7 @@ export default Vue.extend({
       console.log("asd");
       const result = await editProject(
         Number(this.projectId),
-        this.projectName,
-        this.user.id
+        this.projectName
       );
       this.msg = result["data"].message;
       this.snackBar = true;

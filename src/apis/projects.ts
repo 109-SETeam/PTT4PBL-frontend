@@ -47,11 +47,10 @@ export const addProject = (projectName: string | null) => {
 }
 
 
-export const editProject = (projectId: number, projectName: string | (string | null)[], userId: string) => {
+export const editProject = (projectId: number, projectName: string | (string | null)[]) => {
     return axios.post(`${host}/project/edit`, {
         ProjectId: projectId,
-        ProjectName: projectName,
-        UserId: userId
+        ProjectName: projectName
     },{
         headers:{
             'Content-Type': 'application/json; charset=UTF-8',
