@@ -128,7 +128,7 @@ export default Vue.extend({
       repositories: [],
       dialog: false,
       projectId: this.$route.params.id,
-      projectName: this.$route.query.projectName,
+      projectName: "",
       url: "",
       msg: "",
       snackBar: false,
@@ -143,24 +143,20 @@ export default Vue.extend({
     this.user = (await getUserInfo())["data"];
     this.repositories = (await getRepository(this.projectId))["data"];
     this.isOwner = (await isCurrentUserProjectOwner(this.projectId))["data"].success;
+    await this.getProjectName();
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
     async save() {
       console.log("asd");
-      let result = await editProject(
+      const result = await editProject(
         Number(this.projectId),
-        this.projectName,
-        this.user.id
+        this.projectName
       );
       this.msg = result["data"].message;
       this.snackBar = true;
       this.snackBarColor = result["data"].success ? "green" : "red";
-
-      result = await getProject(Number(this.projectId), this.user.id);
-      console.log(result);
-      this.projectName = result["data"].name;
-
+      await this.getProjectName();
     },
     async add(url: any) {
       const result = await addRepo(Number(this.projectId), url);
@@ -172,6 +168,9 @@ export default Vue.extend({
     },
     async getResitories() {
       this.repositories = (await getRepository(this.projectId))["data"];
+    },
+    async getProjectName() {
+      this.projectName = (await getProject(Number(this.projectId)))["data"].name;
     },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;

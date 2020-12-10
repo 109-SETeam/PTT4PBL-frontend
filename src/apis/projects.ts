@@ -14,17 +14,16 @@ export const getProjects: any = () => {
     })
 }
 
-export const getProject = (ProjectId: number | null, UserId: string | null) => {
-    return axios.post(`${host}/project/get`, {
-        ProjectId: ProjectId,
-        UserId: UserId
-    }, {
+export const getProject = (projectId: number | null) => {
+    return axios.get(`${host}/project/${projectId}`, {
         headers: {
-            'Content-Type': 'application/json; charset=UTF-8'
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${store.getters.token}`
         }
     }).then(response => {
         return response;
     });
+}
 
 export const deleteProject = (projectId: number, userId: string) => {
     return axios.delete(`${host}/project/${projectId}/${userId}`, {
@@ -34,13 +33,13 @@ export const deleteProject = (projectId: number, userId: string) => {
     })
 }
 
-export const addProject = (ProjectName: string | null, UserId: string | null) => {
-    return axios.post(`${host}/project`, {
-        ProjectName: ProjectName,
-        UserId: UserId
+export const addProject = (projectName: string | null) => {
+    return axios.post(`${host}/project/add`, {
+        ProjectName: projectName,
     }, {
         headers: {
-            'Content-Type': 'application/json; charset=UTF-8'
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${store.getters.token}`
         }
     }).then(response => {
         return response;
@@ -48,14 +47,14 @@ export const addProject = (ProjectName: string | null, UserId: string | null) =>
 }
 
 
-export const editProject = (ProjectId: number, ProjectName: string | (string | null)[], UserId: string) => {
+export const editProject = (projectId: number, projectName: string | (string | null)[]) => {
     return axios.post(`${host}/project/edit`, {
-        ProjectId: ProjectId,
-        ProjectName: ProjectName,
-        UserId: UserId
+        ProjectId: projectId,
+        ProjectName: projectName
     },{
         headers:{
-            'Content-Type': 'application/json; charset=UTF-8'
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${store.getters.token}`
         }
     }).then(response => {
         return response;

@@ -80,7 +80,7 @@ export default Vue.extend({
   },
   methods: {
     async addproject(inputData: any) {
-      const result = await addProject(inputData, this.user.id);
+      const result = await addProject(inputData);
 
       this.msg = result["data"].message;
       this.dialog = false;
