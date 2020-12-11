@@ -13,6 +13,7 @@ export const getContributeInfo = (repoId: number | null) => {
             Authorization: `Bearer ${store.getters.token}`
         }
     });
+}
 
 export const getIssueInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/issue/${repoId}`, {
