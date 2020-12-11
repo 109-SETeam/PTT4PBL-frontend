@@ -25,3 +25,19 @@ export const isCurrentUserProjectOwner: any = (projectId: string) => {
         }
     })
 }
+
+export const getAllUser: any = () => {
+    return axios.get(`${host}/user/admin`, {
+        headers: {
+            Authorization: `Bearer ${store.getters.token}`
+        }
+    })
+}
+
+export const deleteUserByAccount: any = (account: string) => {
+    return axios.delete(`${host}/user/?account=${account}`, {
+        headers: {
+            Authorization: `Bearer ${store.getters.token}`
+        }
+    })
+}

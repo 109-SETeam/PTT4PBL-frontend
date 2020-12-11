@@ -7,7 +7,7 @@ import GithubAuthorize from "@/components/GithubAuthorize.vue"
 import RepoInfo from '@/views/RepoInfo.vue'
 import NotFound from '@/views/NotFound.vue'
 import store from '@/store';
-
+import Manage from '@/views/Manage.vue'
 Vue.use(VueRouter);
 
 const checkAuth = (isNeedAuth: boolean, isNotMatchTo: string, next: NavigationGuardNext<Vue>) => {
@@ -47,6 +47,11 @@ const routes: Array<RouteConfig> = [
     path: "*",
     name: "NotFound",
     component: NotFound
+  },
+  {
+    path: "/admin/manage",
+    name: "Manage",
+    component: Manage
   }
 ];
 
