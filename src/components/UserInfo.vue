@@ -6,11 +6,11 @@
     </v-avatar>
       <v-col md="12"
         ><v-row class="d-flex justify-center">
-          <v-edit-dialog :return-value.sync="name">
-            <div class="text-h5">{{ name }}</div>
+          <v-edit-dialog :return-value.sync="userName" @save="save">
+            <div class="text-h5">{{ userName }}</div>
             <template v-slot:input>
               <v-text-field
-                v-model="name"
+                v-model="userName"
                 :rules="[max25chars]"
                 label="Edit Name"
               ></v-text-field>
@@ -32,10 +32,22 @@ export default Vue.extend({
   },
   data() {
     return {
+      userName: this.name,
       max25chars: function (v: any) {
         return v.length <= 25 || "Input too long!";
       },
     };
   },
+  methods: {
+    save(){
+      this.$emit("save", this.userName);
+    }
+  },
+  watch: {
+    name(newVal){
+      this.userName = newVal;
+      console.log(newVal);
+    }
+  }
 });
 </script>

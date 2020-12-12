@@ -18,6 +18,19 @@ export const getUserInfo = (): Promise<any> => {
     })
 }
 
+export const editUserName = (newUserName: string) => {
+    return axios.post(`${host}/user/edit`,{
+        Name: newUserName
+    }, {
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${store.getters.token}`
+        }
+    }).then(response => {
+        return response;
+    });
+}
+
 export const isCurrentUserProjectOwner: any = (projectId: string) => {
     return axios.get(`${host}/invitation/checkowner/${projectId}`, {
         headers: {
