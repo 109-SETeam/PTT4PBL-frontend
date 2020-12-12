@@ -1,10 +1,19 @@
 import router from '@/router';
 import axios from 'axios';
-import { authenticateGithubToken } from '../../apis/authorize'
+import { authenticateGithubToken, authenticateAdmin } from '../../apis/authorize'
 
 interface Auth {
     token: string | null
     oauthToken: string | null
+}
+
+const handleLoginResponse = (context: any, res: any): void => {
+    const token = res.data.token;
+    const oauthToken = res.data.oauthToken;
+    context.commit('setToken', token);
+    context.commit('setOauthToken', oauthToken);
+    axios.defaults.headers.common['Authorization'] = token;
+    router.push("/project");
 }
 
 const state: Auth = {
@@ -26,11 +35,23 @@ const actions = {
             context.commit('setToken', token);
             context.commit('setOauthToken', oauthToken);
             axios.defaults.headers.common['Authorization'] = token;
-            router.push('/project');
+            router.push("/project");
         }).catch((err) => {
             alert("系統發生錯誤！");
-            router.push('/');
         });
+    },
+    async loginByAdmin(context: any, data: { account: string, password: string }) {
+        await authenticateAdmin(data.account, data.password)
+            .then((res) => {
+                handleLoginResponse(context, res);
+            })
+            .catch((err) => {
+                if(err.response.status == 400){
+                    alert(err.response.data.detail);
+                }else{
+                    router.push("notfound");
+                }
+            });
     },
     logout(context: any) {
         context.commit('setToken', null);

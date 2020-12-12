@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import Login from "@/views/Login.vue"
+import AdminLogin from '@/views/AdminLogin.vue'
 import Project from "@/views/Project.vue"
 import Repository from "@/views/Repository.vue"
 import GithubAuthorize from "@/components/GithubAuthorize.vue"
@@ -26,6 +27,12 @@ const routes: Array<RouteConfig> = [
   {
     path: "/oauth-callback/github",
     component: GithubAuthorize
+  },
+  {
+    path: "/admin",
+    name: "AdminLogin",
+    component: AdminLogin,
+    beforeEnter: (to, from, next) => checkAuth(false, "Project", next)
   },
   {
     path: "/project",
