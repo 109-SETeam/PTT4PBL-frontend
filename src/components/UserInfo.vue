@@ -40,13 +40,13 @@ export default Vue.extend({
   },
   methods: {
     save(){
-      console.log(this.userName);
       this.$emit("save", this.userName);
     }
   },
   watch: {
     name(newVal){
       this.userName = newVal;
+      console.log(newVal);
     }
   }
 });

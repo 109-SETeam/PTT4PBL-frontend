@@ -148,7 +148,6 @@ export default Vue.extend({
   },
   methods: {
     async save() {
-      console.log("asd");
       const result = await editProject(
         Number(this.projectId),
         this.projectName

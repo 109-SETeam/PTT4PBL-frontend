@@ -54,7 +54,7 @@ import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
 import TableSearch from "@/components/TableSearch.vue";
-import { getUserInfo } from "@/apis/user"
+import { getUserInfo, editUserName } from "@/apis/user"
 
 export default Vue.extend({
   components: {
@@ -81,7 +81,15 @@ export default Vue.extend({
   },
   methods: {
     async saveUserName(newUserName: string) {
-      console.log(newUserName);
+      const result = await editUserName(newUserName);
+
+      this.msg = result["data"].message;
+      this.snackBar = true;
+      this.snackBarColor = result["data"].success ? "green" : "red";
+
+      this.user.name = "";
+      this.user.name = (await getUserInfo())["data"].name;
+      console.log(this.user.name);
     },
     async addproject(inputData: any) {
       const result = await addProject(inputData);
