@@ -68,11 +68,11 @@ export default Vue.extend({
 
   created() {
     this.getNotificationData();
-    setInterval(this.intermval, 5000);
+    setInterval(this.interval, 5000);
   },
 
   methods: {
-    intermval() {
+    interval() {
       this.getNotificationData();
     },
 
