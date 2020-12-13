@@ -17,7 +17,7 @@ export default Vue.extend({
         area: true,
       },
       chartData: {
-        columns: ["date", "numberOfRowsAdded", "numberOfRowsDeleted", "numberOfRows"],
+        columns: ["date", "numberOfRows", "numberOfRowsAdded", "numberOfRowsDeleted"],
         rows: [],
       },
     };

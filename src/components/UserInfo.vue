@@ -46,7 +46,6 @@ export default Vue.extend({
   watch: {
     name(newVal){
       this.userName = newVal;
-      console.log(newVal);
     }
   }
 });

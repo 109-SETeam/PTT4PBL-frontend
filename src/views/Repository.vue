@@ -63,9 +63,9 @@
                 <v-divider></v-divider>
               </template>
               <template v-slot:[`item.name`]="{ item }">
-                <div class="py-2">
+                <a class="py-2" @click="goToRepoInfo(item.id)">
                   {{ item.name }}
-                </div>
+                </a>
               </template>
               <template v-slot:[`item.action`]="{ item }" >
                 <div class="d-flex justify-end align-end">
@@ -125,7 +125,7 @@ export default Vue.extend({
         },
       ],
       user: { type: Object, id: "" },
-      repositories: [],
+      repositories: [{type: Object, id:"", name:"", test:""}],
       dialog: false,
       projectId: this.$route.params.id,
       projectName: "",
@@ -147,6 +147,9 @@ export default Vue.extend({
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
+    async goToRepoInfo(repoId: any){
+      this.$router.push(`/repoInfo/${repoId}`);
+    },
     async save() {
       const result = await editProject(
         Number(this.projectId),
