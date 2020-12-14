@@ -5,6 +5,7 @@
     sort-by="account"
     class="elevation-3 align-self-center"
     :search="search"
+    :custom-filter=filter
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -138,6 +139,9 @@ export default Vue.extend({
     },
   },
   methods: {
+    filter(value: any, search: string, item: any) {
+      return item.name.includes(search) || item.account.includes(search)
+    },
     // TODO
     editUser(item: any) {
       this.editedIndex = this.users.indexOf(item);
