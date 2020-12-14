@@ -5,7 +5,7 @@
     sort-by="account"
     class="elevation-3 align-self-center"
     :search="search"
-    :custom-filter=filter
+    :custom-filter="filter"
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -19,6 +19,7 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
+        <!-- edit dialog  -->
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
             <v-card-title>
@@ -35,10 +36,13 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="6" lg="6">
-                    <v-text-field
+                    <v-select
                       v-model="editedItem.authority"
+                      :items="authorities"
                       label="Authority"
-                    ></v-text-field>
+                      return-object
+                      single-line
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="12">
                     <v-text-field
@@ -57,6 +61,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <!-- edit dialog end -->
         <v-dialog v-model="dialogDelete" max-width="550px">
           <v-card>
             <v-card-title class="headline" v-model="deleteUserName"
@@ -89,15 +94,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getAllUser, deleteUserByAccount } from "@/apis/user";
+import { getAllUser, deleteUserByAccount, editUserInfo } from "@/apis/user";
 
 export default Vue.extend({
-  props: ['users'],
+  props: ["users"],
   data() {
     return {
       search: "",
       dialog: false,
       dialogDelete: false,
+      authorities: ["Admin", "User"],
       headers: [
         {
           text: "Account (Id)",
@@ -140,7 +146,7 @@ export default Vue.extend({
   },
   methods: {
     filter(value: any, search: string, item: any) {
-      return item.name.includes(search) || item.account.includes(search)
+      return item.name.includes(search) || item.account.includes(search);
     },
     // TODO
     editUser(item: any) {
@@ -182,10 +188,47 @@ export default Vue.extend({
         this.editedIndex = -1;
       });
     },
-    // TODO
+    findDifferent(user: any, editedItem: any): any {
+      const newInfo = [] as any;
+      if (user.name !== editedItem.name) {
+        newInfo.push({
+          value: editedItem.name,
+          path: "/name",
+          op: "replace",
+        });
+      }
+      if (user.avatarUrl !== editedItem.avatarUrl) {
+        newInfo.push({
+          value: editedItem.avatarUrl,
+          path: "/avatarUrl",
+          op: "replace",
+        });
+      }
+      if (user.authority !== editedItem.authority) {
+        newInfo.push({
+          value: editedItem.authority,
+          path: "/authority",
+          op: "replace",
+        });
+      }
+      return newInfo;
+    },
     save() {
       if (this.editedIndex > -1) {
+        const user = this.users[this.editedIndex];
+        const newInfo = this.findDifferent(user, this.editedItem);
         Object.assign(this.users[this.editedIndex], this.editedItem);
+        editUserInfo(user.account, newInfo)
+          .then((response) => {
+            if (response.data.success) {
+              this.$emit("showMessage", response.data);
+              this.$emit("update");
+            }
+          })
+          .catch((err) => {
+            this.$emit("showMessage", err);
+            this.$emit("update");
+          });
       } else {
         this.users.push(this.editedItem);
       }
