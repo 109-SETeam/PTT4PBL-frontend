@@ -6,7 +6,7 @@ import store from '@/store';
 export const getCommitInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/commit/${repoId}`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     });
 }
@@ -14,7 +14,7 @@ export const getCommitInfo = (repoId: number | null) => {
 export const getCodebase = (repoId:number|null) =>{
     return axios.get(`${host}/repoInfo/codebase/${repoId}`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     });
 }
@@ -22,7 +22,7 @@ export const getCodebase = (repoId:number|null) =>{
 export const getContributeInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/contribute/${repoId}`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     });
 }
@@ -30,7 +30,7 @@ export const getContributeInfo = (repoId: number | null) => {
 export const getIssueInfo = (repoId: number | null) => {
     return axios.get(`${host}/repoInfo/issue/${repoId}`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     });
 }

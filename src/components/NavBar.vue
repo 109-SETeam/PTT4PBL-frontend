@@ -21,13 +21,13 @@ export default Vue.extend({
   },
   computed:{
       isAuth(){
-          return store.getters.isAuthenticated
+        return store.auth.isAuthenticated
       }
   },
   methods: {
     logout: () => {
-      store.dispatch("logout");
-    },
+      store.auth.logout();
+    }
   },
 });
 </script>

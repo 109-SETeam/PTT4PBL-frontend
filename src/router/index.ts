@@ -12,7 +12,7 @@ import Manage from '@/views/Manage.vue'
 Vue.use(VueRouter);
 
 const checkAuth = (isNeedAuth: boolean, isNotMatchTo: string, next: NavigationGuardNext<Vue>) => {
-  const isMatch = isNeedAuth ? store.getters.isAuthenticated : !store.getters.isAuthenticated;
+  const isMatch = isNeedAuth ? store.auth.isAuthenticated : !store.auth.isAuthenticated;
   if (isMatch) next()
   else next({ name: isNotMatchTo })
 }
@@ -32,7 +32,7 @@ const routes: Array<RouteConfig> = [
     path: "/admin",
     name: "AdminLogin",
     component: AdminLogin,
-    beforeEnter: (to, from, next) => checkAuth(false, "Project", next)
+    beforeEnter: (to, from, next) => checkAuth(false, "Manage", next)
   },
   {
     path: "/project",
@@ -43,12 +43,14 @@ const routes: Array<RouteConfig> = [
   {
     path: "/project/:id",
     name: "Repository",
-    component: Repository
+    component: Repository,
+    beforeEnter: (to, from, next) => checkAuth(true, "Login", next)
   },
   {
     path: "/repoinfo/:repoId",
     name: "RepoInfo",
-    component: RepoInfo
+    component: RepoInfo,
+    beforeEnter: (to, from, next) => checkAuth(true, "Login", next)
   },
   {
     path: "*",
@@ -58,7 +60,15 @@ const routes: Array<RouteConfig> = [
   {
     path: "/admin/manage",
     name: "Manage",
-    component: Manage
+    component: Manage,
+    beforeEnter: (to, from, next) => {
+      console.log(store.auth.getAuthority)
+      if(store.auth.isAuthenticated && store.auth.getAuthority == "Admin"){
+        next();
+      }else{
+        next({ name: "Login" });
+      }
+    }
   }
 ];
 

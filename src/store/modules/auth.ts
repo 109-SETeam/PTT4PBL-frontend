@@ -1,78 +1,67 @@
 import router from '@/router';
-import axios from 'axios';
 import { authenticateGithubToken, authenticateAdmin } from '../../apis/authorize'
+import { Mutation, State, Action, Getter } from 'vuex-simple';
 
-interface Auth {
-    token: string | null
-    oauthToken: string | null
-}
+export default class AuthModule {
+    @State()
+    private token: string | null = null;
+    @State()
+    private authority: string | null = null;
 
-const handleLoginResponse = (context: any, res: any): void => {
-    const token = res.data.token;
-    const oauthToken = res.data.oauthToken;
-    context.commit('setToken', token);
-    context.commit('setOauthToken', oauthToken);
-    axios.defaults.headers.common['Authorization'] = token;
-    router.push("/project");
-}
+    @Mutation()
+    private setToken(token: string | null) {
+        this.token = token
+    }
+    @Mutation()
+    private setAuthority(authority: string | null) {
+        this.authority = authority
+    }
 
-const state: Auth = {
-    token: null,
-    oauthToken: null
-};
+    @Getter()
+    public get isAuthenticated() {
+        return !!this.token;
+    }
+    @Getter()
+    public get getToken() {
+        return this.token;
+    }
+    @Getter()
+    public get getAuthority() {
+        return this.authority;
+    }
 
-const getters = {
-    isAuthenticated: (state: Auth) => !!state.token,
-    token: (state: Auth) => state.token,
-    oauthToken: (state: Auth) => state.oauthToken,
-};
-
-const actions = {
-    async login(context: any, githubCode: string) {
+    @Action()
+    public async login(githubCode: string) {
         authenticateGithubToken(githubCode).then((res) => {
-            const token = res.data.token;
-            const oauthToken = res.data.oauthToken;
-            context.commit('setToken', token);
-            context.commit('setOauthToken', oauthToken);
-            axios.defaults.headers.common['Authorization'] = token;
+            this.handleLoginResponse(res);
             router.push("/project");
         }).catch((err) => {
-            alert("系統發生錯誤！");
+            router.push("notfound");
         });
-    },
-    async loginByAdmin(context: any, data: { account: string, password: string }) {
+    }
+    @Action()
+    public async loginByAdmin(data: { account: string, password: string }) {
         await authenticateAdmin(data.account, data.password)
             .then((res) => {
-                handleLoginResponse(context, res);
+                this.handleLoginResponse(res);
+                router.push("/admin/manage");
             })
             .catch((err) => {
-                if(err.response.status == 400){
+                if (err.response.status == 400) {
                     alert(err.response.data.detail);
-                }else{
+                } else {
                     router.push("notfound");
                 }
             });
-    },
-    logout(context: any) {
-        context.commit('setToken', null);
-        context.commit('setOauthToken', null);
-        axios.defaults.headers.common['Authorization'] = null;
+    }
+    @Action()
+    public logout() {
+        this.setToken(null);
         router.push('/');
     }
-};
 
-const mutations = {
-    setToken(state: Auth, token: string) {
-        state.token = token
-    },
-    setOauthToken(state: Auth, oauthToken: string) {
-        state.oauthToken = oauthToken
+    private handleLoginResponse = (res: any): void => {
+        this.setToken(res.data.token);
+        this.setAuthority(res.data.authority)
     }
-};
-
-export default {
-    state,
-    getters,
-    actions,
-    mutations
-};
+}

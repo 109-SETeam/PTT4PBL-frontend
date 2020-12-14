@@ -5,7 +5,7 @@ import { host } from "../config/config"
 export const getUser = () => {
     return axios.get(`${host}/user`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     })
 }
@@ -13,7 +13,7 @@ export const getUser = () => {
 export const getUserInfo = (): Promise<any> => {
     return axios.get(`${host}/user`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     })
 }
@@ -24,7 +24,7 @@ export const editUserName = (newUserName: string) => {
     }, {
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     }).then(response => {
         return response;
@@ -34,7 +34,7 @@ export const editUserName = (newUserName: string) => {
 export const isCurrentUserProjectOwner: any = (projectId: string) => {
     return axios.get(`${host}/invitation/checkowner/${projectId}`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     })
 }
@@ -42,7 +42,7 @@ export const isCurrentUserProjectOwner: any = (projectId: string) => {
 export const getAllUser: any = () => {
     return axios.get(`${host}/user/admin`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     })
 }
@@ -50,7 +50,7 @@ export const getAllUser: any = () => {
 export const deleteUserByAccount: any = (account: string) => {
     return axios.delete(`${host}/user/?account=${account}`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     })
 }
