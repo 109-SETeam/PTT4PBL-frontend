@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height fluid class="align-center justify-center" >
+  <v-container fill-height fluid class="align-center justify-center">
     <v-progress-circular
       :size="50"
       color="primary"
@@ -10,16 +10,18 @@
 
 <script lang="ts">
 import router from "@/router";
-import store from "@/store";
+import store  from "@/store";
+import { useStore } from "vuex-simple";
+import AuthModule from '@/store/modules/auth';
 import Vue from "vue";
-import { mapActions } from "vuex";
+import { mapActions, Store } from "vuex";
 import { authenticateGithubToken } from "../apis/authorize";
 
 export default Vue.extend({
   mounted: () => {
     const query = router.currentRoute.query;
     const code = query.code.toString();
-    store.dispatch("login", code);
+    store.auth.login(code);
   },
 });
 </script>

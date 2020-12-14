@@ -46,8 +46,8 @@ export default Vue.extend({
     handleLogin(e: any) {
       if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
         this.isRoading = true;
-        store
-          .dispatch("loginByAdmin", {
+        store.auth
+          .loginByAdmin({
             account: this.account,
             password: this.password,
           })

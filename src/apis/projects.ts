@@ -5,7 +5,7 @@ import store from '@/store';
 export const getProjects: any = () => {
     return axios.get(`${host}/project/`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     }).then(function (response) {
         return response
@@ -18,7 +18,7 @@ export const getProject = (projectId: number | null) => {
     return axios.get(`${host}/project/${projectId}`, {
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     }).then(response => {
         return response;
@@ -28,7 +28,7 @@ export const getProject = (projectId: number | null) => {
 export const deleteProject = (projectId: number, userId: string) => {
     return axios.delete(`${host}/project/${projectId}/${userId}`, {
         headers: {
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     })
 }
@@ -39,7 +39,7 @@ export const addProject = (projectName: string | null) => {
     }, {
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     }).then(response => {
         return response;
@@ -54,7 +54,7 @@ export const editProject = (projectId: number, projectName: string | (string | n
     },{
         headers:{
             'Content-Type': 'application/json; charset=UTF-8',
-            Authorization: `Bearer ${store.getters.token}`
+            Authorization: `Bearer ${store.auth.getToken}`
         }
     }).then(response => {
         return response;
