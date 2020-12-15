@@ -54,3 +54,11 @@ export const deleteUserByAccount: any = (account: string) => {
         }
     })
 }
+
+export const editUserInfo = (account: string, newInfo: any) => {
+    return axios.patch(`${host}/user/${account}`, newInfo, {
+        headers: {
+            Authorization: `Bearer ${store.auth.getToken}`
+        }
+    })
+}
