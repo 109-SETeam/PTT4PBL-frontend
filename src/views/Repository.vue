@@ -22,7 +22,7 @@
               </template> </v-edit-dialog
           ></v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="isOwner">
           <v-col class="d-flex align-begin pt-1 ">
             <InviteUser
               vCardTitle="Invite User"
