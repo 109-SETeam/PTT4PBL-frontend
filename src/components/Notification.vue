@@ -56,7 +56,7 @@
 import Vue from "vue";
 import { getNotification, ReplyToInvitation } from "@/apis/notification.ts";
 import * as signalR from "@aspnet/signalr";
-import bus from '@/bus'
+import bus from '@/store/modules/bus'
 
 export default Vue.extend({
   data() {

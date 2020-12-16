@@ -55,7 +55,7 @@ import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
 import TableSearch from "@/components/TableSearch.vue";
 import { getUserInfo, editUserName } from "@/apis/user"
-import bus from '@/bus'
+import bus from '@/store/modules/bus'
 
 export default Vue.extend({
   components: {
