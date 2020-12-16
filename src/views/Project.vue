@@ -55,6 +55,7 @@ import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
 import TableSearch from "@/components/TableSearch.vue";
 import { getUserInfo, editUserName } from "@/apis/user"
+import bus from '@/bus'
 
 export default Vue.extend({
   components: {
@@ -76,10 +77,15 @@ export default Vue.extend({
     };
   },
   async created(){
-    this.projects = (await getProjects())["data"]
+    this.updateProject()
     this.user = (await getUserInfo())["data"];
+    bus.on('updateProject', this.updateProject)
   },
   methods: {
+    async updateProject() {
+      this.projects = (await getProjects())["data"]
+    },
+
     async saveUserName(newUserName: string) {
       const result = await editUserName(newUserName);
 
