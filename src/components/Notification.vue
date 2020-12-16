@@ -56,6 +56,7 @@
 import Vue from "vue";
 import { getNotification, ReplyToInvitation } from "@/apis/notification.ts";
 import * as signalR from "@aspnet/signalr";
+import bus from '@/store/modules/bus'
 
 export default Vue.extend({
   data() {
@@ -90,6 +91,7 @@ export default Vue.extend({
     accept(item: any) {
       ReplyToInvitation(item.id, true).then(() => {
         this.getNotificationData();
+        bus.emit('updateProject')
       });
     },
 
