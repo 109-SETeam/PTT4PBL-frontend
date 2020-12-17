@@ -56,27 +56,36 @@
 import Vue from "vue";
 import { getNotification, ReplyToInvitation } from "@/apis/notification.ts";
 import * as signalR from "@aspnet/signalr";
+import { host } from "../config/config";
+import store from "@/store";
 import bus from '@/store/modules/bus'
 
 export default Vue.extend({
   data() {
     return {
+      hubConnection: new signalR.HubConnectionBuilder()
+        .configureLogging(signalR.LogLevel.Debug)
+        .withUrl(`${host}/hub/notify`, {
+          accessTokenFactory: () => "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImExYTQ5M2E2LTZlNTQtNGM1Yi05NjA2LTZjNDZjN2M2MjhiOCIsIm9hdXRoIjoiYWM1YzljNGE3YmFmYzU5YmRlMGI2OWQyZDlmMzZmNTM1NmNhZWNlYiIsInJvbGVzIjoiQWRtaW4iLCJuYmYiOjE2MDgwMTQzMDksImV4cCI6MTYwODIzMDMwOSwiaWF0IjoxNjA4MDE0MzA5LCJpc3MiOiJKd3RBdXRoIn0.o1JBIssvTERjYI3Ok3S2HBjgp59ylhCNgSlcOjECdFg"
+        })
+        .build(),
       hasMessage: false,
       subtitleText: "invite you to join：",
       items: [] as any,
+      userAccount: store.auth.getUserAccount
     };
   },
 
   created() {
-    this.getNotificationData();
-    setInterval(this.interval, 5000);
+    this.connectHub();
+    this.lisentNotification();
+  },
+
+  beforeDestroy(){
+    this.unsubscribeNotification();
   },
 
   methods: {
-    interval() {
-      this.getNotificationData();
-    },
-
     getNotificationData() {
       getNotification().then((res) => {
         this.items = res.data;
@@ -87,16 +96,37 @@ export default Vue.extend({
         }
       });
     },
-
+    
     accept(item: any) {
       ReplyToInvitation(item.id, true).then(() => {
         this.getNotificationData();
         bus.emit('updateProject')
       });
     },
-
+    
     reject(item: any) {
       ReplyToInvitation(item.id, false).then(() => {
+        this.getNotificationData();
+      });
+    },
+
+    connectHub() {
+      this.hubConnection.start().then(() => {
+        this.subscribeNotification();
+        console.log("connect hub success!");
+      });
+    },
+
+    subscribeNotification() {
+      this.hubConnection.send("SubscribeNotification", this.userAccount);
+    },
+
+    unsubscribeNotification() {
+      this.hubConnection.send("UnsubscribeNotification", this.userAccount);
+    },
+
+    lisentNotification() {
+      this.hubConnection.on("ReceiveNotification", () => {
         this.getNotificationData();
       });
     },
