@@ -7,6 +7,8 @@ export default class AuthModule {
     private token: string | null = null;
     @State()
     private authority: string | null = null;
+    @State()
+    private userAccount: string | null = null;
 
     @Mutation()
     private setToken(token: string | null) {
@@ -15,6 +17,10 @@ export default class AuthModule {
     @Mutation()
     private setAuthority(authority: string | null) {
         this.authority = authority
+    }
+    @Mutation()
+    private setUserAccount(account: string | null) {
+        this.userAccount = account
     }
 
     @Getter()
@@ -28,6 +34,10 @@ export default class AuthModule {
     @Getter()
     public get getAuthority() {
         return this.authority;
+    }
+    @Getter()
+    public get getUserAccount() {
+        return this.userAccount;
     }
 
     @Action()
@@ -57,11 +67,14 @@ export default class AuthModule {
     @Action()
     public logout() {
         this.setToken(null);
+        this.setAuthority(null);
+        this.setUserAccount(null);
         router.push('/');
     }
 
     private handleLoginResponse = (res: any): void => {
         this.setToken(res.data.token);
-        this.setAuthority(res.data.authority)
+        this.setAuthority(res.data.authority);
+        this.setUserAccount(res.data.userAccount);
     }
 }
