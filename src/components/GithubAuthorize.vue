@@ -22,6 +22,6 @@ export default Vue.extend({
     const query = router.currentRoute.query;
     const code = query.code.toString();
     store.auth.login(code);
-  },
+  }
 });
 </script>
