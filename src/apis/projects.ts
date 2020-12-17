@@ -3,6 +3,7 @@ import { host } from "@/config/config"
 import store from '@/store';
 
 export const getProjects: any = () => {
+    console.log(store.auth.getToken);
     return axios.get(`${host}/project/`, {
         headers: {
             Authorization: `Bearer ${store.auth.getToken}`
@@ -23,6 +24,14 @@ export const getProject = (projectId: number | null) => {
     }).then(response => {
         return response;
     });
+}
+
+export const getProjectMember = (projectId: number) => {
+    return axios.get(`${host}/project/member/${projectId}`, {
+        headers: {
+            Authorization: `Bearer ${store.auth.getToken}`
+        }
+    })
 }
 
 export const deleteProject = (projectId: number, userId: string) => {

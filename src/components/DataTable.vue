@@ -45,11 +45,16 @@
                   <a class="subheading font-weight-bold text-h4">
                     {{ item.name }}
                   </a>
-                  <div style="text-align: left" class="mt-8 ml-2">
+                  <div style="text-align: center" class="mt-8 ml-2">
                     Owner: {{ item.ownerName }}
                   </div>
                 </div></v-col
               >
+            </v-row>
+            <v-row>
+              <v-col>
+                <ProjectMemberTable :projectOwnerId="item.ownerId" :projectOwner="item.ownerName" :projectId="item.id" />
+              </v-col>
             </v-row>
           </v-card>
         </v-col>
@@ -61,7 +66,12 @@
 <script lang="ts">
 import Vue from "vue";
 import { getProjects, deleteProject } from "@/apis/projects.ts";
+import ProjectMemberTable from "@/components/ProjectMemberTable.vue";
+
 export default Vue.extend({
+  components:{
+    ProjectMemberTable
+  },
   props: ["searchedName", "tableData", "user"],
   data() {
     return {
