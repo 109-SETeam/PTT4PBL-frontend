@@ -22,6 +22,14 @@
                 item-value="id"
                 label="User Name"
               >
+                <template v-slot:selection="data">
+                  <v-avatar left>
+                    <v-img :src="data.item.avatarUrl"></v-img>
+                  </v-avatar>
+                  <v-sheet class="ml-4">
+                    {{ data.item.name }}
+                  </v-sheet>
+                </template>
                 <template v-slot:item="data">
                   <template v-if="typeof data.item !== 'object'">
                     <v-list-item-content
@@ -46,7 +54,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="dialog = false"> CANCEL </v-btn>
+        <v-btn color="blue darken-1" text @click="dialog = false">
+          CANCEL
+        </v-btn>
         <v-btn color="blue darken-1" text @click="add"> INVITE </v-btn>
       </v-card-actions>
     </v-card>

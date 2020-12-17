@@ -8,7 +8,7 @@
       <!-- 左邊個人資訊 end -->
       <v-col lg="6">
         <v-row>
-          <v-col lg="4" style="text-align: left">
+          <v-col style="text-align: left">
             <v-edit-dialog 
             @save="save"
             :return-value.sync="projectName"
@@ -22,7 +22,7 @@
               </template> </v-edit-dialog
           ></v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="isOwner">
           <v-col class="d-flex align-begin pt-1 ">
             <InviteUser
               vCardTitle="Invite User"
