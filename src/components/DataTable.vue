@@ -53,7 +53,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <ProjectMemberTable :projectOwnerId="item.ownerId" :projectOwner="item.ownerName" :projectId="item.id" />
+                <ProjectMemberTable :projectOwnerId="item.ownerId" :projectOwnerName="item.ownerName" :projectId="item.id" />
               </v-col>
             </v-row>
           </v-card>
