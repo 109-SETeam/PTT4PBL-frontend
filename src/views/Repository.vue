@@ -58,7 +58,7 @@
                   </v-col>
                 </v-row>
                 <v-divider></v-divider>
-                <v-dialog v-model="dialogDelete" max-width="60%">
+                <v-dialog v-model="dialogDelete" max-width="30%">
                   <v-card>
                     <v-card-title class="headline"
                       >Are you sure you want to delete?</v-card-title
@@ -139,7 +139,7 @@ export default Vue.extend({
       user: { type: Object, id: "" },
       repositories: [{ type: Object, id: "", name: "", test: "" }],
       dialog: false,
-      projectId: this.$route.params.id,
+      projectId: this.$route.params.projectId,
       projectName: "",
       url: "",
       msg: "",
@@ -164,7 +164,7 @@ export default Vue.extend({
   },
   methods: {
     async goToRepoInfo(repoId: any) {
-      this.$router.push(`/repoInfo/${repoId}`);
+      this.$router.push({name: "RepoInfo", params: {repoId: repoId}});
     },
     async save() {
       const result = await editProject(
@@ -213,8 +213,7 @@ export default Vue.extend({
     deleteCancel(){
       this.dialogDelete = false;
       this.wantToDeleteRepoId = -1;
-    }
-    ,
+    },
     async send(applicantId: any) {
       const result = await sendInvitation(applicantId, Number(this.projectId));
       this.dialog = false;
@@ -222,7 +221,6 @@ export default Vue.extend({
       this.snackBar = true;
       this.snackBarColor = result["data"].success ? "green" : "red";
     },
-
     async clickInvatation(projectId: number) {
       invite(Number(this.projectId)).then((res) => {
         this.userAccounts = res.data;
