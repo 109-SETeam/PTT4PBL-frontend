@@ -95,7 +95,6 @@ export default Vue.extend({
 
       this.user.name = "";
       this.user.name = (await getUserInfo())["data"].name;
-      console.log(this.user.name);
     },
     async addproject(inputData: any) {
       const result = await addProject(inputData);
