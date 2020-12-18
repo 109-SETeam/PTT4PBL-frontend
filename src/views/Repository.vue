@@ -9,10 +9,7 @@
       <v-col lg="6">
         <v-row>
           <v-col style="text-align: left">
-            <v-edit-dialog 
-            @save="save"
-            :return-value.sync="projectName"
-            >
+            <v-edit-dialog @save="save" :return-value.sync="projectName">
               <div class="text-h3">{{ projectName }}</div>
               <template v-slot:input>
                 <v-text-field
@@ -23,7 +20,7 @@
           ></v-col>
         </v-row>
         <v-row v-if="isOwner">
-          <v-col class="d-flex align-begin pt-1 ">
+          <v-col class="d-flex align-begin pt-1">
             <InviteUser
               vCardTitle="Invite User"
               vTextLabel="User Name"
@@ -35,7 +32,7 @@
         </v-row>
         <v-divider></v-divider>
         <v-row>
-          <v-col >
+          <v-col>
             <v-data-table
               :headers="headers"
               :items="repositories"
@@ -61,18 +58,35 @@
                   </v-col>
                 </v-row>
                 <v-divider></v-divider>
+                <v-dialog v-model="dialogDelete" max-width="60%">
+                  <v-card>
+                    <v-card-title class="headline"
+                      >Are you sure you want to delete?</v-card-title
+                    >
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="deleteCancel()"
+                        >Cancel</v-btn
+                      >
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="deleteConfirm()"
+                        >OK</v-btn
+                      >
+                      <v-spacer></v-spacer>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </template>
               <template v-slot:[`item.name`]="{ item }">
                 <a class="py-2" @click="goToRepoInfo(item.id)">
                   {{ item.name }}
                 </a>
               </template>
-              <template v-slot:[`item.action`]="{ item }" >
+              <template v-slot:[`item.action`]="{ item }">
                 <div class="d-flex justify-end align-end">
-                <v-icon
-                @click="deleteRepo(item.id)">
-                  mdi-delete
-                </v-icon>
+                  <v-icon @click="deleteRepo(item.id)"> mdi-delete </v-icon>
                 </div>
               </template>
             </v-data-table>
@@ -94,7 +108,7 @@
 import Vue from "vue";
 import router from "@/router";
 import { editProject, getProject } from "@/apis/projects";
-import { addRepo, getRepository,deleteRepo } from "@/apis/repository.ts";
+import { addRepo, getRepository, deleteRepo } from "@/apis/repository.ts";
 import { getUserInfo, isCurrentUserProjectOwner } from "@/apis/user";
 import UserInfo from "@/components/UserInfo.vue";
 import DataTable from "@/components/DataTable.vue";
@@ -125,7 +139,7 @@ export default Vue.extend({
         },
       ],
       user: { type: Object, id: "" },
-      repositories: [{type: Object, id:"", name:"", test:""}],
+      repositories: [{ type: Object, id: "", name: "", test: "" }],
       dialog: false,
       projectId: this.$route.params.id,
       projectName: "",
@@ -137,17 +151,21 @@ export default Vue.extend({
       isOwner: false,
       userAccounts: [],
       searchbarLength: 7,
+      dialogDelete :false,
+      wantToDeleteRepoId:-1, 
     };
   },
   async created() {
     this.user = (await getUserInfo())["data"];
     this.repositories = (await getRepository(this.projectId))["data"];
-    this.isOwner = (await isCurrentUserProjectOwner(this.projectId))["data"].success;
+    this.isOwner = (await isCurrentUserProjectOwner(this.projectId))[
+      "data"
+    ].success;
     await this.getProjectName();
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
-    async goToRepoInfo(repoId: any){
+    async goToRepoInfo(repoId: any) {
       this.$router.push(`/repoInfo/${repoId}`);
     },
     async save() {
@@ -172,21 +190,33 @@ export default Vue.extend({
       this.repositories = (await getRepository(this.projectId))["data"];
     },
     async getProjectName() {
-      this.projectName = (await getProject(Number(this.projectId)))["data"].name;
+      this.projectName = (await getProject(Number(this.projectId)))[
+        "data"
+      ].name;
     },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;
     },
 
-    async deleteRepo(repoId:any){
-      const result = await deleteRepo(this.projectId,repoId);
+    deleteRepo(repoId: any) {
+      this.dialogDelete = true;
+      this.wantToDeleteRepoId = repoId;
+    },
+
+    async deleteConfirm(){
+      const result = await deleteRepo(this.projectId, this.wantToDeleteRepoId);
+      this.dialogDelete = false;
+      this.wantToDeleteRepoId = -1;
       this.msg = result["data"].message;
-      this.dialog = false;
       this.snackBar = true;
       this.snackBarColor = result["data"].success ? "green" : "red";
       await this.getResitories();
     },
-
+    deleteCancel(){
+      this.dialogDelete = false;
+      this.wantToDeleteRepoId = -1;
+    }
+    ,
     async send(applicantId: any) {
       const result = await sendInvitation(applicantId, Number(this.projectId));
       this.dialog = false;
