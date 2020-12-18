@@ -92,7 +92,7 @@ export default Vue.extend({
   },
   methods: {
     goToRepositoryDetail(id: string, projectName: string) {
-      this.$router.push(`/project/${id}`);
+      this.$router.push({name: "Repository", params: {projectId: id}});
     },
 
     isDeleteProjectEnable(userId: string, owner: string) {
@@ -114,6 +114,6 @@ export default Vue.extend({
       this.$emit("deleteProject", this.deleteProjectId, this.deleteUserId);
       this.dialogDelete = false;
     },
-  },
+  }
 });
 </script>

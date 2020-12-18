@@ -41,13 +41,13 @@ const routes: Array<RouteConfig> = [
     beforeEnter: (to, from, next) => checkAuth(true, "Login", next)
   },
   {
-    path: "/project/:id",
+    path: "/project/:projectId",
     name: "Repository",
     component: Repository,
     beforeEnter: (to, from, next) => checkAuth(true, "Login", next)
   },
   {
-    path: "/repoinfo/:repoId",
+    path: "/project/:projectId/repoinfo/:repoId",
     name: "RepoInfo",
     component: RepoInfo,
     beforeEnter: (to, from, next) => checkAuth(true, "Login", next)
