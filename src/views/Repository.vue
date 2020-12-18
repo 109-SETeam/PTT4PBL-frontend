@@ -111,7 +111,6 @@ import { editProject, getProject } from "@/apis/projects";
 import { addRepo, getRepository, deleteRepo } from "@/apis/repository.ts";
 import { getUserInfo, isCurrentUserProjectOwner } from "@/apis/user";
 import UserInfo from "@/components/UserInfo.vue";
-import DataTable from "@/components/DataTable.vue";
 import NewItem from "@/components/NewItem.vue";
 import InviteUser from "@/components/InviteUser.vue";
 import TableSearch from "@/components/TableSearch.vue";
@@ -120,7 +119,6 @@ import { invite, sendInvitation } from "@/apis/notification";
 export default Vue.extend({
   components: {
     UserInfo,
-    // DataTable,
     NewItem,
     TableSearch,
     InviteUser,
