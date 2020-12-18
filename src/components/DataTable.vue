@@ -7,7 +7,6 @@
     hide-default-header
     style="background-color: rgba(237, 237, 237, 0)"
   >
-  
     <template v-slot:default="props">
       <v-dialog v-model="dialogDelete" max-width="30%">
             <v-card>
@@ -53,7 +52,12 @@
             </v-row>
             <v-row>
               <v-col>
-                <ProjectMemberTable :projectOwnerId="item.ownerId" :projectOwnerName="item.ownerName" :projectId="item.id" />
+                <ProjectMemberTable
+                  :projectOwnerId="item.ownerId"
+                  :projectOwnerName="item.ownerName"
+                  :projectId="item.id"
+                  :userId="user.id"
+                />
               </v-col>
             </v-row>
           </v-card>
@@ -69,8 +73,8 @@ import { getProjects, deleteProject } from "@/apis/projects.ts";
 import ProjectMemberTable from "@/components/ProjectMemberTable.vue";
 
 export default Vue.extend({
-  components:{
-    ProjectMemberTable
+  components: {
+    ProjectMemberTable,
   },
   props: ["searchedName", "tableData", "user"],
   data() {
@@ -86,8 +90,8 @@ export default Vue.extend({
         },
       ],
       dialogDelete: false,
-      deleteUserId:"",
-      deleteProjectId:"",
+      deleteUserId: "",
+      deleteProjectId: "",
     };
   },
   methods: {
@@ -99,17 +103,16 @@ export default Vue.extend({
       return owner === userId;
     },
 
-    closeDelete(){
-      this.deleteProjectId ="";
-      this.deleteUserId ="";
-      this.dialogDelete=false;
+    closeDelete() {
+      this.deleteProjectId = "";
+      this.deleteUserId = "";
+      this.dialogDelete = false;
     },
-    showDeleteDialog(projectId: string, userId: string){
+    showDeleteDialog(projectId: string, userId: string) {
       this.dialogDelete = true;
-      this.deleteUserId=userId;
-      this.deleteProjectId= projectId;
-    }
-    ,
+      this.deleteUserId = userId;
+      this.deleteProjectId = projectId;
+    },
     removeProject() {
       this.$emit("deleteProject", this.deleteProjectId, this.deleteUserId);
       this.dialogDelete = false;

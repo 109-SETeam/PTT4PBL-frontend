@@ -62,7 +62,6 @@ const routes: Array<RouteConfig> = [
     name: "Manage",
     component: Manage,
     beforeEnter: (to, from, next) => {
-      console.log(store.auth.getAuthority)
       if(store.auth.isAuthenticated && store.auth.getAuthority == "Admin"){
         next();
       }else{

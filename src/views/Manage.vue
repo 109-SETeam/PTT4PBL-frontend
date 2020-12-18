@@ -54,7 +54,6 @@ export default Vue.extend({
       this.snackBarColor = response.success ? "green" : "red";
       this.message = response.message
       this.snackBar = true
-      console.log(response)
       if (response.success) {
         this.update()
       }
