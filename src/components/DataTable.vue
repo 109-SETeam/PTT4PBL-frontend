@@ -7,7 +7,19 @@
     hide-default-header
     style="background-color: rgba(237, 237, 237, 0)"
   >
+  
     <template v-slot:default="props">
+      <v-dialog v-model="dialogDelete" max-width="60%">
+            <v-card>
+              <v-card-title class="headline">Are you sure you want to delete?</v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="removeProject">OK</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
       <v-row>
         <v-col
           v-for="item in props.items"
@@ -21,7 +33,7 @@
             <v-row>
               <v-col style="text-align: right" class="mr-3">
                 <v-icon
-                  @click="removeProject(item.id, user.id)"
+                  @click="showDeleteDialog(item.id, user.id)"
                   :disabled="!isDeleteProjectEnable(user.id, item.ownerId)"
                   >mdi-close-thick</v-icon
                 ></v-col
@@ -53,7 +65,6 @@ export default Vue.extend({
   props: ["searchedName", "tableData", "user"],
   data() {
     return {
-      dialog: false,
       headers: [
         {
           text: "ProjectName",
@@ -64,6 +75,9 @@ export default Vue.extend({
           value: "actions",
         },
       ],
+      dialogDelete: false,
+      deleteUserId:"",
+      deleteProjectId:"",
     };
   },
   methods: {
@@ -75,9 +89,20 @@ export default Vue.extend({
       return owner === userId;
     },
 
-    removeProject(projectId: string, userId: string) {
-      this.$emit("deleteProject", projectId, userId);
-      this.dialog = false;
+    closeDelete(){
+      this.deleteProjectId ="";
+      this.deleteUserId ="";
+      this.dialogDelete=false;
+    },
+    showDeleteDialog(projectId: string, userId: string){
+      this.dialogDelete = true;
+      this.deleteUserId=userId;
+      this.deleteProjectId= projectId;
+    }
+    ,
+    removeProject() {
+      this.$emit("deleteProject", this.deleteProjectId, this.deleteUserId);
+      this.dialogDelete = false;
     },
   },
 });
