@@ -77,6 +77,7 @@ export default Vue.extend({
   created() {
     this.connectHub();
     this.lisentNotification();
+    this.getNotificationData()
   },
 
   beforeDestroy(){
@@ -111,7 +112,6 @@ export default Vue.extend({
     connectHub() {
       this.hubConnection.start().then(() => {
         this.subscribeNotification();
-        console.log("connect hub success!");
       });
     },
 

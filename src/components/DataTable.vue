@@ -7,19 +7,22 @@
     hide-default-header
     style="background-color: rgba(237, 237, 237, 0)"
   >
-  
     <template v-slot:default="props">
       <v-dialog v-model="dialogDelete" max-width="60%">
-            <v-card>
-              <v-card-title class="headline">Are you sure you want to delete?</v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="removeProject">OK</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+        <v-card>
+          <v-card-title class="headline"
+            >Are you sure you want to delete?</v-card-title
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeDelete"
+              >Cancel</v-btn
+            >
+            <v-btn color="blue darken-1" text @click="removeProject">OK</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-row>
         <v-col
           v-for="item in props.items"
@@ -53,7 +56,12 @@
             </v-row>
             <v-row>
               <v-col>
-                <ProjectMemberTable :projectOwnerId="item.ownerId" :projectOwnerName="item.ownerName" :projectId="item.id" />
+                <ProjectMemberTable
+                  :projectOwnerId="item.ownerId"
+                  :projectOwnerName="item.ownerName"
+                  :projectId="item.id"
+                  :userId="user.id"
+                />
               </v-col>
             </v-row>
           </v-card>
@@ -69,8 +77,8 @@ import { getProjects, deleteProject } from "@/apis/projects.ts";
 import ProjectMemberTable from "@/components/ProjectMemberTable.vue";
 
 export default Vue.extend({
-  components:{
-    ProjectMemberTable
+  components: {
+    ProjectMemberTable,
   },
   props: ["searchedName", "tableData", "user"],
   data() {
@@ -86,8 +94,8 @@ export default Vue.extend({
         },
       ],
       dialogDelete: false,
-      deleteUserId:"",
-      deleteProjectId:"",
+      deleteUserId: "",
+      deleteProjectId: "",
     };
   },
   methods: {
@@ -99,17 +107,16 @@ export default Vue.extend({
       return owner === userId;
     },
 
-    closeDelete(){
-      this.deleteProjectId ="";
-      this.deleteUserId ="";
-      this.dialogDelete=false;
+    closeDelete() {
+      this.deleteProjectId = "";
+      this.deleteUserId = "";
+      this.dialogDelete = false;
     },
-    showDeleteDialog(projectId: string, userId: string){
+    showDeleteDialog(projectId: string, userId: string) {
       this.dialogDelete = true;
-      this.deleteUserId=userId;
-      this.deleteProjectId= projectId;
-    }
-    ,
+      this.deleteUserId = userId;
+      this.deleteProjectId = projectId;
+    },
     removeProject() {
       this.$emit("deleteProject", this.deleteProjectId, this.deleteUserId);
       this.dialogDelete = false;
