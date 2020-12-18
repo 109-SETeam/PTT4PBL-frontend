@@ -9,7 +9,7 @@
   >
   
     <template v-slot:default="props">
-      <v-dialog v-model="dialogDelete" max-width="60%">
+      <v-dialog v-model="dialogDelete" max-width="30%">
             <v-card>
               <v-card-title class="headline">Are you sure you want to delete?</v-card-title>
               <v-card-actions>

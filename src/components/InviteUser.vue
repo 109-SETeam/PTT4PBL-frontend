@@ -2,8 +2,7 @@
   <v-dialog v-model="dialog" max-width="60%">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="success" v-bind="attrs" v-on="on" @click="clearInputData"
-        ><v-icon style="background-color: #4caf50 !important">mdi-plus</v-icon
-        >INVITE</v-btn
+        ><v-icon>mdi-account-multiple-plus-outline</v-icon></v-btn
       >
     </template>
     <v-card>
