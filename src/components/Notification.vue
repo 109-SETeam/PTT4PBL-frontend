@@ -64,9 +64,7 @@ export default Vue.extend({
     return {
       hubConnection: new signalR.HubConnectionBuilder()
         .configureLogging(signalR.LogLevel.Debug)
-        .withUrl(`${host}/hub/notify`, {
-          accessTokenFactory: () => "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImExYTQ5M2E2LTZlNTQtNGM1Yi05NjA2LTZjNDZjN2M2MjhiOCIsIm9hdXRoIjoiYWM1YzljNGE3YmFmYzU5YmRlMGI2OWQyZDlmMzZmNTM1NmNhZWNlYiIsInJvbGVzIjoiQWRtaW4iLCJuYmYiOjE2MDgwMTQzMDksImV4cCI6MTYwODIzMDMwOSwiaWF0IjoxNjA4MDE0MzA5LCJpc3MiOiJKd3RBdXRoIn0.o1JBIssvTERjYI3Ok3S2HBjgp59ylhCNgSlcOjECdFg"
-        })
+        .withUrl(`${host}/hub/notify`)
         .build(),
       hasMessage: false,
       subtitleText: "invite you to join：",
