@@ -50,16 +50,6 @@
                 </div></v-col
               >
             </v-row>
-            <v-row>
-              <v-col>
-                <ProjectMemberTable
-                  :projectOwnerId="item.ownerId"
-                  :projectOwnerName="item.ownerName"
-                  :projectId="item.id"
-                  :userId="user.id"
-                />
-              </v-col>
-            </v-row>
           </v-card>
         </v-col>
       </v-row>
@@ -70,12 +60,8 @@
 <script lang="ts">
 import Vue from "vue";
 import { getProjects, deleteProject } from "@/apis/projects.ts";
-import ProjectMemberTable from "@/components/ProjectMemberTable.vue";
 
 export default Vue.extend({
-  components: {
-    ProjectMemberTable,
-  },
   props: ["searchedName", "tableData", "user"],
   data() {
     return {
