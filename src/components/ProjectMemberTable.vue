@@ -21,11 +21,11 @@
       </v-card>
     </v-dialog>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="success" v-bind="attrs" v-on="on">專案成員</v-btn>
+      <v-btn color="success" v-bind="attrs" v-on="on"><v-icon>mdi-account-multiple</v-icon></v-btn>
     </template>
     <v-card>
       <v-card-title>
-        <span class="headline">專案成員</span>
+        <span class="headline">Project Member</span>
       </v-card-title>
       <v-data-table :headers="headers" :items="tableData" class="elevation-1">
         <template v-slot:top>
@@ -33,11 +33,10 @@
             <v-toolbar-title>Owner: {{ projectOwnerName }}</v-toolbar-title>
           </v-toolbar>
         </template>
-        <template v-slot:[`item.actions`]="{ item }">
+        <template v-if="isProjectOwner(currentUserId)" v-slot:[`item.actions`]="{ item }">
           <v-icon
-            v-if="!isProjectOwner(item.id)"
             small
-            :disabled="!isProjectOwner(userId)"
+            :disabled="!isProjectOwner(currentUserId)"
             @click="showRemoveProjectMemberDialog(item.id)"
           >
             mdi-delete
@@ -60,7 +59,7 @@
 import Vue from "vue";
 import { deleteProjectMember, getProjectMember } from "@/apis/projects";
 export default Vue.extend({
-  props: ["projectOwnerId", "projectOwnerName", "projectId", "userId"],
+  props: ["projectOwnerId", "projectOwnerName", "projectId", "currentUserId", "tableData"],
   data() {
     return {
       dialog: false,
@@ -80,19 +79,9 @@ export default Vue.extend({
           value: "actions",
         },
       ],
-      tableData: [],
     };
   },
-  created() {
-    this.getProjectMember(this.projectId);
-  },
   methods: {
-    async getProjectMember(projectId: number) {
-      const result = await getProjectMember(projectId);
-
-      this.tableData = result["data"];
-    },
-
     async deleteProjectMember() {
       const reponse = (await deleteProjectMember(this.projectId, this.deletedUserId))["data"]
       this.closeDialogDelete()
@@ -100,8 +89,7 @@ export default Vue.extend({
       this.snackBar = true
       this.snackBarColor = reponse.success ? "green" : "red"
 
-      const members = await getProjectMember(this.projectId)
-      this.tableData = members["data"]
+      this.$emit("deleteProjectMember")
     },
 
     showRemoveProjectMemberDialog(userId: string) {
