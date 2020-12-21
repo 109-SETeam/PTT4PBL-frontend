@@ -19,14 +19,24 @@
               </template> </v-edit-dialog
           ></v-col>
         </v-row>
-        <v-row v-if="isOwner">
-          <v-col class="d-flex align-begin pt-1">
+        <v-row>
+          <v-col v-if="isOwner" lg="1" class="d-flex align-begin pt-1">
             <InviteUser
               vCardTitle="Invite User"
               vTextLabel="User Name"
               @clickInvitation="clickInvatation($event)"
               :userInfo="userAccounts"
               @invite="send($event)"
+            />
+          </v-col>
+          <v-col lg="1" class="d-flex align-begin pt-1">
+            <ProjectMemberTable
+              :projectOwnerId="projectOwnerId"
+              :projectOwnerName="projectOwnerName"
+              :projectId="projectId"
+              :currentUserId="user.id"
+              :tableData="projectMember"
+              @deleteProjectMember="getProjectMemberWithutOwner"
             />
           </v-col>
         </v-row>
@@ -68,10 +78,7 @@
                       <v-btn color="blue darken-1" text @click="deleteCancel()"
                         >Cancel</v-btn
                       >
-                      <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="deleteConfirm()"
+                      <v-btn color="blue darken-1" text @click="deleteConfirm()"
                         >OK</v-btn
                       >
                       <v-spacer></v-spacer>
@@ -107,13 +114,14 @@
 <script lang="ts">
 import Vue from "vue";
 import router from "@/router";
-import { editProject, getProject } from "@/apis/projects";
+import { editProject, getProject, getProjectMember } from "@/apis/projects";
 import { addRepo, getRepository, deleteRepo } from "@/apis/repository.ts";
 import { getUserInfo, isCurrentUserProjectOwner } from "@/apis/user";
 import UserInfo from "@/components/UserInfo.vue";
 import NewItem from "@/components/NewItem.vue";
 import InviteUser from "@/components/InviteUser.vue";
 import TableSearch from "@/components/TableSearch.vue";
+import ProjectMemberTable from "@/components/ProjectMemberTable.vue";
 import { invite, sendInvitation } from "@/apis/notification";
 
 export default Vue.extend({
@@ -122,6 +130,7 @@ export default Vue.extend({
     NewItem,
     TableSearch,
     InviteUser,
+    ProjectMemberTable,
   },
   data() {
     return {
@@ -141,6 +150,9 @@ export default Vue.extend({
       dialog: false,
       projectId: this.$route.params.projectId,
       projectName: "",
+      projectOwnerId: "",
+      projectOwnerName: "",
+      projectMember: [{type: Object, id:'', name:'', avatarUrl:''}],
       url: "",
       msg: "",
       snackBar: false,
@@ -149,8 +161,8 @@ export default Vue.extend({
       isOwner: false,
       userAccounts: [],
       searchbarLength: 7,
-      dialogDelete :false,
-      wantToDeleteRepoId:-1, 
+      dialogDelete: false,
+      wantToDeleteRepoId: -1,
     };
   },
   async created() {
@@ -159,12 +171,19 @@ export default Vue.extend({
     this.isOwner = (await isCurrentUserProjectOwner(this.projectId))[
       "data"
     ].success;
-    await this.getProjectName();
+    await this.getProjectInfo();
+    await this.getProjectMemberWithutOwner();
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
+    async getProjectMemberWithutOwner(){
+      const result = await getProjectMember(Number(this.projectId));
+
+      this.projectMember = result["data"];
+      this.projectMember = this.projectMember.filter(item => item.id != this.projectOwnerId);
+    },
     async goToRepoInfo(repoId: any) {
-      this.$router.push({name: "RepoInfo", params: {repoId: repoId}});
+      this.$router.push({ name: "RepoInfo", params: { repoId: repoId } });
     },
     async save() {
       const result = await editProject(
@@ -192,6 +211,13 @@ export default Vue.extend({
         "data"
       ].name;
     },
+    async getProjectInfo(){
+      const result = (await getProject(Number(this.projectId)))["data"];
+
+      this.projectOwnerId = result.ownerId;
+      this.projectOwnerName = result.ownerName;
+      this.projectName = result.name;
+    },
     ChangeInput(searchedRepo: any) {
       this.search = searchedRepo;
     },
@@ -201,7 +227,7 @@ export default Vue.extend({
       this.wantToDeleteRepoId = repoId;
     },
 
-    async deleteConfirm(){
+    async deleteConfirm() {
       const result = await deleteRepo(this.projectId, this.wantToDeleteRepoId);
       this.dialogDelete = false;
       this.wantToDeleteRepoId = -1;
@@ -210,7 +236,7 @@ export default Vue.extend({
       this.snackBarColor = result["data"].success ? "green" : "red";
       await this.getResitories();
     },
-    deleteCancel(){
+    deleteCancel() {
       this.dialogDelete = false;
       this.wantToDeleteRepoId = -1;
     },
