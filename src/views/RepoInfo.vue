@@ -44,5 +44,6 @@ export default Vue.extend({
 <style lang="scss">
 .tab-item {
   width: 100%;
+  height: 100%;
 }
 </style>
