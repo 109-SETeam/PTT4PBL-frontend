@@ -64,7 +64,6 @@ export default Vue.extend({
   data() {
     return {
       hubConnection: new signalR.HubConnectionBuilder()
-        .configureLogging(signalR.LogLevel.Debug)
         .withUrl(`${host}/hub/notify`)
         .build(),
       hasMessage: false,
