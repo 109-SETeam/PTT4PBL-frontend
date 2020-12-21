@@ -1,8 +1,11 @@
 <template>
   <v-container fill-height fluid class="paper align-center justify-center" >
     <div >
-      <h1 class="title">歡迎使用PMS</h1>
-      <v-btn class="login-btn pa-2" @click="handleLogin">Github登入 </v-btn>
+      <h1 class="title">Welcome to use PMS</h1>
+      <v-btn class="login-btn pa-2" @click="handleLogin">
+        <v-icon>mdi-login-variant</v-icon>
+        Login in via Github
+      </v-btn>
     </div>
   </v-container>
 </template>

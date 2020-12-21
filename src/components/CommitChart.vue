@@ -5,8 +5,13 @@
       :events="chartEvents"
       :settings="chartSetting"
     ></ve-histogram>
-    <p>selected-week：{{ selectedWeek }}</p>
-    <ve-line :data="commitData"></ve-line>
+    <p v-if="!isCompare">selected-week：{{ selectedWeek }}</p>
+    <ve-line v-if="!isCompare" :data="commitData"></ve-line>
+    <ve-histogram
+      v-if="isCompare"
+      :data="compareWeekTotalData"
+      :settings="chartSetting"
+    ></ve-histogram>
   </div>
 </template>
 
@@ -14,10 +19,12 @@
 import Vue from "vue";
 import { getCommitInfo } from "../apis//repoInfo";
 import { checkAuth } from "@/apis/authorize";
+import router from "@/router";
 
 const initialData = () => {
   return {
     weekTotalData: {},
+    compareWeekTotalData: {},
     dayOfWeekData: [],
     commitData: {},
     selectedWeek: "",
@@ -30,12 +37,25 @@ const initialData = () => {
 export default Vue.extend({
   props: {
     repoId: Number,
+    compareRepoId: Number,
   },
   data: function () {
     return initialData();
   },
   mounted() {
-    this.getCommitInfoData();
+    this.getCommitInfoData(this.repoId).then((res) => {
+      this.weekTotalData = res.weekTotalData;
+      this.dayOfWeekData = res.dayOfWeekData;
+      this.selectedWeek =
+        res.weekTotalData.rows[res.weekTotalData.rows.length - 1].week;
+      this.setCommitData();
+    });
+
+    if (this.isCompare) {
+      this.getCommitInfoData(this.compareRepoId).then((res) => {
+        this.compareWeekTotalData = res.weekTotalData;
+      });
+    }
   },
   computed: {
     chartEvents() {
@@ -45,23 +65,25 @@ export default Vue.extend({
         },
       };
     },
+    isCompare(): boolean {
+      return this.compareRepoId != null;
+    },
   },
   methods: {
-    getCommitInfoData() {
-      getCommitInfo(this.repoId)
+    getCommitInfoData(repoId: number): Promise<any> {
+      return getCommitInfo(repoId)
         .then((res) => {
           const data = res.data;
-          this.weekTotalData = {
-            columns: ["week", "total"],
-            rows: data.weekTotalData,
+          return {
+            weekTotalData: {
+              columns: ["week", "total"],
+              rows: data.weekTotalData,
+            },
+            dayOfWeekData: data.dayOfWeekData,
           };
-          this.dayOfWeekData = data.dayOfWeekData
-          this.selectedWeek =
-            data.weekTotalData[data.weekTotalData.length - 1].week;
-          this.setCommitData();
         })
         .catch((err) => {
-          alert("系統錯誤");
+          router.push("/notfound");
         });
     },
     setCommitData() {

@@ -8,7 +8,7 @@
 
     <v-tabs-items v-model="tab" class="tab-item">
       <v-tab-item><IssuesTable v-bind:repoId="repoId"/></v-tab-item>
-      <v-tab-item><CommitChart v-bind:repoId="repoId" /></v-tab-item>
+      <v-tab-item><CommitChart v-bind:repoId="repoId" v-bind:compareRepoId="compareRepoId" /></v-tab-item>
       <v-tab-item><ContributeChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item><CodebaseChart v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
@@ -35,6 +35,7 @@ export default Vue.extend({
       tab: null,
       items: ["Issus", "Commit", "Contribute", "Code base"],
       repoId: Number(this.$route.params.repoId),
+      compareRepoId: null
     };
   }
 });
@@ -43,5 +44,6 @@ export default Vue.extend({
 <style lang="scss">
 .tab-item {
   width: 100%;
+  height: 100%;
 }
 </style>
