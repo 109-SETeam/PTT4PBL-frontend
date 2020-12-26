@@ -10,7 +10,7 @@
       <v-tab-item><IssuesTable v-bind:repoId="repoId"/></v-tab-item>
       <v-tab-item><CommitChart v-bind:repoId="repoId" v-bind:compareRepoId="compareRepoId" /></v-tab-item>
       <v-tab-item><ContributeChart v-bind:repoId="repoId" /></v-tab-item>
-      <v-tab-item><CodebaseChart v-bind:repoId="repoId" v-bind:compareRepoId="4" /></v-tab-item>
+      <v-tab-item><CodebaseChart v-bind:repoId="repoId" v-bind:compareRepoId="compareRepoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
     </v-tabs-items>
   </v-container>
