@@ -2,7 +2,7 @@ import axios from "axios";
 import { host } from "../config/config";
 import store from '@/store';
 
-export const getRepository: any = (projectId: string) => {
+export const getRepository = (projectId: string) => {
   return axios.get(`${host}/repo/${projectId}`, {
     headers: {
       Authorization: `Bearer ${store.auth.getToken}`
