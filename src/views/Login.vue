@@ -4,7 +4,7 @@
       <h1 class="title">Welcome to use PMS</h1>
       <v-btn class="login-btn pa-2" @click="handleLogin">
         <v-icon>mdi-login-variant</v-icon>
-        Login in via Github
+        Login via Github
       </v-btn>
     </div>
   </v-container>
