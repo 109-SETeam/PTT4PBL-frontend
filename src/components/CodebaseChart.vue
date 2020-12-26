@@ -1,6 +1,7 @@
 <template>
   <div>
     <ve-line :data="chartData" :settings="chartSettings"></ve-line>
+    <ve-line v-if="isCompare" :data="compareChartData" :settings="chartSettings"></ve-line>
   </div>
 </template>
 
@@ -10,6 +11,7 @@ import { getCodebase } from "@/apis/repoInfo.ts";
 export default Vue.extend({
   props: {
     repoId: Number,
+    compareRepoId: Number,
   },
   data() {
     return {
@@ -20,16 +22,33 @@ export default Vue.extend({
         columns: ["date", "numberOfRows", "numberOfRowsAdded", "numberOfRowsDeleted"],
         rows: [],
       },
+      compareChartData: {
+        columns: ["date", "numberOfRows", "numberOfRowsAdded", "numberOfRowsDeleted"],
+        rows: [],
+      },
     };
   },
   mounted() {
-    this.getCodebaseData()
+    this.getCodebaseData(this.repoId).then((res) => {
+      this.chartData.rows = res;
+    })
+
+    if (this.isCompare){
+      this.getCodebaseData(this.compareRepoId).then((res) => {
+        this.compareChartData.rows = res;
+      });
+    }
+
+  },
+  computed: {
+    isCompare(): boolean {
+      return this.compareRepoId != null;
+    },
   },
   methods: {
-    getCodebaseData(){
-      getCodebase(this.repoId).then((res) => {
-        const resData = res.data;
-        this.chartData.rows = resData;
+    getCodebaseData(repoId: number) : Promise<any>{
+      return getCodebase(repoId).then((res) => {
+        return res.data;
       });
     },
   },
