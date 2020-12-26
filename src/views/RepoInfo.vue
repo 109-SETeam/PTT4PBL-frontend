@@ -4,7 +4,7 @@
     <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
       <v-tab v-show="!isCompare">Issus</v-tab>
       <v-tab>Commit</v-tab>
-      <v-tab v-show="!isCompare">Contribute</v-tab>
+      <v-tab v-show="!isCompare">Contributor</v-tab>
       <v-tab>Code base</v-tab>
     </v-tabs>
 
