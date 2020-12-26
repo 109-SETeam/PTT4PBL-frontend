@@ -39,6 +39,11 @@ export default Vue.extend({
     repoId: Number,
     compareRepoId: Number,
   },
+  watch: {
+    compareRepoId: function (newValue) {
+      this.getCompareCommitInfoData();
+    },
+  },
   data: function () {
     return initialData();
   },
@@ -50,12 +55,7 @@ export default Vue.extend({
         res.weekTotalData.rows[res.weekTotalData.rows.length - 1].week;
       this.setCommitData();
     });
-
-    if (this.isCompare) {
-      this.getCommitInfoData(this.compareRepoId).then((res) => {
-        this.compareWeekTotalData = res.weekTotalData;
-      });
-    }
+    this.getCompareCommitInfoData();
   },
   computed: {
     chartEvents() {
@@ -85,6 +85,13 @@ export default Vue.extend({
         .catch((err) => {
           router.push("/notfound");
         });
+    },
+    getCompareCommitInfoData() {
+      if (this.isCompare) {
+        this.getCommitInfoData(this.compareRepoId).then((res) => {
+          this.compareWeekTotalData = res.weekTotalData;
+        });
+      }
     },
     setCommitData() {
       this.commitData = {
