@@ -16,7 +16,7 @@
           v-bind:compareRepoId="compareRepoId"
       /></v-tab-item>
       <v-tab-item><ContributeChart v-show="!isCompare" v-bind:repoId="repoId" /></v-tab-item>
-      <v-tab-item><CodebaseChart v-bind:repoId="repoId" /></v-tab-item>
+      <v-tab-item><CodebaseChart v-bind:repoId="repoId" v-bind:compareRepoId="compareRepoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
     </v-tabs-items>
   </v-container>

@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height fluid class="paper align-center justify-center" >
     <div >
-      <h1 class="title">Welcome to use PMS</h1>
+      <h1 class="title">Welcome to PMS</h1>
       <v-btn class="login-btn pa-2" @click="handleLogin">
         <v-icon>mdi-login-variant</v-icon>
         Login via Github

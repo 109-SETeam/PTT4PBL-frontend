@@ -21,7 +21,7 @@
       <!-- closed -->
       <v-tab-item>
         <v-card-text
-          >平均Issue處理時間：{{ items.averageDealwithIssueTime }}</v-card-text
+          >Average Issue Processing Time：{{ items.averageDealwithIssueTime }}</v-card-text
         >
         <v-data-table
           :loading="loading"
@@ -33,6 +33,9 @@
         >
           <template v-slot:[`item.title`]="{ item }">
                 <a :href="item.html_url" target="aboutblank">{{item.title}}</a>
+          </template>
+          <template v-slot:[`item.user.login`]="{ item }">
+                <a :href="item.user.html_url" target="aboutblank">{{item.user.login}}</a>
           </template>
         </v-data-table>
       </v-tab-item>
@@ -54,6 +57,7 @@ export default Vue.extend({
       headers: [
         { text: "No.", align: "start", value: "number",width:"4%" },
         { text: "Title", value: "title",width:"65%"},
+        { text: "IssuesProposer", value: "user.login" },
         { text: "CreatedTime", value: "created_at" },
         { text: "ClosedTime", value: "closed_at" },
       ],
