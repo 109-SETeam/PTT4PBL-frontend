@@ -2,19 +2,20 @@
   <v-container fill-height fluid class="justify-center">
     <RepoInfoCompareForm @change="changeCompareRepo" />
     <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-      <v-tab v-for="item in items" :key="item">
-        {{ item }}
-      </v-tab>
+      <v-tab v-show="!isCompare">Issus</v-tab>
+      <v-tab>Commit</v-tab>
+      <v-tab v-show="!isCompare">Contributor</v-tab>
+      <v-tab>Code base</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab" class="tab-item">
-      <v-tab-item><IssuesTable v-bind:repoId="repoId" /></v-tab-item>
+      <v-tab-item><IssuesTable v-show="!isCompare" v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item
         ><CommitChart
           v-bind:repoId="repoId"
           v-bind:compareRepoId="compareRepoId"
       /></v-tab-item>
-      <v-tab-item><ContributeChart v-bind:repoId="repoId" /></v-tab-item>
+      <v-tab-item><ContributeChart v-show="!isCompare" v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item><CodebaseChart v-bind:repoId="repoId" v-bind:compareRepoId="compareRepoId" /></v-tab-item>
       <v-tab-item></v-tab-item>
     </v-tabs-items>
@@ -40,14 +41,18 @@ export default Vue.extend({
   data() {
     return {
       tab: null,
-      items: ["Issus", "Commit", "Contribute", "Code base"],
       repoId: Number(this.$route.params.repoId),
       compareRepoId: null,
+      isCompare: false
     };
   },
   methods: {
-    changeCompareRepo(repoId: any) {
-      this.compareRepoId = repoId;
+    changeCompareRepo(comparedRepo: any) {
+      if(comparedRepo.isCompare != this.isCompare){
+        this.tab = null;
+      }
+      this.isCompare = comparedRepo.isCompare;
+      this.compareRepoId = comparedRepo.repoId;
     },
   },
 });
