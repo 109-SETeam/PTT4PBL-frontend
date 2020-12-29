@@ -14,9 +14,54 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
-                :label="vTextLabel"
-                v-model="inputData"
+                label="Repository URL"
+                v-model="url"
                 required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-checkbox
+                flat
+                label="Sonarqube"
+                v-model="isSonarqube"
+                color="primary"
+              ></v-checkbox>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                label="Sonarqube URL"
+                v-model="sonarqubeUrl"
+                v-show="isSonarqube"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                label="Account"
+                v-model="account"
+                v-show="isSonarqube"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                label="Password"
+                v-model="pw"
+                v-show="isSonarqube"
+                type="password"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                label="ProjectKey"
+                v-model="projectKey"
+                v-show="isSonarqube"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -39,18 +84,36 @@ export default Vue.extend({
   props: ["vCardTitle", "vTextLabel"],
   data() {
     return {
-      inputData: "",
+      isSonarqube: false,
+      url: "",
+      sonarqubeUrl: "",
+      account: "",
+      pw: "",
+      projectKey: "",
       dialog: false,
       userAccounts: [] as any,
     };
   },
+  watch: {
+    isSonarqube: function () {
+      this.sonarqubeUrl = "";
+      this.account = "";
+      this.pw = "";
+      this.projectKey = "";
+    },
+  },
   methods: {
     add() {
-      this.$emit("add", this.inputData);
+      this.$emit("add", this.url,this.sonarqubeUrl,this.account,this.pw,this.projectKey);
       this.dialog = false;
     },
     clearInputData() {
-      this.inputData = "";
+      this.url = "";
+      this.sonarqubeUrl = "";
+      this.account = "";
+      this.pw = "";
+      this.projectKey = "";
+      this.isSonarqube = false;
     },
   },
 });

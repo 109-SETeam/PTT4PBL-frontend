@@ -62,7 +62,6 @@
                   <v-col class="d-flex justify-end align-end pr-5">
                     <NewItem
                       vCardTitle="Add Repository"
-                      vTextLabel="Repository URL"
                       @add="add($event)"
                     />
                   </v-col>
@@ -195,8 +194,8 @@ export default Vue.extend({
       this.snackBarColor = result["data"].success ? "green" : "red";
       await this.getProjectName();
     },
-    async add(url: any) {
-      const result = await addRepo(Number(this.projectId), url);
+    async add(url: any,sonarqubeUrl:any,account:any,pw:any,projectKey:any) {
+      const result = await addRepo(Number(this.projectId), url,sonarqubeUrl,account,pw,projectKey);
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;

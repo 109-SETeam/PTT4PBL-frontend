@@ -10,8 +10,9 @@ export const getRepository = (projectId: string) => {
   })
 }
 
-export const addRepo: any = (projectId: number, url: string) => {
-  return axios.post(`${host}/repo`, { projectId, url }, {
+export const addRepo: any = (projectId: number, url: string,sonarqubeUrl: string,account:string,pw:string,projectKey:string) => {
+  const accountColonPw = btoa(account+":"+pw);
+  return axios.post(`${host}/repo`, { projectId, url,sonarqubeUrl,accountColonPw,projectKey }, {
     headers: {
       Authorization: `Bearer ${store.auth.getToken}`
     }
