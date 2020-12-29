@@ -60,10 +60,7 @@
                     />
                   </v-col>
                   <v-col class="d-flex justify-end align-end pr-5">
-                    <NewItem
-                      vCardTitle="Add Repository"
-                      @add="add($event)"
-                    />
+                    <NewItem vCardTitle="Add Repository" @add="add" />
                   </v-col>
                 </v-row>
                 <v-divider></v-divider>
@@ -151,11 +148,11 @@ export default Vue.extend({
       projectName: "",
       projectOwnerId: "",
       projectOwnerName: "",
-      projectMember: [{type: Object, id:'', name:'', avatarUrl:''}],
+      projectMember: [{ type: Object, id: "", name: "", avatarUrl: "" }],
       url: "",
       msg: "",
       snackBar: false,
-      snackBarTimeout: 3000,
+      snackBarTimeout: 5000,
       snackBarColor: "",
       isOwner: false,
       userAccounts: [],
@@ -167,19 +164,18 @@ export default Vue.extend({
   async created() {
     this.user = (await getUserInfo())["data"];
     this.repositories = (await getRepository(this.projectId))["data"];
-    this.isOwner = (await isCurrentUserProjectOwner(this.projectId))[
-      "data"
-    ].success;
+    this.isOwner = (await isCurrentUserProjectOwner(this.projectId))["data"].success;
     await this.getProjectInfo();
     await this.getProjectMemberWithutOwner();
     if (!this.isOwner) this.searchbarLength = 10;
   },
   methods: {
-    async getProjectMemberWithutOwner(){
+    async getProjectMemberWithutOwner() {
       const result = await getProjectMember(Number(this.projectId));
-
       this.projectMember = result["data"];
-      this.projectMember = this.projectMember.filter(item => item.id != this.projectOwnerId);
+      this.projectMember = this.projectMember.filter(
+        (item) => item.id != this.projectOwnerId
+      );
     },
     async goToRepoInfo(repoId: any) {
       this.$router.push({ name: "RepoInfo", params: { repoId: repoId } });
@@ -194,8 +190,8 @@ export default Vue.extend({
       this.snackBarColor = result["data"].success ? "green" : "red";
       await this.getProjectName();
     },
-    async add(url: any,sonarqubeUrl:any,account:any,pw:any,projectKey:any) {
-      const result = await addRepo(Number(this.projectId), url,sonarqubeUrl,account,pw,projectKey);
+    async add(url: any,isSonarqube: boolean,sonarqubeUrl: string,accountColonPw: string,projectKey: string) {
+      const result = await addRepo(Number(this.projectId),url,isSonarqube,sonarqubeUrl,accountColonPw,projectKey);
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;
@@ -206,11 +202,9 @@ export default Vue.extend({
       this.repositories = (await getRepository(this.projectId))["data"];
     },
     async getProjectName() {
-      this.projectName = (await getProject(Number(this.projectId)))[
-        "data"
-      ].name;
+      this.projectName = (await getProject(Number(this.projectId)))["data"].name;
     },
-    async getProjectInfo(){
+    async getProjectInfo() {
       const result = (await getProject(Number(this.projectId)))["data"];
 
       this.projectOwnerId = result.ownerId;
@@ -235,6 +229,7 @@ export default Vue.extend({
       this.snackBarColor = result["data"].success ? "green" : "red";
       await this.getResitories();
     },
+
     deleteCancel() {
       this.dialogDelete = false;
       this.wantToDeleteRepoId = -1;

@@ -104,7 +104,8 @@ export default Vue.extend({
   },
   methods: {
     add() {
-      this.$emit("add", this.url,this.sonarqubeUrl,this.account,this.pw,this.projectKey);
+      const accountColonPw=btoa(this.account+":"+this.pw);
+      this.$emit("add", this.url,this.isSonarqube,this.sonarqubeUrl,accountColonPw,this.projectKey);
       this.dialog = false;
     },
     clearInputData() {

@@ -10,13 +10,21 @@ export const getRepository = (projectId: string) => {
   })
 }
 
-export const addRepo: any = (projectId: number, url: string,sonarqubeUrl: string,account:string,pw:string,projectKey:string) => {
-  const accountColonPw = btoa(account+":"+pw);
-  return axios.post(`${host}/repo`, { projectId, url,sonarqubeUrl,accountColonPw,projectKey }, {
-    headers: {
-      Authorization: `Bearer ${store.auth.getToken}`
-    }
-  });
+export const addRepo: any = (projectId: number, url: string, isSonarqube: boolean, sonarqubeUrl: string, accountColonPw: string, projectKey: string) => {
+  return axios.post(`${host}/repo`,
+    {
+      projectId: projectId,
+      url: url,
+      isSonarqube: isSonarqube,
+      sonarqubeUrl: sonarqubeUrl,
+      accountColonPw: accountColonPw,
+      projectKey: projectKey
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${store.auth.getToken}`
+      }
+    });
 }
 
 export const deleteRepo: any = (projectId: number, repoId: number) => {
