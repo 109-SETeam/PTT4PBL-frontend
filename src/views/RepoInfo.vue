@@ -6,7 +6,7 @@
       <v-tab>Commit</v-tab>
       <v-tab v-show="!isCompare">Contributor</v-tab>
       <v-tab>Code base</v-tab>
-      <v-tab>Sonarqube</v-tab>
+      <v-tab v-show="!isCompare">Sonarqube</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab" class="tab-item">
@@ -18,7 +18,7 @@
       /></v-tab-item>
       <v-tab-item><ContributeChart v-show="!isCompare" v-bind:repoId="repoId" /></v-tab-item>
       <v-tab-item><CodebaseChart v-bind:repoId="repoId" v-bind:compareRepoId="compareRepoId" /></v-tab-item>
-      <v-tab-item><Sonarqube /></v-tab-item>
+      <v-tab-item><Sonarqube v-show="!isCompare" v-bind:repoId="repoId"/></v-tab-item>
       <v-tab-item></v-tab-item>
     </v-tabs-items>
   </v-container>
