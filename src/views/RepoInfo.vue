@@ -6,7 +6,7 @@
       <v-tab>Commit</v-tab>
       <v-tab v-show="!isCompare">Contributor</v-tab>
       <v-tab>Code base</v-tab>
-      <v-tab v-show="!isCompare">Sonarqube</v-tab>
+      <v-tab v-show="!isCompare&&isHaveSonarqube">Sonarqube</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab" class="tab-item">
@@ -32,6 +32,7 @@ import ContributeChart from "@/components/ContributeChart.vue";
 import IssuesTable from "@/components/IssuesTable.vue";
 import RepoInfoCompareForm from "@/components/RepoInfoCompareForm.vue";
 import Sonarqube from "@/components/Sonarqube.vue";
+import { IsHaveSonarqube } from "@/apis/repoInfo"
 
 export default Vue.extend({
   components: {
@@ -47,8 +48,14 @@ export default Vue.extend({
       tab: null,
       repoId: Number(this.$route.params.repoId),
       compareRepoId: null,
-      isCompare: false
+      isCompare: false,
+      isHaveSonarqube: false
     };
+  },
+  created(){
+    (async () => {
+      this.isHaveSonarqube = (await IsHaveSonarqube(this.repoId)).data;
+    })()
   },
   methods: {
     changeCompareRepo(comparedRepo: any) {

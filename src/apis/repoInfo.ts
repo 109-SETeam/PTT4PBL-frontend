@@ -42,3 +42,11 @@ export const getSonarqubeInfo = (repoId: number | null) => {
         }
     });
 }
+
+export const IsHaveSonarqube = (repoId: number | null) => {
+    return axios.get(`${host}/repoInfo/ishavesonarqube/${repoId}`, {
+        headers: {
+            Authorization: `Bearer ${store.auth.getToken}`
+        }
+    });
+}
