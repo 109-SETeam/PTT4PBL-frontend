@@ -67,8 +67,8 @@ export const editProject = (projectId: number, projectName: string | (string | n
     return axios.post(`${host}/project/edit`, {
         ProjectId: projectId,
         ProjectName: projectName
-    },{
-        headers:{
+    }, {
+        headers: {
             'Content-Type': 'application/json; charset=UTF-8',
             Authorization: `Bearer ${store.auth.getToken}`
         }
@@ -79,6 +79,14 @@ export const editProject = (projectId: number, projectName: string | (string | n
 
 export const editProjectNameByAdmin = (projectId: number, newInfo: any) => {
     return axios.patch(`${host}/project/${projectId}`, newInfo, {
+        headers: {
+            Authorization: `Bearer ${store.auth.getToken}`
+        }
+    })
+}
+
+export const deleteProjectByAdmin = (projectId: number) => {
+    return axios.delete(`${host}/project/${projectId}`, {
         headers: {
             Authorization: `Bearer ${store.auth.getToken}`
         }
