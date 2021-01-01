@@ -28,6 +28,13 @@ export default Vue.extend({
       },
     };
   },
+  watch: {
+    compareRepoId: function (newValue) {
+      this.getCodebaseData(this.compareRepoId).then((res) => {
+        this.compareChartData.rows = res;
+      });
+    },
+  },
   mounted() {
     this.getCodebaseData(this.repoId).then((res) => {
       this.chartData.rows = res;
