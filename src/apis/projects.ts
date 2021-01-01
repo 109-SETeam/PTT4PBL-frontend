@@ -76,3 +76,11 @@ export const editProject = (projectId: number, projectName: string | (string | n
         return response;
     });
 }
+
+export const editProjectNameByAdmin = (projectId: number, newInfo: any) => {
+    return axios.patch(`${host}/project/${projectId}`, newInfo, {
+        headers: {
+            Authorization: `Bearer ${store.auth.getToken}`
+        }
+    })
+}

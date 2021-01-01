@@ -9,7 +9,7 @@
 
           <v-tabs-items v-model="tab" class="tab-item">
             <v-tab-item><ManageAccount :users="users" @showMessage="showMessage" @update="update"/></v-tab-item>
-            <v-tab-item><ManageProject :projects=projects /></v-tab-item>
+            <v-tab-item><ManageProject :projects=projects @showMessage="showMessage" @update="update"/></v-tab-item>
           </v-tabs-items>
         </v-tabs>
       </v-col>
