@@ -135,7 +135,6 @@ export default Vue.extend({
       return this.editedIndex === -1 ? "New User" : "Edit User";
     },
   },
-
   watch: {
     dialog(val) {
       val || this.close();

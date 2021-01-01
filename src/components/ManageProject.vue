@@ -79,10 +79,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getProjects } from "@/apis/projects.ts";
+import { getProjects, editProjectNameByAdmin } from "@/apis/projects.ts";
 
 export default Vue.extend({
-  props: ['projects'],
+  props: ["projects"],
   data: () => {
     return {
       search: "",
@@ -99,7 +99,6 @@ export default Vue.extend({
         { text: "Members", value: "members" },
         { text: "Actions", value: "actions", sortable: false },
       ],
-      
       editedIndex: -1,
       editedItem: {
         name: "",
@@ -109,9 +108,6 @@ export default Vue.extend({
       },
     };
   },
-  // created() {
-  //   // this.initialize();
-  // },
   computed: {
     formTitle(): string {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
@@ -126,11 +122,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    // async initialize() {
-    //   this.projects = (await getProjects())["data"];
-    // },
     editItem(item: any) {
-      // this.editedIndex = this.projects.indexOf(item);
+      this.editedIndex = this.projects.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
@@ -163,11 +156,30 @@ export default Vue.extend({
     },
 
     save() {
-      // if (this.editedIndex > -1) {
-      //   Object.assign(this.projects[this.editedIndex], this.editedItem);
-      // } else {
-      //   this.projects.push(this.editedItem);
-      // }
+      if (this.editedIndex > -1) {
+        const newProjectInfo = [
+          {
+            value: this.editedItem.name,
+            path: "/name",
+            op: "replace",
+          },
+        ];
+        Object.assign(this.projects[this.editedIndex], this.editedItem);
+        const project = this.projects[this.editedIndex];
+        editProjectNameByAdmin(project.id, newProjectInfo)
+          .then((response) => {
+            if (response.data.success) {
+              this.$emit("showMessage", response.data);
+              this.$emit("update");
+            }
+          })
+          .catch((err) => {
+            this.$emit("showMessage", err);
+            this.$emit("update");
+          });
+      } else {
+        this.projects.push(this.editedItem);
+      }
       this.close();
     },
   },
