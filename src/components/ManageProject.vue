@@ -79,7 +79,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getProjects, editProjectNameByAdmin } from "@/apis/projects.ts";
+import {
+  getProjects,
+  editProjectNameByAdmin,
+  deleteProjectByAdmin,
+} from "@/apis/projects.ts";
 
 export default Vue.extend({
   props: ["projects"],
@@ -129,13 +133,18 @@ export default Vue.extend({
     },
 
     deleteItem(item: any) {
-      // this.editedIndex = this.projects.indexOf(item);
+      this.editedIndex = this.projects.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
 
-    deleteItemConfirm() {
-      // this.projects.splice(this.editedIndex, 1);
+    async deleteItemConfirm() {
+      const response = (
+        await deleteProjectByAdmin(this.projects[this.editedIndex].id)
+      )["data"];
+      if (response.success) this.projects.splice(this.editedIndex, 1);
+      this.$emit("update");
+      this.$emit("showMessage", response);
       this.closeDelete();
     },
 

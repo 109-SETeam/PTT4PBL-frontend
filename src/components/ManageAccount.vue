@@ -165,9 +165,9 @@ export default Vue.extend({
       const response = (
         await deleteUserByAccount(this.users[this.editedIndex].account)
       )["data"];
-      this.$emit("showMessage", response);
-      this.users.splice(this.editedIndex, 1);
+      if (response.success) this.users.splice(this.editedIndex, 1);
       this.$emit("update");
+      this.$emit("showMessage", response);
       this.closeDelete();
     },
 
