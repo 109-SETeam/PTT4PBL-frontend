@@ -14,13 +14,13 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
-                label="Repository URL"
+                :label="vTextLabel"
                 v-model="url"
                 required
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="isShow()">
             <v-col>
               <v-checkbox
                 flat
@@ -104,8 +104,15 @@ export default Vue.extend({
   },
   methods: {
     add() {
-      const accountColonPw=btoa(this.account+":"+this.pw);
-      this.$emit("add", this.url,this.isSonarqube,this.sonarqubeUrl,accountColonPw,this.projectKey);
+      const accountColonPw = btoa(this.account + ":" + this.pw);
+      this.$emit(
+        "add",
+        this.url,
+        this.isSonarqube,
+        this.sonarqubeUrl,
+        accountColonPw,
+        this.projectKey
+      );
       this.dialog = false;
     },
     clearInputData() {
@@ -116,6 +123,9 @@ export default Vue.extend({
       this.projectKey = "";
       this.isSonarqube = false;
     },
+    isShow() {
+      return this.vCardTitle.includes("project");
+    }
   },
 });
 </script>
