@@ -124,7 +124,7 @@ export default Vue.extend({
       this.isSonarqube = false;
     },
     isShow() {
-      return this.vCardTitle.includes("project");
+      return !this.vCardTitle.includes("Project");
     }
   },
 });
