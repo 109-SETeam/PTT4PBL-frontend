@@ -92,3 +92,11 @@ export const deleteProjectByAdmin = (projectId: number) => {
         }
     })
 }
+
+export const getProjectByAdmin: any = () => {
+    return axios.get(`${host}/project/admin/`, {
+        headers: {
+            Authorization: `Bearer ${store.auth.getToken}`
+        }
+    })
+}

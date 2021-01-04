@@ -27,7 +27,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { getAllUser } from "@/apis/user";
-import { getProjects } from "@/apis/projects";
+import { getProjectByAdmin } from "@/apis/projects";
 import ManageAccount from "@/components/ManageAccount.vue";
 import ManageProject from "@/components/ManageProject.vue";
 
@@ -47,7 +47,7 @@ export default Vue.extend({
   },
   methods: {
     async initialize(){
-      this.projects = (await getProjects())['data']
+      this.projects = (await getProjectByAdmin())['data']
       this.users = (await getAllUser())['data']
     },
     showMessage(response: any) {

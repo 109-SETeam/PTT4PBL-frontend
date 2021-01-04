@@ -42,7 +42,7 @@
                 </v-card-subtitle>
                 <div class="d-flex justify-space-around">
                   <v-card-subtitle class="text-left py-0"
-                    ><a class="grey--text" href="">
+                    ><a class="grey--text" target="aboutblank" :href=item.commitsHtmlUrl>
                       commits {{ item.total }}</a
                     ></v-card-subtitle
                   >
