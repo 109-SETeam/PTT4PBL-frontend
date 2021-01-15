@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height class="justify-center">
+  <v-container fill-height class="justify-center mt-10"  style="width: 70%">
     <RepoInfoCompareForm @change="changeCompareRepo" />
     <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
       <v-tab v-show="!isCompare">Issus</v-tab>
