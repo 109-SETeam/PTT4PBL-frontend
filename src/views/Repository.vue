@@ -190,8 +190,8 @@ export default Vue.extend({
       this.snackBarColor = result["data"].success ? "green" : "red";
       await this.getProjectName();
     },
-    async add(url: any,isSonarqube: boolean,sonarqubeUrl: string,accountColonPw: string,projectKey: string) {
-      const result = await addRepo(Number(this.projectId),url,isSonarqube,sonarqubeUrl,accountColonPw,projectKey);
+    async add(url: any,isSonarqube: boolean,sonarqubeUrl: string,accountColonPassword: string,projectKey: string) {
+      const result = await addRepo(Number(this.projectId),url,isSonarqube,sonarqubeUrl,accountColonPassword,projectKey);
       this.msg = result["data"].message;
       this.dialog = false;
       this.snackBar = true;

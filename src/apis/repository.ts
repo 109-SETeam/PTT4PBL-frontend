@@ -10,14 +10,14 @@ export const getRepository = (projectId: string) => {
   })
 }
 
-export const addRepo: any = (projectId: number, url: string, isSonarqube: boolean, sonarqubeUrl: string, accountColonPw: string, projectKey: string) => {
+export const addRepo: any = (projectId: number, url: string, isSonarqube: boolean, sonarqubeUrl: string, accountColonPassword: string, projectKey: string) => {
   return axios.post(`${host}/repo`,
     {
       projectId: projectId,
       url: url,
       isSonarqube: isSonarqube,
       sonarqubeUrl: sonarqubeUrl,
-      accountColonPw: accountColonPw,
+      accountColonPassword: accountColonPassword,
       projectKey: projectKey
     },
     {
@@ -28,7 +28,7 @@ export const addRepo: any = (projectId: number, url: string, isSonarqube: boolea
 }
 
 export const deleteRepo: any = (projectId: number, repoId: number) => {
-  return axios.delete(`${host}/repo/?projectId=${projectId}&repoId=${repoId}`, {
+  return axios.delete(`${host}/repo/${projectId}/${repoId}`, {
     headers: {
       Authorization: `Bearer ${store.auth.getToken}`
     }

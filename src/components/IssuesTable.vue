@@ -21,7 +21,7 @@
       <!-- closed -->
       <v-tab-item>
         <v-card-text
-          >Average Issue Processing Time：{{ items.averageDealwithIssueTime }}</v-card-text
+          >Average Issue Processing Time：{{ items.averageDealWithIssueTime }}</v-card-text
         >
         <v-data-table
           :loading="loading"
