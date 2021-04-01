@@ -1,17 +1,25 @@
 import axios from "axios";
 import { host } from "../config/config";
-import store from '@/store';
+import store from "@/store";
 
 export const getRepository = (projectId: string) => {
   return axios.get(`${host}/repo/${projectId}`, {
     headers: {
       Authorization: `Bearer ${store.auth.getToken}`
     }
-  })
-}
+  });
+};
 
-export const addRepo: any = (projectId: number, url: string, isSonarqube: boolean, sonarqubeUrl: string, accountColonPassword: string, projectKey: string) => {
-  return axios.post(`${host}/repo`,
+export const addRepo: any = (
+  projectId: number,
+  url: string,
+  isSonarqube: boolean,
+  sonarqubeUrl: string,
+  accountColonPassword: string,
+  projectKey: string
+) => {
+  return axios.post(
+    `${host}/repo`,
     {
       projectId: projectId,
       url: url,
@@ -24,8 +32,9 @@ export const addRepo: any = (projectId: number, url: string, isSonarqube: boolea
       headers: {
         Authorization: `Bearer ${store.auth.getToken}`
       }
-    });
-}
+    }
+  );
+};
 
 export const deleteRepo: any = (projectId: number, repoId: number) => {
   return axios.delete(`${host}/repo/${projectId}/${repoId}`, {
@@ -33,4 +42,4 @@ export const deleteRepo: any = (projectId: number, repoId: number) => {
       Authorization: `Bearer ${store.auth.getToken}`
     }
   });
-}
+};

@@ -12,9 +12,12 @@
             <template v-for="item in activities">
               <v-list-item :key="item.name" link class="pa-0">
                 <v-list-item-content class="pa-0">
-                  <v-btn class="pa-0" color="white" @click="changeInfoData(item)">{{
-                    item.name
-                  }}</v-btn>
+                  <v-btn
+                    class="pa-0"
+                    color="white"
+                    @click="changeInfoData(item)"
+                    >{{ item.name }}</v-btn
+                  >
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -42,7 +45,11 @@
                 </v-card-subtitle>
                 <div class="d-flex justify-space-around">
                   <v-card-subtitle class="text-left py-0"
-                    ><a class="grey--text" target="aboutblank" :href=item.commitsHtmlUrl>
+                    ><a
+                      class="grey--text"
+                      target="aboutblank"
+                      :href="item.commitsHtmlUrl"
+                    >
                       commits {{ item.total }}</a
                     ></v-card-subtitle
                   >
@@ -91,7 +98,7 @@ interface ChartData {
 
 export default Vue.extend({
   props: {
-    repoId: Number,
+    repoId: Number
   },
   data() {
     return {
@@ -100,10 +107,10 @@ export default Vue.extend({
       activities: [
         { mode: "c", name: "commit", lineHight: 40 },
         { mode: "a", name: "additions", lineHight: 10000 },
-        { mode: "d", name: "deletions", lineHight: 1000 },
+        { mode: "d", name: "deletions", lineHight: 1000 }
       ],
       yaxis: {
-        max: 40,
+        max: 40
       },
       data: {} as { author: string; total: number; weeks: Rows[] }[],
       chartSettings: {
@@ -111,12 +118,12 @@ export default Vue.extend({
           ws: "day",
           c: "commits",
           a: "additions",
-          d: "deletions",
+          d: "deletions"
         },
         dimension: ["ws"],
-        area: true,
+        area: true
       },
-      chartData: [] as ChartData[],
+      chartData: [] as ChartData[]
     };
   },
   methods: {
@@ -128,30 +135,30 @@ export default Vue.extend({
       this.data.forEach((item, index) => {
         this.chartData.push({
           rows: item.weeks,
-          columns: ["ws", activities.mode],
+          columns: ["ws", activities.mode]
         });
       });
       this.loading = false;
     },
     getContributeInfo() {
       getContributeInfo(this.repoId)
-        .then((response) => {
+        .then(response => {
           this.data = response.data;
           this.data.forEach((item, index) => {
             this.chartData.push({
               rows: item.weeks,
-              columns: ["ws", "c"],
+              columns: ["ws", "c"]
             });
           });
         })
-        .catch((err) => {
+        .catch(err => {
           alert("系統錯誤");
         });
-    },
+    }
   },
   mounted() {
     this.getContributeInfo();
-  },
+  }
 });
 </script>
 
