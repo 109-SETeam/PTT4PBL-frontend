@@ -91,16 +91,16 @@ export default Vue.extend({
       pw: "",
       projectKey: "",
       dialog: false,
-      userAccounts: [] as any,
+      userAccounts: [] as any
     };
   },
   watch: {
-    isSonarqube: function () {
+    isSonarqube: function() {
       this.sonarqubeUrl = "";
       this.account = "";
       this.pw = "";
       this.projectKey = "";
-    },
+    }
   },
   methods: {
     add() {
@@ -126,6 +126,6 @@ export default Vue.extend({
     isShow() {
       return !this.vCardTitle.includes("Project");
     }
-  },
+  }
 });
 </script>
