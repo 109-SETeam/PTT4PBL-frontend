@@ -104,13 +104,13 @@ export default Vue.extend({
   },
   methods: {
     add() {
-      const accountColonPw = btoa(this.account + ":" + this.pw);
+      const accountColonPassword = btoa(this.account + ":" + this.pw);
       this.$emit(
         "add",
         this.url,
         this.isSonarqube,
         this.sonarqubeUrl,
-        accountColonPw,
+        accountColonPassword,
         this.projectKey
       );
       this.dialog = false;
