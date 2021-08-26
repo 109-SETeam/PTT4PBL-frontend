@@ -59,7 +59,6 @@
           </v-row>
         </v-container>
       </v-card>
-  
     </v-col>
   </v-row>
 </template>
@@ -75,17 +74,17 @@ interface Measure {
   bestValue: boolean;
 }
 
-type CodeSmell = {
-  total: Number;
+interface CodeSmell {
+  total: number;
   issues: Issue[];
 }
 
 interface Issue {
-  key: string; 
-  severity: string; 
-  component: string; 
-  line: Number; 
-  message: string; 
+  key: string;
+  severity: string;
+  component: string;
+  line: number;
+  message: string;
 }
 
 export default Vue.extend({
@@ -96,7 +95,7 @@ export default Vue.extend({
     return {
       measures: [] as Array<Measure>,
       projectName: String,
-      codeSmells: CodeSmell
+      codeSmells: {} as CodeSmell
     };
   },
   created() {
@@ -104,11 +103,10 @@ export default Vue.extend({
   },
   methods: {
     async getSonarqubeInfo() {
-      const data =  (await getSonarqubeInfo(this.repoId)).data
-      this.measures = data["measures"] ;
-      this.projectName = data["projectName"]
-      this.codeSmells = (await getSonarqubeCodeSmell(this.repoId)).data
-      console.log(this.codeSmells)
+      const data = (await getSonarqubeInfo(this.repoId)).data;
+      this.measures = data["measures"];
+      this.projectName = data["projectName"];
+      this.codeSmells = (await getSonarqubeCodeSmell(this.repoId)).data;
     },
     getSingleMeasureDataValue(measureName: string): string | undefined {
       const result = this.measures.find(
