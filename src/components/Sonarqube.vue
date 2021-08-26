@@ -59,19 +59,33 @@
           </v-row>
         </v-container>
       </v-card>
+  
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { getSonarqubeInfo } from "@/apis/repoInfo";
+import { getSonarqubeInfo, getSonarqubeCodeSmell } from "@/apis/repoInfo";
 
 interface Measure {
   metric: string;
   component: string;
   value: string;
   bestValue: boolean;
+}
+
+type CodeSmell = {
+  total: Number;
+  issues: Issue[];
+}
+
+interface Issue {
+  key: string; 
+  severity: string; 
+  component: string; 
+  line: Number; 
+  message: string; 
 }
 
 export default Vue.extend({
@@ -81,7 +95,8 @@ export default Vue.extend({
   data() {
     return {
       measures: [] as Array<Measure>,
-      projectName: String
+      projectName: String,
+      codeSmells: CodeSmell
     };
   },
   created() {
@@ -89,9 +104,11 @@ export default Vue.extend({
   },
   methods: {
     async getSonarqubeInfo() {
-      const data = (await getSonarqubeInfo(this.repoId)).data;
-      this.measures = data["measures"];
-      this.projectName = data["projectName"];
+      const data =  (await getSonarqubeInfo(this.repoId)).data
+      this.measures = data["measures"] ;
+      this.projectName = data["projectName"]
+      this.codeSmells = (await getSonarqubeCodeSmell(this.repoId)).data
+      console.log(this.codeSmells)
     },
     getSingleMeasureDataValue(measureName: string): string | undefined {
       const result = this.measures.find(
